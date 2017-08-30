@@ -1,0 +1,4 @@
+
+FIXME: src/main/config gets picked up my the resources:resources target and put into target/generated-conf, but never
+makes it into the jar...?
+

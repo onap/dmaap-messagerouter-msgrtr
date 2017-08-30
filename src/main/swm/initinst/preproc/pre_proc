@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#exec sh -x ../../install/preproc/pre_proc
+
+#cd ../../common
+#exec sh -x ./install_preproc.sh

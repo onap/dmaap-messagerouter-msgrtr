@@ -1,0 +1,8 @@
+#!/bin/sh
+
+#source /opt/app/datartr/dmaap1/setJavaHome.sh
+#cd /opt/app/datartr/dmaap1/tomcat_2/apache-tomcat-7.0.64/bin
+#exec sh -x ./startup.sh
+
+#cd ../../common
+#exec sh -x ./deinstall_preproc.sh

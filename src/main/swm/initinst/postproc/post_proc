@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec sh -x ../../install/postproc/post_proc
+
+#cd ../../common
+#exec sh -x ./install_postproc.sh

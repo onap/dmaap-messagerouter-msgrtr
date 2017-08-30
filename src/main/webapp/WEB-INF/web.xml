@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     ============LICENSE_START=======================================================
+     org.onap.dmaap
+     ================================================================================
+     Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+     ================================================================================
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+           http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+     ============LICENSE_END=========================================================
+   
+     ECOMP is a trademark and service mark of AT&T Intellectual Property.
+     
+ -->
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>DMaaP</display-name>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring-context.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.listener.CambriaServletContextListener</listener-class>
+  </listener>
+  <filter>
+    <display-name>ContentLengthFilter</display-name>
+    <filter-name>ContentLengthFilter</filter-name>
+    <filter-class>org.onap.dmaap.messagerouter.msgrtr.nsa.filter.ContentLengthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ContentLengthFilter</filter-name>
+    <url-pattern>/dmaaprest/events/*</url-pattern>
+  </filter-mapping>
+</web-app>

@@ -1,0 +1,20 @@
+Group,Project,Dev Contact,Dev UID,Project Contact,Proj UID,Deployment Plan
+GFP-IP,vEPC,Dave Loreti,dl2652,Robert Chin,rc0421,2014.12
+GFP-Mobility,vEPC,Michael Yin,my2328,Fred Delaplace,fd7200,2014.12
+SMLS,,Ken Lee,kl5760,Shrikant Acharya,sa8763,prototyping
+GFP Cacher (Mob only?),276550c,Michael Yin,my2328,,,2015.04
+GFP-CPE for Gamma,Trinity,,,Cho Wong,cw1728,investigating
+GFP-CPE,Gamma - P272078d,Janet Kalajian,,,2015.04,
+GFP-Uverse,Uverse UCA migration,Kailas Deshmukh,kd046m,,,2015.02
+GFP-Uverse,TL1 Adapters,Barry Tai,bt721t,Kailas Deshmukh,kd046m,2015.02
+GFP-Uverse,UEB to NOM adapter,,,Kailas Deshmukh,kd046m,2015.02
+PMOSS,vEPC,Ken Martau,km1785,,,2014.12
+Kinsey D2.0 PoC,D2.0 PoC Collector,Jon Lynn,jl220w,Jesse Chan,jc898t,prototyping
+Kinsey D2.0 PoC,D2.0 Poc PM,Ken Martau,km1785,Jesse Chan,jc898t,prototyping
+Kinsey D2.0 PoC,D2.0 Poc FM,Peter Cardona,pc569h,Jesse Chan,jc898t,prototyping
+Kinsey D2.0 PoC,D2.0 Policy Mgr,Peter Cardona,pc569h,Jesse Chan,jc898t,prototyping
+Fotache Group?,Trinity PoC,Steve Solomon,ss5395,Alina Fotache,af3193,prototyping
+NetCool Group?,NetCool PoC,,,Prashant Rajpal,pr216d,prototyping
+NetCool-ITO Group?,NetCool-ITO PoC,,,Chenlock Lim,cl111y,prototyping
+A&AI ECOMP,D2.0 ECOMP,,,Jeff Polhemus,jp6726, prototyping
+NVP,D2.0 Policy,Bobby Mander,bm116p,,,prototyping

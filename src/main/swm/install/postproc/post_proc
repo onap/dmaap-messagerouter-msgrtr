@@ -1,0 +1,24 @@
+#!/bin/sh
+
+echo "Calling common script to set up environment"
+#source ../../common/common.env
+echo "Common environment set up"
+
+#source /opt/app/datartr/dmaap1/setJavaHome.sh
+
+echo "moving DMaaP.war"
+cd /opt/app/dmaap/msgrtr/jenkinsbuild/lib
+mv DMaaP.war /opt/app/dmaap/msgrtr/jenkinsbuild
+cd /opt/app/dmaap/msgrtr/jenkinsbuild
+rm -r lib
+rm -r bin
+rm -r etc
+
+#echo "swm testing"
+#cd /opt/app/datartr/dmaap1/tomcat_2/apache-tomcat-7.0.64/bin
+#exec sh -x ./startup.sh
+#echo "tomcat started"
+
+#Run common install tasks
+#cd ../../common
+#exec sh -x ./install_postproc.sh
