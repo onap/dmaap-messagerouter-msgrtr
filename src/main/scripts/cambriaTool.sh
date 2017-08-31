@@ -52,4 +52,4 @@ else
     JAVA=java
 fi
 
-$JAVA -cp ${BASE_DIR}/etc${PATHSEP}${BASE_DIR}/lib/* org.onap.dmaap.messagerouter.messageservice.nsa.cambria.tools.ConfigTool $*
+$JAVA -cp ${BASE_DIR}/etc${PATHSEP}${BASE_DIR}/lib/* com.att.nsa.cambria.tools.ConfigTool $*

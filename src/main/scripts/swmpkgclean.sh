@@ -24,7 +24,7 @@
 # SWM can only store a finite amount of packages in its repository, so this script deletes the oldest package.
 # This script is run by Jenkins after the build is finished (post SWM upload).
 
-SWM_COMPONENT="org.onap.dmaap.messagerouter.msgrtr.nsa:msgrtr"
+SWM_COMPONENT="com.att.nsa:msgrtr"
 
 SWM_PKGS=`/opt/app/swm/aftswmcli/bin/swmcli "component pkglist -c $SWM_COMPONENT -df -dh -dj -sui"`
 SWM_PKGS_COUNT=`echo "$SWM_PKGS" | wc -l`

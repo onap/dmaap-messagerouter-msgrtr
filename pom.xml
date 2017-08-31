@@ -24,11 +24,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.onap.dmaap.messagerouter.msgrtr</groupId>
 	<artifactId>msgrtr</artifactId>
-	<version>0.0.5</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Message Router</name>
 	<description>Message Router - Restful interface built for kafka</description>
-	<url>https://github.com/att/dmaap-framework</url>
+	
+	<parent>
+		<groupId>org.onap.oparent</groupId>
+		<artifactId>oparent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	
 	<properties>
 		<spring.version>3.2.14.RELEASE</spring.version>
 		<cxf.version>3.0.4</cxf.version>
@@ -38,11 +44,6 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<nexusproxy>https://nexus.onap.org</nexusproxy>
-		<snapshotNexusPath>/content/repositories/snapshots/</snapshotNexusPath>
-		<releaseNexusPath>/content/repositories/releases/</releaseNexusPath>
-		<stagingNexusPath>/content/repositories/staging/</stagingNexusPath>
-		<sitePath>/content/sites/site/org/onap/datarouter/${project.artifactId}/${project.version}</sitePath>
 	</properties>
 
 	<!-- Distribution management -->
@@ -53,7 +54,7 @@
 
 	 <licenses>
 	  <license>
-	    <name>Apache  License 2.0</name>
+	    <name>Apache License Version 2.0</name>
 	  </license>
 	</licenses>
 
@@ -71,29 +72,6 @@
 	     <organizationUrl>www.att.com</organizationUrl>
 	   </developer>
 	 </developers>
-	 <distributionManagement>
-    	<repository>
-			<id>ecomp-releases</id>
-			<name>AAF Release Repository</name>
-			<url>${nexusproxy}${releaseNexusPath}</url>
-		</repository>
-		<snapshotRepository>
-			<id>ecomp-snapshots</id>
-			<name>AAF Snapshot Repository</name>
-			<url>${nexusproxy}${snapshotNexusPath}</url>
-		</snapshotRepository>
-		<site>
-			<id>ecomp-site</id>
-			<url>dav:${nexusproxy}${sitePath}</url>
-		</site>
-	</distributionManagement>
-	
-	  <pluginRepositories>
-        <pluginRepository>
-            <id>onap-plugin-snapshots</id>
-            <url>https://nexus.onap.org/content/repositories/snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
 	<dependencies>
 
@@ -303,17 +281,6 @@
 			<!-- <phase>package</phase> bind to the packaging phase <goals> <goal>single</goal> 
 				</goals> </execution> </executions> </plugin> -->
 			<!-- -->
-			  <plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
-				<extensions>true</extensions>
-					<configuration>
-						<nexusUrl>${nexusproxy}</nexusUrl>
-						<stagingProfileId>176c31dfe190a</stagingProfileId>
-						<serverId>ecomp-staging</serverId>
-					</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -355,41 +322,17 @@
 					<!-- <skipTests>true</skipTests> -->
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-				<configuration>
-					<formats>
-						<format>html</format>
-						<format>xml</format>
-					</formats>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.6.2.201302030002</version>
-				<configuration>
-					<destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
-					<datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
-				</configuration>
-			</plugin>
- 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin> 	 
-
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>2.7</version>
+					<configuration>
+					    <formats>
+					    <format>html</format>
+					    <format>xml</format>
+					  </formats>
+					</configuration>
+			   </plugin>			
 		</plugins>
 	</build>
 

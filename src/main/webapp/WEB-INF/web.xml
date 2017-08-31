@@ -31,12 +31,12 @@
     <param-value>/WEB-INF/spring-context.xml</param-value>
   </context-param>
   <listener>
-    <listener-class>org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.listener.CambriaServletContextListener</listener-class>
+    <listener-class>com.att.nsa.cambria.listener.CambriaServletContextListener</listener-class>
   </listener>
   <filter>
     <display-name>ContentLengthFilter</display-name>
     <filter-name>ContentLengthFilter</filter-name>
-    <filter-class>org.onap.dmaap.messagerouter.msgrtr.nsa.filter.ContentLengthFilter</filter-class>
+    <filter-class>com.att.nsa.filter.ContentLengthFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ContentLengthFilter</filter-name>

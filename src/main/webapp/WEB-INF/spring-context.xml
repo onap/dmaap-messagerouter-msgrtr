@@ -56,49 +56,49 @@
 	<bean id="drumlinRequestRouter"
 		class="com.att.nsa.drumlin.service.framework.routing.DrumlinRequestRouter" />
 
-	<bean id="dMaaPMetricsSet" class="org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.beans.DMaaPMetricsSet">
+	<bean id="dMaaPMetricsSet" class="com.att.nsa.cambria.beans.DMaaPMetricsSet">
 		<constructor-arg ref="propertyReader" />
 	</bean>
 
-	<bean id="dMaaPZkClient" class=" org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.beans.DMaaPZkClient">
+	<bean id="dMaaPZkClient" class=" com.att.nsa.cambria.beans.DMaaPZkClient">
 		<constructor-arg ref="propertyReader" />
 	</bean>
 
-	<bean id="dMaaPZkConfigDb" class=" org.onap.dmaap.messagerouter.msgrt.nsa.cambria.beans.DMaaPZkConfigDb">
+	<bean id="dMaaPZkConfigDb" class=" com.att.nsa.cambria.beans.DMaaPZkConfigDb">
 		<constructor-arg ref="dMaaPZkClient" />
 		<constructor-arg ref="propertyReader" />
 	</bean>
 
-	<bean id="kafkaPublisher" class=" org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.backends.kafka.KafkaPublisher">
+	<bean id="kafkaPublisher" class=" com.att.nsa.cambria.backends.kafka.KafkaPublisher">
 		<constructor-arg ref="propertyReader" />
 	</bean>
 
-	<bean id="dMaaPKafkaConsumerFactory" class=" org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.beans.DMaaPKafkaConsumerFactory">
+	<bean id="dMaaPKafkaConsumerFactory" class=" com.att.nsa.cambria.beans.DMaaPKafkaConsumerFactory">
 		<constructor-arg ref="propertyReader" />
 		<constructor-arg ref="dMaaPMetricsSet" />
 		<constructor-arg ref="curator" />
 	</bean>
 
-	<bean id="curator" class="org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.utils.DMaaPCuratorFactory"
+	<bean id="curator" class="com.att.nsa.cambria.utils.DMaaPCuratorFactory"
 		factory-method="getCurator">
 		<constructor-arg ref="propertyReader" />
 	</bean>
 
-	<bean id="dMaaPKafkaMetaBroker" class=" org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.beans.DMaaPKafkaMetaBroker">
+	<bean id="dMaaPKafkaMetaBroker" class=" com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker">
 		<constructor-arg ref="propertyReader" />
 		<constructor-arg ref="dMaaPZkClient" />
 		<constructor-arg ref="dMaaPZkConfigDb" />
 	</bean>
 
-	<bean id="q" class=" org.onap.dmaap.messagerouter.msgrtr.com.att.nsa.cambria.backends.memory.MemoryQueue" />
+	<bean id="q" class=" com.att.nsa.cambria.backends.memory.MemoryQueue" />
 
-	<bean id="mmb" class=" org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.backends.memory.MemoryMetaBroker">
+	<bean id="mmb" class=" com.att.nsa.cambria.backends.memory.MemoryMetaBroker">
 		<constructor-arg ref="q" />
 		<constructor-arg ref="dMaaPZkConfigDb" />
 	<!-- <constructor-arg ref="propertyReader" />-->
 	</bean>
 
-	<bean id="dMaaPNsaApiDb" class="org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.beans.DMaaPNsaApiDb"
+	<bean id="dMaaPNsaApiDb" class="com.att.nsa.cambria.beans.DMaaPNsaApiDb"
 		factory-method="buildApiKeyDb">
 		<constructor-arg ref="propertyReader" />
 		<constructor-arg ref="dMaaPZkConfigDb" />
@@ -108,10 +108,10 @@
 		factory-method="buildTransactionDb"> <constructor-arg ref="propertyReader" 
 		/> <constructor-arg ref="dMaaPZkConfigDb" /> </bean> -->
 
-	<bean id="dMaaPAuthenticatorImpl" class="org.onap.dmaap.messagerouter.msgrtr.nsa.cambria.security.DMaaPAuthenticatorImpl">
+	<bean id="dMaaPAuthenticatorImpl" class="com.att.nsa.cambria.security.DMaaPAuthenticatorImpl">
 		<constructor-arg ref="dMaaPNsaApiDb" />
 	</bean>
-	<bean id="defLength" class="org.onap.dmaap.messagerouter.msgrtr.nsa.filter.DefaultLength">
+	<bean id="defLength" class="com.att.nsa.filter.DefaultLength">
 		<property name="defaultLength" value="${maxcontentlength}"></property>
 	</bean>
 
