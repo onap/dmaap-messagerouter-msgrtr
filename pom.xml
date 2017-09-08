@@ -26,7 +26,7 @@
 	<artifactId>msgrtr</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Message Router</name>
+	<name>dmaap-messagerouter-msgrtr</name>
 	<description>Message Router - Restful interface built for kafka</description>
 	
 	<parent>
