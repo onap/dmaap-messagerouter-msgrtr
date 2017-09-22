@@ -32,7 +32,7 @@
 	<parent>
 		<groupId>org.onap.oparent</groupId>
 		<artifactId>oparent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>0.1.1</version>
 	</parent>
 	
 	<properties>
@@ -52,11 +52,18 @@
 	    <sonar.jacoco.itReportPath>target/code-coverage/jacoco-it.exec</sonar.jacoco.itReportPath>
 	    <!-- Note: This list should match jacoco-maven-plugin's exclusion list below -->
 	    <sonar.exclusions>**/gen/**,**/generated-sources/**,**/yang-gen**,**/pax/**</sonar.exclusions>
+	    <sitePath>/content/sites/site/org/onap/dmaap/${project.artifactId}/${project.version}</sitePath>
 	</properties>
 
 	<!-- Distribution management -->
 	<!-- Currently all artifacts will be uploaded to att-public-group reposiotry 
 		on Maven Central -->
+	<distributionManagement>
+		<site>
+			<id>ecomp-site</id>
+			<url>dav:${nexusproxy}${sitePath}</url>
+		</site>
+	</distributionManagement>
 
 	<!-- End Distribution management -->
 
@@ -289,6 +296,18 @@
 			<!-- <phase>package</phase> bind to the packaging phase <goals> <goal>single</goal> 
 				</goals> </execution> </executions> </plugin> -->
 			<!-- -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.6</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-webdav-jackrabbit</artifactId>
+						<version>2.10</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
