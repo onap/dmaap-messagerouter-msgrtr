@@ -344,8 +344,8 @@
 				<version>2.12.4</version>
 				<configuration>
 					<excludes>
-						<!-- exclude until junits updated -->
-						<exclude>**/DME2*.java</exclude>
+						<!-- exclude until junits updated
+						<exclude>**/DME2*.java</exclude>  -->
 					</excludes>
 					<!-- <skipTests>true</skipTests> -->
 				</configuration>
