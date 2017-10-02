@@ -18,41 +18,38 @@
  * ============LICENSE_END=========================================================
  */
 
-package com.att.nsa.cambria.beans;
+package com.att.nsa.cambria.utils;
 
-import static org.junit.Assert.*;
-
-import javax.servlet.http.HttpServletRequest;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
 
-public class DMaaPContextTest4 {
+import com.att.nsa.cambria.embed.EmbedConfigurationReader;
 
-	@Before
-	public void setUp() throws Exception {
-	}
+public class ConfigurationReaderTest {
+
+	EmbedConfigurationReader embedConfigurationReader = new EmbedConfigurationReader();
 
 	@After
 	public void tearDown() throws Exception {
+		embedConfigurationReader.tearDown();
 	}
 
 	@Test
-	public void testGetSession() {
+	public void testConfigurationReader() throws Exception {
+				
+		ConfigurationReader configurationReader = embedConfigurationReader.buildConfigurationReader();
 		
-		DMaaPContext context = new DMaaPContext();
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		context.setRequest(request);
-		
-		context.getSession();
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+		assertNotNull(configurationReader);
+		assertNotNull(configurationReader.getfApiKeyDb());
+		assertNotNull(configurationReader.getfConfigDb());
+		assertNotNull(configurationReader.getfConsumerFactory());
+		assertNotNull(configurationReader.getfIpBlackList());
+		assertNotNull(configurationReader.getfMetaBroker());
+		assertNotNull(configurationReader.getfMetrics());
+		assertNotNull(configurationReader.getfPublisher());
+		assertNotNull(configurationReader.getfSecurityManager());
 	}
-	
-	
 
 }

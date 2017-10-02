@@ -20,12 +20,12 @@
 
 package com.att.nsa.cambria.service.impl;
 
-/*import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;*/
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -40,14 +40,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-/*import org.mockito.InjectMocks;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.rule.PowerMockRule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.att.ajsc.beans.PropertiesMapBean;
 import com.att.nsa.cambria.CambriaApiException;
@@ -63,19 +69,24 @@ import com.att.nsa.cambria.security.DMaaPAAFAuthenticator;
 import com.att.nsa.cambria.security.DMaaPAuthenticator;
 import com.att.nsa.cambria.utils.ConfigurationReader;
 import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
-import com.att.nsa.configs.ConfigDbException;*/
+import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.security.NsaAcl;
 import com.att.nsa.security.NsaApiKey;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 //@RunWith(MockitoJUnitRunner.class)
-/*@RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesMapBean.class })*/
-public class TopicServiceImplTest {/*
+//@RunWith(PowerMockRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration("classpath:/spring-context.xml")
+//@PrepareForTest({ PropertiesMapBean.class })
+public class TopicServiceImplTest {
 
-	@InjectMocks
-	TopicServiceImpl topicService;
+	/*@Rule
+    public PowerMockRule rule = new PowerMockRule();*/
+	
+	//@Autowired
+	/*TopicServiceImpl topicService;
 
 	@Mock
 	private DMaaPErrorMessages errorMessages;
@@ -124,6 +135,8 @@ public class TopicServiceImplTest {/*
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		topicService = new TopicServiceImpl();
+		topicService.setErrorMessages(errorMessages);
 	}
 
 	@Test(expected = DMaaPAccessDeniedException.class)
@@ -582,5 +595,5 @@ public class TopicServiceImplTest {/*
 		
 		
 		topicService.denyConsumerForTopic(dmaapContext, "topicNamespace.name", "consumerID");
-	}
-*/}
+	}*/
+}

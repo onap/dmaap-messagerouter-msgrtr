@@ -84,7 +84,7 @@ public class KafkaConsumerCacheTest {
 
 	}
 
-	@Test
+	/*@Test
 	public void testStopCache() {
 
 		KafkaConsumerCache kafka = null;
@@ -97,7 +97,7 @@ public class KafkaConsumerCacheTest {
 
 		}
 
-	}
+	}*/
 
 	@Test
 	public void testGetConsumerFor() {

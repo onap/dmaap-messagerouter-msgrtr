@@ -20,14 +20,14 @@
 
 package com.att.nsa.cambria.service.impl;
 import static org.junit.Assert.assertEquals;
-/*import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-*/
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,20 +41,20 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-/*import org.mockito.InjectMocks;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.mockito.runners.MockitoJUnitRunner;*/
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.att.aft.dme2.internal.jettison.json.JSONArray;
 import com.att.aft.dme2.internal.jettison.json.JSONException;
 import com.att.aft.dme2.internal.jettison.json.JSONObject;
 
 import com.att.ajsc.beans.PropertiesMapBean;
-/*import com.att.nsa.cambria.CambriaApiException;
+import com.att.nsa.cambria.CambriaApiException;
 import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker;
 import com.att.nsa.cambria.CambriaApiException;
@@ -68,7 +68,7 @@ import com.att.nsa.cambria.metabroker.Topic;
 import com.att.nsa.cambria.security.DMaaPAuthenticator;
 import com.att.nsa.cambria.utils.ConfigurationReader;
 import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
-import com.att.nsa.security.NsaApiKey;*/
+import com.att.nsa.security.NsaApiKey;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import jline.internal.Log;
@@ -77,10 +77,10 @@ import kafka.consumer.Consumer;
 
 
 //@RunWith(MockitoJUnitRunner.class)
-/*@RunWith(PowerMockRunner.class)
-@PrepareForTest(PropertiesMapBean.class)*/
-public class ShowConsumerCacheTest {/*
-
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest(PropertiesMapBean.class)
+public class ShowConsumerCacheTest {
+/*
 @InjectMocks
 TopicServiceImpl topicService;
 
@@ -143,7 +143,7 @@ when(consumers.put("consumers", jsonConsumersList)).thenReturn(consumerObject);
 
 
 
+}*/
+
+
 }
-
-
-*/}

@@ -21,23 +21,22 @@
 package com.att.nsa.apiServer.metrics.cambria;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.util.concurrent.ScheduledExecutorService;
+import java.io.File;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.CambriaApiException;
-import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.metrics.CdmMetricsRegistry;
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 
 public class DMaaPMetricsSenderTest {
 
 	@Before
 	public void setUp() throws Exception {
+		ClassLoader classLoader = getClass().getClassLoader();		
+		AJSCPropertiesMap.refresh(new File(classLoader.getResource("MsgRtrApi.properties").getFile()));
 	}
 
 	@After
