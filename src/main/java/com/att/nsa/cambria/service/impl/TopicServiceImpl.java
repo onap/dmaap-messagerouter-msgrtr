@@ -70,10 +70,16 @@ public class TopicServiceImpl implements TopicService {
 	@Autowired
 	private DMaaPErrorMessages errorMessages;
 	
+	
+	
 	//@Value("${msgRtr.topicfactory.aaf}")
 	//private String mrFactory;
 	
 	
+	public void setErrorMessages(DMaaPErrorMessages errorMessages) {
+		this.errorMessages = errorMessages;
+	}
+
 	/**
 	 * @param dmaapContext
 	 * @throws JSONException

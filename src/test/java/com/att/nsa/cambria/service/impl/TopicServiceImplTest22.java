@@ -20,12 +20,12 @@
 
 package com.att.nsa.cambria.service.impl;
 
-/*import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;*/
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -42,7 +42,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-/*import org.mockito.InjectMocks;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
@@ -50,6 +50,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.ajsc.beans.PropertiesMapBean;
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.cambria.CambriaApiException;
 import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker;
@@ -63,18 +64,18 @@ import com.att.nsa.cambria.security.DMaaPAAFAuthenticator;
 import com.att.nsa.cambria.security.DMaaPAuthenticator;
 import com.att.nsa.cambria.utils.ConfigurationReader;
 import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
-import com.att.nsa.configs.ConfigDbException;*/
+import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.security.NsaAcl;
 import com.att.nsa.security.NsaApiKey;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 //@RunWith(MockitoJUnitRunner.class)
-/*@RunWith(PowerMockRunner.class)
-@PrepareForTest({ PropertiesMapBean.class })*/
-public class TopicServiceImplTest22 {/*
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ PropertiesMapBean.class })
+public class TopicServiceImplTest22 {
 
-	@InjectMocks
+	
 	TopicServiceImpl topicService;
 
 	@Mock
@@ -124,6 +125,8 @@ public class TopicServiceImplTest22 {/*
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		topicService = new TopicServiceImpl();
+		topicService.setErrorMessages(errorMessages);
 	}
 
 	@Test(expected = DMaaPAccessDeniedException.class)
@@ -394,29 +397,29 @@ public class TopicServiceImplTest22 {/*
 //	
 //	
 	
-	 * @Test public void testdeleteTopic() throws DMaaPAccessDeniedException,
-	 * CambriaApiException, IOException, TopicExistsException, JSONException,
-	 * ConfigDbException, AccessDeniedException {
-	 * 
-	 * Assert.assertNotNull(topicService);
-	 * 
-	 * //PowerMockito.mockStatic(AJSCPropertiesMap.class);
-	 * PowerMockito.mockStatic(AJSCPropertiesMap.class);
-	 * PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.
-	 * msgRtr_prop,"msgRtr.topicfactory.aaf")) .thenReturn("hello");
-	 * 
-	 * when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(null);
-	 * when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-	 * when(httpServReq.getHeader("Authorization")).thenReturn("Admin");
-	 * when(dmaapContext.getRequest()).thenReturn(httpServReq);
-	 * 
-	 * when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-	 * when(dmaapContext.getConfigReader()).thenReturn(configReader);
-	 * 
-	 * TopicBean topicBean = new TopicBean();
-	 * topicBean.setTopicName("enfTopicNamePlusExtra");
-	 * 
-	 * topicService.deleteTopic(dmaapContext, "topicNamespace.topic"); }
+	  /*@Test public void testdeleteTopic() throws DMaaPAccessDeniedException,
+	  CambriaApiException, IOException, TopicExistsException, JSONException,
+	  ConfigDbException, AccessDeniedException {
+	  
+	  Assert.assertNotNull(topicService);
+	  
+	  //PowerMockito.mockStatic(AJSCPropertiesMap.class);
+	  PowerMockito.mockStatic(AJSCPropertiesMap.class);
+	  PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.
+	  msgRtr_prop,"msgRtr.topicfactory.aaf")) .thenReturn("hello");
+	  
+	  when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(null);
+	  when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
+	  when(httpServReq.getHeader("Authorization")).thenReturn("Admin");
+	  when(dmaapContext.getRequest()).thenReturn(httpServReq);
+	  
+	  when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
+	  when(dmaapContext.getConfigReader()).thenReturn(configReader);
+	  
+	  TopicBean topicBean = new TopicBean();
+	  topicBean.setTopicName("enfTopicNamePlusExtra");
+	  
+	  topicService.deleteTopic(dmaapContext, "topicNamespace.topic"); }*/
 	 
 	
-*/}
+}

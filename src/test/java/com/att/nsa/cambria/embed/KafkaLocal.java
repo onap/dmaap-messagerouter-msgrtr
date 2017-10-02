@@ -18,41 +18,41 @@
  * ============LICENSE_END=========================================================
  */
 
-package com.att.nsa.cambria.beans;
+package com.att.nsa.cambria.embed;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
+import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-
-public class DMaaPContextTest4 {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void testGetSession() {
+import kafka.server.KafkaConfig;
+import kafka.server.KafkaServerStartable;
+ 
+ 
+public class KafkaLocal {
+ 
+	public KafkaServerStartable kafka;
+	public ZooKeeperLocal zookeeper;
+	
+	public KafkaLocal(Properties kafkaProperties, Properties zkProperties) throws IOException, InterruptedException{
+		KafkaConfig kafkaConfig = new KafkaConfig(kafkaProperties);
 		
-		DMaaPContext context = new DMaaPContext();
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		context.setRequest(request);
+		//start local zookeeper
+		System.out.println("starting local zookeeper...");
+		zookeeper = new ZooKeeperLocal(zkProperties);
+		System.out.println("done");
 		
-		context.getSession();
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+		//start local kafka broker
+		kafka = new KafkaServerStartable(kafkaConfig);
+		System.out.println("starting local kafka broker...");
+		kafka.startup();
+		System.out.println("done");
 	}
 	
 	
-
+	public void stop(){
+		//stop kafka broker
+		System.out.println("stopping kafka...");
+		kafka.shutdown();
+		System.out.println("done");
+	}
+	
 }

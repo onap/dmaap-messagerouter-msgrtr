@@ -18,21 +18,32 @@
  * ============LICENSE_END=========================================================
  */
 
-package com.att.nsa.cambria.beans;
+package com.att.nsa.cambria.utils;
 
 import static org.junit.Assert.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.curator.framework.CuratorFramework;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
 
-public class DMaaPContextTest4 {
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
+import com.att.nsa.cambria.constants.CambriaConstants;
+import com.att.nsa.drumlin.till.nv.rrNvReadable.loadException;
+import com.att.nsa.drumlin.till.nv.impl.nvPropertiesFile;
+import com.att.nsa.drumlin.till.nv.impl.nvReadableTable;
+
+public class DMaaPCuratorFactoryTest {
 
 	@Before
 	public void setUp() throws Exception {
+		ClassLoader classLoader = getClass().getClassLoader();		
+		AJSCPropertiesMap.refresh(new File(classLoader.getResource(CambriaConstants.msgRtr_prop).getFile()));
+		
 	}
 
 	@After
@@ -40,19 +51,18 @@ public class DMaaPContextTest4 {
 	}
 
 	@Test
-	public void testGetSession() {
+	public void testgetCurator() throws loadException {
+		CuratorFramework curatorFramework = DMaaPCuratorFactory.getCurator(new PropertyReader());
+		assertNotNull(curatorFramework);
 		
-		DMaaPContext context = new DMaaPContext();
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		context.setRequest(request);
+		Map<String, String> map = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperties(CambriaConstants.msgRtr_prop);
+		map.remove(CambriaConstants.kSetting_ZkConfigDbServers);
+		map.remove(CambriaConstants.kSetting_ZkSessionTimeoutMs);
 		
-		context.getSession();
 		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
 		
+		curatorFramework = DMaaPCuratorFactory.getCurator(new PropertyReader());
+		assertNotNull(curatorFramework);
 	}
-	
-	
 
 }

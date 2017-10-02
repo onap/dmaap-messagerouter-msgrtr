@@ -95,6 +95,10 @@ public class EventsServiceImpl implements EventsService {
 	//@Value("${metrics.send.cambria.topic}")
 	//private String metricsTopic;
 	
+	public void setErrorMessages(DMaaPErrorMessages errorMessages) {
+		this.errorMessages = errorMessages;
+	}
+
 	/**
 	 * @param ctx
 	 * @param topic
@@ -113,6 +117,9 @@ public class EventsServiceImpl implements EventsService {
 		final long startTime = System.currentTimeMillis();
 		final HttpServletRequest req = ctx.getRequest();
 
+		if(clientId == null)
+			throw new NullPointerException();
+		
 		boolean isAAFTopic=false;
 		// was this host blacklisted?
 		final String remoteAddr = Utils.getRemoteAddress(ctx);;

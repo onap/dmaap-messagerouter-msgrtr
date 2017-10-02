@@ -20,29 +20,33 @@
 
 package com.att.nsa.cambria.backends.kafka;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
 
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.cambria.backends.Publisher.message;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
 
 import kafka.common.FailedToSendMessageException;
-import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.producer.KeyedMessage;
 
 public class KafkaPublisherTest {
+	
+	
 
-	@Before
+	/*@Before
 	public void setUp() throws Exception {
+		ClassLoader classLoader = getClass().getClassLoader();		
+		AJSCPropertiesMap.refresh(new File(classLoader.getResource("MsgRtrApi.properties").getFile()));
 	}
 
 	@After
@@ -144,6 +148,6 @@ public class KafkaPublisherTest {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
 }

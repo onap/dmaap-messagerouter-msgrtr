@@ -23,12 +23,19 @@ package com.att.nsa.cambria.utils;
 
 import static org.junit.Assert.*;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.http.auth.BasicUserPrincipal;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.att.nsa.cambria.beans.DMaaPContext;
 
 public class UtilsTest {
 
@@ -53,5 +60,65 @@ public class UtilsTest {
 				+ "] received [" + dateStr + "]",
 				dateStr.equalsIgnoreCase(expectedStr));
 	}
+	
+	@Test
+	public void testgetUserApiKey(){
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.addHeader(Utils.CAMBRIA_AUTH_HEADER, "User:Password");
+		assertEquals("User", Utils.getUserApiKey(request));
+		
+		MockHttpServletRequest request2 = new MockHttpServletRequest();
+		Principal principal = new BasicUserPrincipal("User@Test");
+		request2.setUserPrincipal(principal);
+		request2.addHeader("Authorization", "test");
+		assertEquals("User", Utils.getUserApiKey(request2));
+		
+		MockHttpServletRequest request3 = new MockHttpServletRequest();
+		assertNull(Utils.getUserApiKey(request3));
+	}
+	
+	@Test
+	public void testgetFromattedBatchSequenceId(){
+		Long x = new Long(1234);
+		String str = Utils.getFromattedBatchSequenceId(x);
+		assertEquals("001234", str);		
+	}
+	
+	@Test
+	public void testmessageLengthInBytes(){
+		String str = "TestString";
+		long length = Utils.messageLengthInBytes(str);
+		assertEquals(10, length);
+		assertEquals(0, Utils.messageLengthInBytes(null));
+	}
 
+	@Test
+	public void testgetResponseTransactionId(){
+		String transactionId = "test123::sampleResponseMessage";
+		assertEquals("test123",Utils.getResponseTransactionId(transactionId));
+		assertNull(Utils.getResponseTransactionId(null));
+		assertNull(Utils.getResponseTransactionId(""));
+	}
+	
+	@Test
+	public void testgetSleepMsForRate(){
+		long x = Utils.getSleepMsForRate(1024.124);
+		assertEquals(1000, x);
+		assertEquals(0, Utils.getSleepMsForRate(-1));
+	}
+	
+	@Test
+	public void testgetRemoteAddress(){
+		DMaaPContext dMaapContext = new DMaaPContext();
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		
+		dMaapContext.setRequest(request);
+		
+		assertEquals(request.getRemoteAddr(), Utils.getRemoteAddress(dMaapContext));
+		
+		request.addHeader("X-Forwarded-For", "XForward");
+		assertEquals("XForward", Utils.getRemoteAddress(dMaapContext));
+		
+		
+	}
 }

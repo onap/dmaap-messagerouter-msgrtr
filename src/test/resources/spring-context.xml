@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     ============LICENSE_START=======================================================
+     org.onap.dmaap
+     ================================================================================
+     Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+     ================================================================================
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+           http://www.apache.org/licenses/LICENSE-2.0
+     
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+     ============LICENSE_END=========================================================
+   
+     ECOMP is a trademark and service mark of AT&T Intellectual Property.
+     
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- Dependency Injection with annotations -->
+	<context:component-scan
+		base-package="com.att.nsa.cambria.utils,com.att.nsa.cambria.service.impl,com.att.nsa.cambria.exception" />
+
+	<context:property-placeholder
+		location="classpath:msgRtrApi.properties,classpath:DMaaPErrorMesaages.properties" />
+
+
+	<bean id="propertyReader" class="com.att.nsa.cambria.utils.PropertyReader" />
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<!-- Next value is the full qualified name of the static setter including 
+			method name -->
+		<property name="staticMethod"
+			value="com.att.nsa.cambria.beans.DMaaPKafkaConsumerFactory.populateKafkaInternalDefaultsMap" />
+		<property name="arguments">
+			<list>
+				<ref bean="propertyReader" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="drumlinRequestRouter"
+		class="com.att.nsa.drumlin.service.framework.routing.DrumlinRequestRouter" />
+
+	<bean id="dMaaPMetricsSet" class="com.att.nsa.cambria.beans.DMaaPMetricsSet">
+		<constructor-arg ref="propertyReader" />
+	</bean>
+
+	<bean id="dMaaPZkClient" class=" com.att.nsa.cambria.beans.DMaaPZkClient">
+		<constructor-arg ref="propertyReader" />
+	</bean>
+
+	<bean id="dMaaPZkConfigDb" class=" com.att.nsa.cambria.beans.DMaaPZkConfigDb">
+		<constructor-arg ref="dMaaPZkClient" />
+		<constructor-arg ref="propertyReader" />
+	</bean>
+
+	<bean id="kafkaPublisher" class=" com.att.nsa.cambria.backends.kafka.KafkaPublisher">
+		<constructor-arg ref="propertyReader" />
+	</bean>
+
+	<bean id="dMaaPKafkaConsumerFactory" class=" com.att.nsa.cambria.beans.DMaaPKafkaConsumerFactory">
+		<constructor-arg ref="propertyReader" />
+		<constructor-arg ref="dMaaPMetricsSet" />
+		<constructor-arg ref="curator" />
+	</bean>
+
+	<bean id="curator" class="com.att.nsa.cambria.utils.DMaaPCuratorFactory"
+		factory-method="getCurator">
+		<constructor-arg ref="propertyReader" />
+	</bean>
+
+	<bean id="dMaaPKafkaMetaBroker" class=" com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker">
+		<constructor-arg ref="propertyReader" />
+		<constructor-arg ref="dMaaPZkClient" />
+		<constructor-arg ref="dMaaPZkConfigDb" />
+	</bean>
+
+	<!-- <bean id="q" class=" com.att.nsa.cambria.backends.memory.MemoryQueue" />
+
+	<bean id="mmb" class=" com.att.nsa.cambria.backends.memory.MemoryMetaBroker">
+		<constructor-arg ref="q" />
+		<constructor-arg ref="dMaaPZkConfigDb" />
+	<constructor-arg ref="propertyReader" />
+	</bean>
+
+	<bean id="dMaaPNsaApiDb" class="com.att.nsa.cambria.beans.DMaaPNsaApiDb"
+		factory-method="buildApiKeyDb">
+		<constructor-arg ref="propertyReader" />
+		<constructor-arg ref="dMaaPZkConfigDb" />
+	</bean>
+
+	<bean id="dMaaPTranDb" class="com.att.nsa.cambria.transaction.DMaaPTransactionDB" 
+		factory-method="buildTransactionDb"> <constructor-arg ref="propertyReader" 
+		/> <constructor-arg ref="dMaaPZkConfigDb" /> </bean>
+
+	<bean id="dMaaPAuthenticatorImpl" class="com.att.nsa.cambria.security.DMaaPAuthenticatorImpl">
+		<constructor-arg ref="dMaaPNsaApiDb" />
+	</bean>
+	<bean id="defLength" class="com.att.nsa.filter.DefaultLength">
+		<property name="defaultLength" value="${maxcontentlength}"></property>
+	</bean> -->
+
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+		<property name="location"> <value>msgRtrApi.properties</value> </property> 
+		</bean> -->
+
+</beans>
