@@ -82,7 +82,7 @@ public class KafkaConsumerCache {
 	// the server at least every 30 seconds, timing out after 2 minutes should
 	// be okay.
 	// FIXME: consider allowing the client to specify its expected call rate?
-	private static final long kDefault_MustTouchEveryMs = 1000 * 60 * 2;
+	private static final long kDefault_MustTouchEveryMs = (long)1000 * 60 * 2;
 
 	// check for expirations pretty regularly
 	private static final long kDefault_SweepEverySeconds = 15;
