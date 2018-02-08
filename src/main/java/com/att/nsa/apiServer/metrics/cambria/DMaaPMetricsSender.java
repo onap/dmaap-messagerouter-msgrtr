@@ -163,7 +163,7 @@ public class DMaaPMetricsSender implements Runnable {
 		} catch (JSONException e) {
 			log.error("Error posting metrics to Cambria at send(): " + e);
 		} catch (IOException e) {
-			log.error("Error posting metrics to Cambria at send(): " + e);
+			log.error("Error posting metrics to Cambria at send(): " + e );
 		}
 	}
 
