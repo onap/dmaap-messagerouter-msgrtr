@@ -140,7 +140,7 @@ public class KafkaConsumer implements Consumer {
 				};
 			}
 		} catch (kafka.consumer.ConsumerTimeoutException x) {
-			log.debug(fLogTag + ": ConsumerTimeoutException in Kafka consumer; returning null. ");
+			log.error(fLogTag + ": ConsumerTimeoutException in Kafka consumer; returning null & Exception at nextMessage() : " + x);
 		} catch (java.lang.IllegalStateException x) {
 			log.error(fLogTag + ": Illegal state exception in Kafka consumer; dropping stream. " + x.getMessage());
 		}
