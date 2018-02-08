@@ -161,9 +161,9 @@ public class DMaaPMetricsSender implements Runnable {
 			o.put("transactionEnabled", false);
 			fCambria.send(fHostname, o.toString());
 		} catch (JSONException e) {
-			log.warn("Error posting metrics to Cambria: " + e.getMessage());
+			log.error("Error posting metrics to Cambria at send(): " + e);
 		} catch (IOException e) {
-			log.warn("Error posting metrics to Cambria: " + e.getMessage());
+			log.error("Error posting metrics to Cambria at send(): " + e);
 		}
 	}
 
