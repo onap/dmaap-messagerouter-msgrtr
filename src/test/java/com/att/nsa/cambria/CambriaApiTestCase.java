@@ -43,8 +43,7 @@ public class CambriaApiTestCase extends TestCase {
 		System.out.println("setUp() complete");
 	}
 	
-	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		System.out.println("tearDown() started");
 		//CambriaApiServer.stop();
 		System.out.println("tearDown() complete");
