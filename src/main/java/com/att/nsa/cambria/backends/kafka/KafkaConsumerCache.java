@@ -400,8 +400,7 @@ public class KafkaConsumerCache {
 		try {
 			curator.delete().guaranteed().forPath(fBaseZkPath + "/" + key);
 		} catch (NoNodeException e) {
-			log.warn("A consumer was deleted from " + fApiId
-					+ "'s cache, but no Cambria API node had ownership of it in ZooKeeper");
+			log.error("Exception at : " + e);
 		} catch (Exception e) {
 			log.debug("Unexpected exception while deleting consumer: " + e.getMessage());
 		}
