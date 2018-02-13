@@ -290,7 +290,7 @@ public class KafkaConsumerCache {
 			} catch (ZkInterruptedException e) {
 				log.error("Curator client close interrupted: " + e);
 			} catch (IOException e) {
-				log.warn("Error while closing curator PathChildrenCache for KafkaConsumerCache" + e.getMessage());
+				log.error("Error while closing curator PathChildrenCache for KafkaConsumerCache" + e);
 			}
 
 			curatorConsumerCache = null;
