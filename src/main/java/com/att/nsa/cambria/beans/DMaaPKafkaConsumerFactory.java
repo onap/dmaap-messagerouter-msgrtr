@@ -183,7 +183,8 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 							kc);
 				}
 			} catch (org.I0Itec.zkclient.exception.ZkTimeoutException x) {
-				log.warn("Kafka consumer couldn't connect to ZK.");
+				log.error("Exception find at getConsumerFor(String topic, String consumerGroupName,\r\n" + 
+						"			String consumerId, int timeoutMs) : " + x);
 				throw new UnavailableException("Couldn't connect to ZK.");
 			} catch (KafkaConsumerCacheException e) {
 				log.warn("Failed to cache consumer (this may have performance implications): "
