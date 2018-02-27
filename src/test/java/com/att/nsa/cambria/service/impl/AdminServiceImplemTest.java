@@ -22,7 +22,6 @@
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.Date;
@@ -35,25 +34,28 @@ import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 import com.att.nsa.security.db.BaseNsaApiDbImpl;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+@RunWith(PowerMockRunner.class)
 public class AdminServiceImplemTest {
+
+	private  DMaaPContext context = new DMaaPContext();
 	@Mock
-	private static DMaaPContext context = new DMaaPContext();
-	
-	private static BaseNsaApiDbImpl baseNsaApiDbImpl = mock(BaseNsaApiDbImpl.class);
+	private  BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl;
+	private  BaseTestCase base = new BaseTestCase();
 
-	private static BaseTestCase base = new BaseTestCase();
-
-	@BeforeClass
-	public static void setUp() throws Exception {
-
+	@Before
+	public  void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
 		final long nowMs = System.currentTimeMillis();
 		Date date = new Date(nowMs + 10000);
 
@@ -72,8 +74,8 @@ public class AdminServiceImplemTest {
 		context.setConfigReader(base.buildConfigurationReader(baseNsaApiDbImpl));
 	}
 
-	@AfterClass
-	public static void tearDown() throws Exception {
+	@After
+	public  void tearDown() throws Exception {
 		base.tearDown();
 
 	}
