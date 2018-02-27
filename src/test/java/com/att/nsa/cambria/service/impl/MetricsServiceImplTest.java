@@ -24,22 +24,51 @@ package com.att.nsa.cambria.service.impl;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.att.nsa.cambria.CambriaApiException;
 import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.nsa.cambria.embed.EmbedConfigurationReader;
+import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 
 public class MetricsServiceImplTest {
 
-	@Before
-	public void setUp() throws Exception {
+	private static DMaaPContext context = new DMaaPContext();
+
+	private static EmbedConfigurationReader embedConfigurationReader = new EmbedConfigurationReader();
+
+	@BeforeClass
+	public static void setUp() throws Exception {
+
+		final long nowMs = System.currentTimeMillis();
+		Date date = new Date(nowMs + 10000);
+
+		final String serverCalculatedSignature = sha1HmacSigner.sign(date.toString(), "password");
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.addHeader("X-Auth", "admin:" + serverCalculatedSignature);
+
+		// NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
+		// PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+
+		request.addHeader("X-Date", date);
+		request.addHeader("Date", date);
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		context.setRequest(request);
+		context.setResponse(response);
+		context.setConfigReader(embedConfigurationReader.buildConfigurationReader());
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
+		embedConfigurationReader.tearDown();
 	}
 	
 	@Test
@@ -47,7 +76,7 @@ public class MetricsServiceImplTest {
 		
 		MetricsServiceImpl service = new MetricsServiceImpl();
 		try {
-			service.get(new DMaaPContext());
+			service.get(context);
 		} catch (org.json.JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,7 +100,7 @@ public class MetricsServiceImplTest {
 		
 		MetricsServiceImpl service = new MetricsServiceImpl();
 		try {
-			service.getMetricByName(new DMaaPContext(), "uptime");
+			service.getMetricByName(context, "sendEpsShort");
 		} catch (org.json.JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

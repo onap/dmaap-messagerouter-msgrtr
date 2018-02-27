@@ -49,6 +49,25 @@ public class LogDetailsTest {
 		
 	}
 	
+	@Test
+	public void testGetPublisherLogDetails(){
+		
+		LogDetails details = new LogDetails();
+		details.setTotalMessageCount(1);
+		details.setConsumeTimestamp("02-27-1018");
+		details.setSubscriberGroupId("1");
+		details.setSubscriberId("1");
+		assertEquals(details.getTotalMessageCount(),1);
+		assertEquals(details.getConsumeTimestamp(),"02-27-1018");
+		assertEquals(details.getSubscriberId(),"1");
+		assertEquals(details.getSubscriberGroupId(),"1");
+		
+		
+		assertNotNull(details.getPublisherLogDetails());
+		
+		
+	}
+	
 	
 
 }

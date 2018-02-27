@@ -29,7 +29,6 @@ import java.util.Date;
 
 import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.cambria.embed.EmbedConfigurationReader;
-import com.att.nsa.cambria.utils.ConfigurationReader;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;

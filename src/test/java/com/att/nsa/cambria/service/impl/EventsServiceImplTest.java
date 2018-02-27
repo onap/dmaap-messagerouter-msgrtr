@@ -138,8 +138,8 @@ public class EventsServiceImplTest {
 
 	}
 
-	/*@Test
-	public void testPushEvents() {
+	@Test
+	public void testPushEvents1() {
 
 		EventsServiceImpl service = new EventsServiceImpl();
 
@@ -462,5 +462,5 @@ public class EventsServiceImplTest {
 		assertTrue(true);
 
 	}
-*/
+
 }

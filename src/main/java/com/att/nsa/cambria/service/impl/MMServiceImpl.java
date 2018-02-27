@@ -98,6 +98,12 @@ public class MMServiceImpl implements MMService {
 	// HttpServletResponse object
 	@Context
 	private HttpServletResponse response;
+	
+	private boolean isWrite=true;
+
+	public void setWrite(boolean isWrite) {
+		this.isWrite = isWrite;
+	}
 
 	@Override
 	public void addWhiteList() {
@@ -210,7 +216,7 @@ public class MMServiceImpl implements MMService {
 			coes.setTopic(metatopic);
 
 			DMaaPResponseBuilder.setNoCacheHeadings(ctx);
-
+            if(isWrite){
 			try {
 				coes.write(baos);
 			} catch (Exception ex) {
@@ -219,8 +225,10 @@ public class MMServiceImpl implements MMService {
 
 			c.commitOffsets();
 			final int sent = coes.getSentCount();
-
 			metricsSet.consumeTick(sent);
+            }
+
+			
 
 		} catch (UnavailableException excp) {
 

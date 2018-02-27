@@ -40,8 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -50,12 +48,9 @@ import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.modules.junit4.rule.PowerMockRule;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.att.ajsc.beans.PropertiesMapBean;
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.cambria.CambriaApiException;
 import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker;
@@ -76,17 +71,12 @@ import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 //@RunWith(MockitoJUnitRunner.class)
-//@RunWith(PowerMockRunner.class)
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("classpath:/spring-context.xml")
-//@PrepareForTest({ PropertiesMapBean.class })
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ PropertiesMapBean.class })
 public class TopicServiceImplTest {
 
-	/*@Rule
-    public PowerMockRule rule = new PowerMockRule();*/
 	
-	//@Autowired
-	/*TopicServiceImpl topicService;
+	TopicServiceImpl topicService;
 
 	@Mock
 	private DMaaPErrorMessages errorMessages;
@@ -407,193 +397,29 @@ public class TopicServiceImplTest {
 //	
 //	
 	
-	@Test(expected = TopicExistsException.class)
-	public void testPermitPublisherForTopic_nullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(null);
-
-		topicService.permitPublisherForTopic(dmaapContext, "topicNamespace.name", "producerId");
-	}
+	  /*@Test public void testdeleteTopic() throws DMaaPAccessDeniedException,
+	  CambriaApiException, IOException, TopicExistsException, JSONException,
+	  ConfigDbException, AccessDeniedException {
+	  
+	  Assert.assertNotNull(topicService);
+	  
+	  //PowerMockito.mockStatic(AJSCPropertiesMap.class);
+	  PowerMockito.mockStatic(AJSCPropertiesMap.class);
+	  PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.
+	  msgRtr_prop,"msgRtr.topicfactory.aaf")) .thenReturn("hello");
+	  
+	  when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(null);
+	  when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
+	  when(httpServReq.getHeader("Authorization")).thenReturn("Admin");
+	  when(dmaapContext.getRequest()).thenReturn(httpServReq);
+	  
+	  when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
+	  when(dmaapContext.getConfigReader()).thenReturn(configReader);
+	  
+	  TopicBean topicBean = new TopicBean();
+	  topicBean.setTopicName("enfTopicNamePlusExtra");
+	  
+	  topicService.deleteTopic(dmaapContext, "topicNamespace.topic"); }*/
+	 
 	
-	@Test
-	public void testPermitPublisherForTopic_NonNullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(createdTopic);
-		
-		
-		topicService.permitPublisherForTopic(dmaapContext, "topicNamespace.name", "producerId");
-	}
-	
-	
-	@Test(expected = TopicExistsException.class)
-	public void testDenyPublisherForTopic_nullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(null);
-
-		topicService.denyPublisherForTopic(dmaapContext, "topicNamespace.name", "producerId");
-	}
-	
-	@Test
-	public void testDenyPublisherForTopic_NonNullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(createdTopic);
-		
-		
-		topicService.denyPublisherForTopic(dmaapContext, "topicNamespace.name", "producerId");
-	}
-	
-	@Test(expected = TopicExistsException.class)
-	public void testPermitConsumerForTopic_nullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(null);
-
-		topicService.permitConsumerForTopic(dmaapContext, "topicNamespace.name", "consumerID");
-	}
-	
-	@Test
-	public void testPermitConsumerForTopic_NonNullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(createdTopic);
-		
-		
-		topicService.permitConsumerForTopic(dmaapContext, "topicNamespace.name", "consumerID");
-	}
-	
-	
-	@Test(expected = TopicExistsException.class)
-	public void testDenyConsumerForTopic_nullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(null);
-
-		topicService.denyConsumerForTopic(dmaapContext, "topicNamespace.name", "consumerID");
-	}
-	
-	@Test
-	public void testDenyConsumerForTopic_NonNullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-			IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
-
-		Assert.assertNotNull(topicService);
-
-		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(configReader.getfSecurityManager()).thenReturn(dmaaPAuthenticator);
-		when(dmaaPAuthenticator.authenticate(dmaapContext)).thenReturn(nsaSimpleApiKey);
-		
-		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
-		when(dmaapContext.getConfigReader()).thenReturn(configReader);
-		when(dmaapContext.getRequest()).thenReturn(httpServReq);
-		when(dmaapContext.getResponse()).thenReturn(httpServRes);
-		when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-		when(httpServReq.getMethod()).thenReturn("HEAD");
-
-		when(dmaapKafkaMetaBroker.getTopic("topicNamespace.name")).thenReturn(createdTopic);
-		
-		
-		topicService.denyConsumerForTopic(dmaapContext, "topicNamespace.name", "consumerID");
-	}*/
 }

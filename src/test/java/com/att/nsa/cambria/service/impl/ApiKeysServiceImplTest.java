@@ -18,144 +18,164 @@
  * ============LICENSE_END=========================================================
  */
 
-
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.att.nsa.cambria.beans.ApiKeyBean;
 import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.nsa.cambria.embed.EmbedConfigurationReader;
 import com.att.nsa.configs.ConfigDbException;
+import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
-import com.att.nsa.security.db.NsaApiDb.KeyExistsException;
+import com.att.nsa.security.db.BaseNsaApiDbImpl;
+import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+@RunWith(PowerMockRunner.class)
 public class ApiKeysServiceImplTest {
 
-	@Before
-	public void setUp() throws Exception {
+	private static DMaaPContext context = new DMaaPContext();
+
+	private static EmbedConfigurationReader embedConfigurationReader = new EmbedConfigurationReader();
+
+	@BeforeClass
+	public static void setUp() throws Exception {
+
+		final long nowMs = System.currentTimeMillis();
+		Date date = new Date(nowMs + 10000);
+
+		final String serverCalculatedSignature = sha1HmacSigner.sign(date.toString(), "password");
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.addHeader("X-Auth", "admin:" + serverCalculatedSignature);
+
+		// NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
+		// PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+
+		request.addHeader("X-Date", date);
+		request.addHeader("Date", date);
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		context.setRequest(request);
+		context.setResponse(response);
+		context.setConfigReader(embedConfigurationReader.buildConfigurationReader());
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
+		embedConfigurationReader.tearDown();
 	}
 
-	
 	@Test
 	public void testGetAllApiKeys() {
-		
-	/*	ApiKeysServiceImpl service = new ApiKeysServiceImpl();
-		try {
-			service.getAllApiKeys(new DMaaPContext());
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
-		} catch (ConfigDbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	 
-	}
-	
-	@Test
-	public void testGetApiKey() {
-		/*
+
 		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
-			service.getApiKey(new DMaaPContext(), "k35Hdw6Sde");
+			service.getAllApiKeys(context);
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
+			// e.printStackTrace();
+			assertTrue(false);
 		} catch (ConfigDbException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	 
+			assertTrue(false);
+		}
+		String trueValue = "True";
+		assertTrue(trueValue.equalsIgnoreCase("True"));
+
 	}
-	
+
 	@Test
-	public void testCreateApiKey() {
-		
-	/*	ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+	public void testGetApiKey() {
+
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
-			service.createApiKey(new DMaaPContext(), new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
+			service.getApiKey(context, "k35Hdw6Sde");
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
+			assertTrue(false);
 		} catch (ConfigDbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (KeyExistsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch(NoClassDefFoundError e) {
-			 assertTrue(true);
-		}*/
-	 
+			assertTrue(true);
+		}
+		String trueValue = "True";
+		assertTrue(trueValue.equalsIgnoreCase("True"));
+
 	}
-	
+
+	/*
+	 * @Test public void testCreateApiKey() {
+	 * 
+	 * ApiKeysServiceImpl service = new ApiKeysServiceImpl(); try {
+	 * service.createApiKey(context, new ApiKeyBean("hs647a@att.com",
+	 * "testing apikey bean")); } catch (NullPointerException e) {
+	 * assertTrue(false); } catch (ConfigDbException e) { assertTrue(false); }
+	 * catch (IOException e) { assertTrue(false); } catch (KeyExistsException e)
+	 * { assertTrue(false); } catch (NoClassDefFoundError e) {
+	 * assertTrue(false); } String trueValue = "True";
+	 * assertTrue(trueValue.equalsIgnoreCase("True"));
+	 * 
+	 * }
+	 */
+
 	@Test
 	public void testUpdateApiKey() {
-		
-/*		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
-			
-			service.updateApiKey(new DMaaPContext(), "k6dWUcw4N", new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
+
+			service.updateApiKey(context, "k6dWUcw4N", new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
+			assertTrue(false);
 		} catch (ConfigDbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (AccessDeniedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		}
-	 */
+
+		String trueValue = "True";
+		assertTrue(trueValue.equalsIgnoreCase("True"));
 	}
-	
+
 	@Test
 	public void testDeleteApiKey() {
-		
-	/*	ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
-			
-			service.deleteApiKey(new DMaaPContext(), "k6dWUcw4N");
+
+			service.deleteApiKey(context, "k6dWUcw4N");
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
+			assertTrue(false);
 		} catch (ConfigDbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(false);
 		} catch (AccessDeniedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	 
+			assertTrue(false);
+		}
+
+		String trueValue = "True";
+		assertTrue(trueValue.equalsIgnoreCase("True"));
+
 	}
 }
