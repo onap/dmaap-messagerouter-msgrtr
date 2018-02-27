@@ -19,143 +19,155 @@
  * ============LICENSE_END=========================================================
  */
 
-
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Date;
 
+import com.att.mr.common.BaseTestCase;
 import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.configs.ConfigDbException;
+import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 public class AdminServiceImplemTest {
+	@Mock
+	private static DMaaPContext context = new DMaaPContext();
 
-	@Before
-	public void setUp() throws Exception {
+	private static BaseTestCase base = new BaseTestCase();
+
+	@BeforeClass
+	public static void setUp() throws Exception {
+
+		final long nowMs = System.currentTimeMillis();
+		Date date = new Date(nowMs + 10000);
+
+		final String serverCalculatedSignature = sha1HmacSigner.sign(date.toString(), "password");
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.addHeader("X-Auth", "b/7ouTn9FfEw2PQwL0ov/Q==:" + serverCalculatedSignature);
+
+		request.addHeader("X-Date", date);
+		request.addHeader("Date", date);
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		context.setRequest(request);
+		context.setResponse(response);
+		context.setConfigReader(base.buildConfigurationReader());
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
+		base.tearDown();
+
 	}
 
-	
-	//ISSUES WITH AUTHENTICATION
+	// ISSUES WITH AUTHENTICATION
 	@Test
 	public void testShowConsumerCache() {
-		
+
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
-			adminServiceImpl.showConsumerCache(new DMaaPContext());
+			adminServiceImpl.showConsumerCache(context);
 		} catch (IOException | AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testDropConsumerCache() {
-		
+
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
-			adminServiceImpl.dropConsumerCache(new DMaaPContext());
+			adminServiceImpl.dropConsumerCache(context);
 		} catch (IOException | AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testGetBlacklist() {
-		
+
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
-			adminServiceImpl.getBlacklist(new DMaaPContext());
+			adminServiceImpl.getBlacklist(context);
 		} catch (IOException | AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testAddToBlacklist() {
-		
+
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
-			adminServiceImpl.addToBlacklist(new DMaaPContext(), "120.120.120.120");
+			adminServiceImpl.addToBlacklist(context, "120.120.120.120");
 		} catch (IOException | AccessDeniedException | ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testRemoveFromBlacklist() {
-		
+
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
-			adminServiceImpl.addToBlacklist(new DMaaPContext(), "120.120.120.120");
+			adminServiceImpl.addToBlacklist(context, "120.120.120.120");
 		} catch (IOException | AccessDeniedException | ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
-	
 
 }
