@@ -22,8 +22,6 @@
 
 package com.att.mr.common;
 
-import static org.mockito.Mockito.mock;
-
 import java.io.File;
 import java.util.Map;
 import java.util.Properties;
@@ -52,11 +50,8 @@ import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
 import com.att.nsa.cambria.utils.ConfigurationReader;
 import com.att.nsa.cambria.utils.DMaaPCuratorFactory;
 import com.att.nsa.cambria.utils.PropertyReader;
-import com.att.nsa.security.NsaApiKey;
 import com.att.nsa.security.db.BaseNsaApiDbImpl;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
-import com.att.nsa.security.db.simple.NsaSimpleApiKeyFactory;
-
 import kafka.admin.AdminUtils;
 @RunWith(PowerMockRunner.class)
 public class BaseTestCase {
@@ -70,9 +65,6 @@ public class BaseTestCase {
     private static final int ZOOKEEPER_PORT = 2000;
     private static final String ZOOKEEPER_HOST = String.format("localhost:%d", ZOOKEEPER_PORT);
     
-    private BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl;
-
-    private static final String groupId = "groupID";
     String dir;
     DMaaPZkClient dMaaPZkClient;
     KafkaLocal kafkaLocal;
@@ -137,10 +129,10 @@ public class BaseTestCase {
 		FileUtils.cleanDirectory(new File(dir + DEFAULT_KAFKA_LOG_DIR));		
 	}
 	
-	NsaSimpleApiKey apiKey= new NsaSimpleApiKey("admin","password");
+	
 
 
-	public ConfigurationReader buildConfigurationReader() throws Exception {
+	public ConfigurationReader buildConfigurationReader( BaseNsaApiDbImpl baseNsaApiDbImpl) throws Exception {
 		
 		setUp();
 		
@@ -151,8 +143,7 @@ public class BaseTestCase {
 		DMaaPKafkaConsumerFactory dMaaPKafkaConsumerFactory = new DMaaPKafkaConsumerFactory(propertyReader, dMaaPMetricsSet, curatorFramework);
 		MemoryQueue memoryQueue = new MemoryQueue();
 		MemoryMetaBroker memoryMetaBroker = new MemoryMetaBroker(memoryQueue, dMaaPZkConfigDb);
-	    baseNsaApiDbImpl=mock(BaseNsaApiDbImpl.class);
-		PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+		
 		DMaaPAuthenticator<NsaSimpleApiKey> dMaaPAuthenticator = new DMaaPAuthenticatorImpl<>(baseNsaApiDbImpl);
 		KafkaPublisher kafkaPublisher = new KafkaPublisher(propertyReader);
 		DMaaPKafkaMetaBroker dMaaPKafkaMetaBroker = new DMaaPKafkaMetaBroker(propertyReader, dMaaPZkClient, dMaaPZkConfigDb);

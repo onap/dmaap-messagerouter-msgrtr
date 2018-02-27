@@ -22,6 +22,7 @@
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.Date;
@@ -31,17 +32,22 @@ import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
+import com.att.nsa.security.db.BaseNsaApiDbImpl;
+import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 public class AdminServiceImplemTest {
 	@Mock
 	private static DMaaPContext context = new DMaaPContext();
+	
+	private static BaseNsaApiDbImpl baseNsaApiDbImpl = mock(BaseNsaApiDbImpl.class);
 
 	private static BaseTestCase base = new BaseTestCase();
 
@@ -54,13 +60,16 @@ public class AdminServiceImplemTest {
 		final String serverCalculatedSignature = sha1HmacSigner.sign(date.toString(), "password");
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addHeader("X-Auth", "b/7ouTn9FfEw2PQwL0ov/Q==:" + serverCalculatedSignature);
+		
+		NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
+		PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
 
 		request.addHeader("X-Date", date);
 		request.addHeader("Date", date);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		context.setRequest(request);
 		context.setResponse(response);
-		context.setConfigReader(base.buildConfigurationReader());
+		context.setConfigReader(base.buildConfigurationReader(baseNsaApiDbImpl));
 	}
 
 	@AfterClass

@@ -21,6 +21,7 @@
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.Date;
@@ -31,18 +32,26 @@ import com.att.nsa.cambria.beans.DMaaPContext;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
+import com.att.nsa.security.db.BaseNsaApiDbImpl;
+import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+@RunWith(PowerMockRunner.class)
 public class ApiKeysServiceImplTest {
 
 	@Mock
 	private static DMaaPContext context = new DMaaPContext();
+
+	private static BaseNsaApiDbImpl baseNsaApiDbImpl = mock(BaseNsaApiDbImpl.class);
 
 	private static BaseTestCase base = new BaseTestCase();
 
@@ -56,12 +65,15 @@ public class ApiKeysServiceImplTest {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addHeader("X-Auth", "b/7ouTn9FfEw2PQwL0ov/Q==:" + serverCalculatedSignature);
 
+		NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
+		PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+
 		request.addHeader("X-Date", date);
 		request.addHeader("Date", date);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		context.setRequest(request);
 		context.setResponse(response);
-		context.setConfigReader(base.buildConfigurationReader());
+		context.setConfigReader(base.buildConfigurationReader(baseNsaApiDbImpl));
 	}
 
 	@AfterClass
@@ -110,27 +122,20 @@ public class ApiKeysServiceImplTest {
 
 	}
 
-	/*@Test
-	public void testCreateApiKey() {
-
-		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
-		try {
-			service.createApiKey(context, new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
-		} catch (NullPointerException e) {
-			assertTrue(false);
-		} catch (ConfigDbException e) {
-			assertTrue(false);
-		} catch (IOException e) {
-			assertTrue(false);
-		} catch (KeyExistsException e) {
-			assertTrue(false);
-		} catch (NoClassDefFoundError e) {
-			assertTrue(false);
-		}
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-
-	}*/
+	/*
+	 * @Test public void testCreateApiKey() {
+	 * 
+	 * ApiKeysServiceImpl service = new ApiKeysServiceImpl(); try {
+	 * service.createApiKey(context, new ApiKeyBean("hs647a@att.com",
+	 * "testing apikey bean")); } catch (NullPointerException e) {
+	 * assertTrue(false); } catch (ConfigDbException e) { assertTrue(false); }
+	 * catch (IOException e) { assertTrue(false); } catch (KeyExistsException e)
+	 * { assertTrue(false); } catch (NoClassDefFoundError e) {
+	 * assertTrue(false); } String trueValue = "True";
+	 * assertTrue(trueValue.equalsIgnoreCase("True"));
+	 * 
+	 * }
+	 */
 
 	@Test
 	public void testUpdateApiKey() {
@@ -138,8 +143,7 @@ public class ApiKeysServiceImplTest {
 		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
 
-			service.updateApiKey(context, "k6dWUcw4N",
-					new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
+			service.updateApiKey(context, "k6dWUcw4N", new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
 		} catch (NullPointerException e) {
 			assertTrue(false);
 		} catch (ConfigDbException e) {
