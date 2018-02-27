@@ -70,8 +70,7 @@ public class BaseTestCase {
     private static final int ZOOKEEPER_PORT = 2000;
     private static final String ZOOKEEPER_HOST = String.format("localhost:%d", ZOOKEEPER_PORT);
     
-    @Mock
-    private BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl1;
+    private BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl;
 
     private static final String groupId = "groupID";
     String dir;
@@ -152,18 +151,16 @@ public class BaseTestCase {
 		DMaaPKafkaConsumerFactory dMaaPKafkaConsumerFactory = new DMaaPKafkaConsumerFactory(propertyReader, dMaaPMetricsSet, curatorFramework);
 		MemoryQueue memoryQueue = new MemoryQueue();
 		MemoryMetaBroker memoryMetaBroker = new MemoryMetaBroker(memoryQueue, dMaaPZkConfigDb);
-		//BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl = new BaseNsaApiDbImpl<>(dMaaPZkConfigDb, new NsaSimpleApiKeyFactory());
-		//baseNsaApiDbImpl1 = new BaseNsaApiDbImpl<>(dMaaPZkConfigDb, new NsaSimpleApiKeyFactory());
-		baseNsaApiDbImpl1=mock(BaseNsaApiDbImpl.class);
-		PowerMockito.when(baseNsaApiDbImpl1.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
-		DMaaPAuthenticator<NsaSimpleApiKey> dMaaPAuthenticator = new DMaaPAuthenticatorImpl<>(baseNsaApiDbImpl1);
+	    baseNsaApiDbImpl=mock(BaseNsaApiDbImpl.class);
+		PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+		DMaaPAuthenticator<NsaSimpleApiKey> dMaaPAuthenticator = new DMaaPAuthenticatorImpl<>(baseNsaApiDbImpl);
 		KafkaPublisher kafkaPublisher = new KafkaPublisher(propertyReader);
 		DMaaPKafkaMetaBroker dMaaPKafkaMetaBroker = new DMaaPKafkaMetaBroker(propertyReader, dMaaPZkClient, dMaaPZkConfigDb);
 		
 		return new ConfigurationReader(propertyReader, 
 				dMaaPMetricsSet, dMaaPZkClient, dMaaPZkConfigDb, kafkaPublisher, 
 				curatorFramework, dMaaPKafkaConsumerFactory, dMaaPKafkaMetaBroker, 
-				memoryQueue, memoryMetaBroker, baseNsaApiDbImpl1, dMaaPAuthenticator);
+				memoryQueue, memoryMetaBroker, baseNsaApiDbImpl, dMaaPAuthenticator);
 		
 	}
 }

@@ -22,18 +22,12 @@
 
 package com.att.nsa.cambria.embed;
 
-import static org.mockito.Mockito.mock;
-
 import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.curator.framework.CuratorFramework;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.cambria.backends.kafka.KafkaPublisher;
@@ -52,9 +46,10 @@ import com.att.nsa.cambria.utils.DMaaPCuratorFactory;
 import com.att.nsa.cambria.utils.PropertyReader;
 import com.att.nsa.security.db.BaseNsaApiDbImpl;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
+import com.att.nsa.security.db.simple.NsaSimpleApiKeyFactory;
 
 import kafka.admin.AdminUtils;
-@RunWith(PowerMockRunner.class)
+
 public class EmbedConfigurationReader {
 	private static final String DEFAULT_KAFKA_LOG_DIR = "/kafka_embedded";
     public static final String TEST_TOPIC = "testTopic";
@@ -65,9 +60,6 @@ public class EmbedConfigurationReader {
     private static final String DEFAULT_ZOOKEEPER_LOG_DIR = "/zookeeper";
     private static final int ZOOKEEPER_PORT = 2000;
     private static final String ZOOKEEPER_HOST = String.format("localhost:%d", ZOOKEEPER_PORT);
-    
-    @Mock
-    private BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl1;
 
     private static final String groupId = "groupID";
     String dir;
@@ -132,8 +124,6 @@ public class EmbedConfigurationReader {
 		kafkaLocal.stop();
 		FileUtils.cleanDirectory(new File(dir + DEFAULT_KAFKA_LOG_DIR));		
 	}
-	
-	NsaSimpleApiKey apiKey= new NsaSimpleApiKey("admin","password");
 
 
 	public ConfigurationReader buildConfigurationReader() throws Exception {
@@ -148,18 +138,15 @@ public class EmbedConfigurationReader {
 		DMaaPKafkaConsumerFactory dMaaPKafkaConsumerFactory = new DMaaPKafkaConsumerFactory(propertyReader, dMaaPMetricsSet, curatorFramework);
 		MemoryQueue memoryQueue = new MemoryQueue();
 		MemoryMetaBroker memoryMetaBroker = new MemoryMetaBroker(memoryQueue, dMaaPZkConfigDb);
-		//BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl = new BaseNsaApiDbImpl<>(dMaaPZkConfigDb, new NsaSimpleApiKeyFactory());
-		//baseNsaApiDbImpl1 = new BaseNsaApiDbImpl<>(dMaaPZkConfigDb, new NsaSimpleApiKeyFactory());
-		baseNsaApiDbImpl1=mock(BaseNsaApiDbImpl.class);
-		PowerMockito.when(baseNsaApiDbImpl1.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
-		DMaaPAuthenticator<NsaSimpleApiKey> dMaaPAuthenticator = new DMaaPAuthenticatorImpl<>(baseNsaApiDbImpl1);
+		BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl = new BaseNsaApiDbImpl<>(dMaaPZkConfigDb, new NsaSimpleApiKeyFactory());
+		DMaaPAuthenticator<NsaSimpleApiKey> dMaaPAuthenticator = new DMaaPAuthenticatorImpl<>(baseNsaApiDbImpl);
 		KafkaPublisher kafkaPublisher = new KafkaPublisher(propertyReader);
 		DMaaPKafkaMetaBroker dMaaPKafkaMetaBroker = new DMaaPKafkaMetaBroker(propertyReader, dMaaPZkClient, dMaaPZkConfigDb);
 		
 		return new ConfigurationReader(propertyReader, 
 				dMaaPMetricsSet, dMaaPZkClient, dMaaPZkConfigDb, kafkaPublisher, 
 				curatorFramework, dMaaPKafkaConsumerFactory, dMaaPKafkaMetaBroker, 
-				memoryQueue, memoryMetaBroker, baseNsaApiDbImpl1, dMaaPAuthenticator);
+				memoryQueue, memoryMetaBroker, baseNsaApiDbImpl, dMaaPAuthenticator);
 		
 	}
 }
