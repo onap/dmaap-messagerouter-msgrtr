@@ -19,6 +19,7 @@
  * ============LICENSE_END=========================================================
  */
 
+
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
@@ -26,64 +27,56 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.Date;
 
-import com.att.mr.common.BaseTestCase;
 import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.nsa.cambria.embed.EmbedConfigurationReader;
+import com.att.nsa.cambria.utils.ConfigurationReader;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
-import com.att.nsa.security.db.BaseNsaApiDbImpl;
-import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-@RunWith(PowerMockRunner.class)
 public class AdminServiceImplemTest {
+	
+	private static  DMaaPContext context = new DMaaPContext();
+	
+	private static EmbedConfigurationReader embedConfigurationReader = new EmbedConfigurationReader();
 
-	private  DMaaPContext context = new DMaaPContext();
-	@Mock
-	private  BaseNsaApiDbImpl<NsaSimpleApiKey> baseNsaApiDbImpl;
-	private  BaseTestCase base = new BaseTestCase();
+	@BeforeClass
+	public static void setUp() throws Exception {
 
-	@Before
-	public  void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
 		final long nowMs = System.currentTimeMillis();
 		Date date = new Date(nowMs + 10000);
 
 		final String serverCalculatedSignature = sha1HmacSigner.sign(date.toString(), "password");
 		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.addHeader("X-Auth", "b/7ouTn9FfEw2PQwL0ov/Q==:" + serverCalculatedSignature);
-		
-		NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
-		PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+		request.addHeader("X-Auth", "admin:" + serverCalculatedSignature);
+
+		//NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
+	//	PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
 
 		request.addHeader("X-Date", date);
 		request.addHeader("Date", date);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		context.setRequest(request);
 		context.setResponse(response);
-		context.setConfigReader(base.buildConfigurationReader(baseNsaApiDbImpl));
+		context.setConfigReader(embedConfigurationReader.buildConfigurationReader());
 	}
 
-	@After
-	public  void tearDown() throws Exception {
-		base.tearDown();
-
+	@AfterClass
+	public static void tearDown() throws Exception {
+		embedConfigurationReader.tearDown();
 	}
 
-	// ISSUES WITH AUTHENTICATION
+	
+	//ISSUES WITH AUTHENTICATION
 	@Test
 	public void testShowConsumerCache() {
-
+		
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
 			adminServiceImpl.showConsumerCache(context);
@@ -92,18 +85,20 @@ public class AdminServiceImplemTest {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			//e.printStackTrace();
 			assertTrue(true);
 		}
-
+		
+		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-
+		
+	 
 	}
-
+	
 	@Test
 	public void testDropConsumerCache() {
-
+		
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
 			adminServiceImpl.dropConsumerCache(context);
@@ -112,18 +107,20 @@ public class AdminServiceImplemTest {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			//e.printStackTrace();
 			assertTrue(true);
 		}
-
+		
+		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-
+		
+	 
 	}
-
+	
 	@Test
 	public void testGetBlacklist() {
-
+		
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
 			adminServiceImpl.getBlacklist(context);
@@ -132,18 +129,20 @@ public class AdminServiceImplemTest {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			//e.printStackTrace();
 			assertTrue(true);
 		}
-
+		
+		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-
+		
+	 
 	}
-
+	
 	@Test
 	public void testAddToBlacklist() {
-
+		
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
 			adminServiceImpl.addToBlacklist(context, "120.120.120.120");
@@ -152,18 +151,20 @@ public class AdminServiceImplemTest {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			//e.printStackTrace();
 			assertTrue(true);
 		}
-
+		
+		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-
+		
+	 
 	}
-
+	
 	@Test
 	public void testRemoveFromBlacklist() {
-
+		
 		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
 		try {
 			adminServiceImpl.addToBlacklist(context, "120.120.120.120");
@@ -172,13 +173,17 @@ public class AdminServiceImplemTest {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			//e.printStackTrace();
 			assertTrue(true);
 		}
-
+		
+		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-
+		
+	 
 	}
+	
+	
 
 }
