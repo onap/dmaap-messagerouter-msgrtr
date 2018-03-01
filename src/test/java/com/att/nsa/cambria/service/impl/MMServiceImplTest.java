@@ -18,7 +18,6 @@
  * ============LICENSE_END=========================================================
  */
 
-
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
@@ -26,105 +25,120 @@ import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+import com.att.ajsc.beans.PropertiesMapBean;
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.cambria.CambriaApiException;
+import com.att.nsa.cambria.backends.ConsumerFactory;
 import com.att.nsa.cambria.backends.ConsumerFactory.UnavailableException;
 import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker;
+import com.att.nsa.cambria.constants.CambriaConstants;
+import com.att.nsa.cambria.exception.DMaaPErrorMessages;
+import com.att.nsa.cambria.metabroker.Topic;
 import com.att.nsa.cambria.metabroker.Broker.TopicExistsException;
+import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
+import com.att.nsa.cambria.utils.ConfigurationReader;
+import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
+import com.att.nsa.cambria.utils.Emailer;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
+import com.att.nsa.limits.Blacklist;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
+import com.att.nsa.security.db.NsaApiDb;
+import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import static org.mockito.Matchers.anyString;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ DMaaPAuthenticatorImpl.class, DMaaPResponseBuilder.class, PropertiesMapBean.class,
+		AJSCPropertiesMap.class })
 public class MMServiceImplTest {
+
+	@InjectMocks
+	MMServiceImpl service;
+
+	@Mock
+	DMaaPContext dmaapContext;
+	@Mock
+	ConsumerFactory factory;
+	@Mock
+	private DMaaPErrorMessages errorMessages;
+	@Mock
+	ConfigurationReader configReader;
+	@Mock
+	Blacklist Blacklist;
+	@Mock
+	Emailer emailer;
+	@Mock
+	DMaaPKafkaMetaBroker dmaapKafkaMetaBroker;
+	@Mock
+	Topic metatopic;
 
 	@Before
 	public void setUp() throws Exception {
+
+		MockitoAnnotations.initMocks(this);
+		PowerMockito.mockStatic(DMaaPAuthenticatorImpl.class);
+		NsaSimpleApiKey user = new NsaSimpleApiKey("admin", "password");
+
+		PowerMockito.when(dmaapContext.getConfigReader()).thenReturn(configReader);
+		PowerMockito.when(configReader.getfConsumerFactory()).thenReturn(factory);
+		PowerMockito.when(configReader.getfIpBlackList()).thenReturn(Blacklist);
+
+		PowerMockito.when(configReader.getfApiKeyDb()).thenReturn(fApiKeyDb);
+		PowerMockito.when(configReader.getSystemEmailer()).thenReturn(emailer);
+		PowerMockito.when(DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext)).thenReturn(user);
+		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
+
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		PowerMockito.when(dmaapContext.getRequest()).thenReturn(request);
+		PowerMockito.when(dmaapContext.getResponse()).thenReturn(response);
+
+		PowerMockito.mockStatic(AJSCPropertiesMap.class);
+		PowerMockito.mockStatic(PropertiesMapBean.class);
+		PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, "timeout")).thenReturn("1000");
+		PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, "pretty")).thenReturn("true");
+		PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, "meta")).thenReturn("true");
+		PowerMockito.when(configReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
+
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
-	
+
 	@Test
-	public void testAddWhiteList() {
-		
-		MMServiceImpl service = new MMServiceImpl();
+	public void testSubscribe_Blacklistip() {
+
 		try {
-			service.addWhiteList();
+			PowerMockito.when(Blacklist.contains("127.0.0.1")).thenReturn(true);
+			service.subscribe(dmaapContext, "testTopic", "CG1", "23");
 		} catch (org.json.JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
-		}		
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	}
-	
-	@Test
-	public void testRemoveWhiteList() {
-		
-		MMServiceImpl service = new MMServiceImpl();
-		try {
-			service.removeWhiteList();
-		} catch (org.json.JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
-		}		
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	}
-	
-	@Test
-	public void testListWhiteList() {
-		
-		MMServiceImpl service = new MMServiceImpl();
-		try {
-			service.listWhiteList();
-		} catch (org.json.JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
-		}		
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	}
-	
-	@Test
-	public void testSubscribe() {
-		
-		MMServiceImpl service = new MMServiceImpl();
-		try {
-			service.subscribe(new DMaaPContext(), "testTopic", "CG1", "23");
-		} catch (org.json.JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			assertTrue(true);
+			// e.printStackTrace();
 		} catch (CambriaApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			assertTrue(true);
 		} catch (ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,34 +154,62 @@ public class MMServiceImplTest {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+		}
+
 	}
-	
+
 	@Test
-	public void testPushEvents() {
-		
-		MMServiceImpl service = new MMServiceImpl();
-		
-		String source = "source of my InputStream";
-		
+	public void testSubscribe_NullTopic() {
+
 		try {
-			InputStream iStream = new ByteArrayInputStream(source.getBytes("UTF-8"));
-			service.pushEvents(new DMaaPContext(), "testTopic", iStream, "3", "12:00:00");
-					
+			PowerMockito.when(dmaapKafkaMetaBroker.getTopic(anyString())).thenReturn(null);
+			service.subscribe(dmaapContext, "testTopic", "CG1", "23");
 		} catch (org.json.JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		} catch (CambriaApiException e) {
+			assertTrue(true);
+		} catch (ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (TopicExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AccessDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
+	public void testPushEvents_wttransaction() {
+
+		String source = "source of my InputStream";
+
+		try {
+			InputStream iStream = new ByteArrayInputStream(source.getBytes("UTF-8"));
+			service.pushEvents(dmaapContext, "msgrtr.apinode.metrics.dmaap", iStream, "3", "12:00:00");
+
+		} catch (org.json.JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			assertTrue(true);
+		} catch (CambriaApiException e) {
+			assertTrue(true);
 		} catch (ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,12 +225,133 @@ public class MMServiceImplTest {
 		} catch (missingReqdSetting e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+		}
 	}
-	
-	
+
+	@Test
+	public void testPushEvents() {
+
+		String source = "source of my InputStream";
+
+		try {
+			InputStream iStream = new ByteArrayInputStream(source.getBytes("UTF-8"));
+			service.pushEvents(dmaapContext, "testTopic", iStream, "3", "12:00:00");
+
+		} catch (org.json.JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			assertTrue(true);
+		} catch (CambriaApiException e) {
+			assertTrue(true);
+		} catch (ConfigDbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TopicExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AccessDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (missingReqdSetting e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
+	public void testPushEvents_blacklistip() {
+
+		String source = "source of my InputStream";
+
+		try {
+			PowerMockito.when(Blacklist.contains("127.0.0.1")).thenReturn(true);
+			InputStream iStream = new ByteArrayInputStream(source.getBytes("UTF-8"));
+			service.pushEvents(dmaapContext, "testTopic", iStream, "3", "12:00:00");
+
+		} catch (org.json.JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			assertTrue(true);
+		} catch (CambriaApiException e) {
+			assertTrue(true);
+		} catch (ConfigDbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TopicExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AccessDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (missingReqdSetting e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	NsaApiDb<NsaSimpleApiKey> fApiKeyDb = new NsaApiDb<NsaSimpleApiKey>() {
+
+		Set<String> keys = new HashSet<>(Arrays.asList("testkey", "admin"));
+
+		@Override
+		public NsaSimpleApiKey createApiKey(String arg0, String arg1)
+				throws com.att.nsa.security.db.NsaApiDb.KeyExistsException, ConfigDbException {
+			// TODO Auto-generated method stub
+			return new NsaSimpleApiKey(arg0, arg1);
+		}
+
+		@Override
+		public boolean deleteApiKey(NsaSimpleApiKey arg0) throws ConfigDbException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean deleteApiKey(String arg0) throws ConfigDbException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public Map<String, NsaSimpleApiKey> loadAllKeyRecords() throws ConfigDbException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Set<String> loadAllKeys() throws ConfigDbException {
+			// TODO Auto-generated method stub
+
+			return keys;
+		}
+
+		@Override
+		public NsaSimpleApiKey loadApiKey(String arg0) throws ConfigDbException {
+			if (!keys.contains(arg0)) {
+				return null;
+			}
+			return new NsaSimpleApiKey(arg0, "password");
+		}
+
+		@Override
+		public void saveApiKey(NsaSimpleApiKey arg0) throws ConfigDbException {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
 }

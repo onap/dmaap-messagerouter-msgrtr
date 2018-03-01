@@ -24,21 +24,71 @@ package com.att.nsa.cambria.service.impl;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+import com.att.nsa.cambria.backends.ConsumerFactory;
 import com.att.nsa.cambria.beans.ApiKeyBean;
 import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
+import com.att.nsa.cambria.utils.ConfigurationReader;
+import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
+import com.att.nsa.cambria.utils.Emailer;
 import com.att.nsa.configs.ConfigDbException;
+import com.att.nsa.limits.Blacklist;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
+import com.att.nsa.security.db.NsaApiDb;
 import com.att.nsa.security.db.NsaApiDb.KeyExistsException;
+import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ DMaaPAuthenticatorImpl.class, DMaaPResponseBuilder.class })
 public class ApiKeysServiceImplTest {
+	
+	@InjectMocks
+	ApiKeysServiceImpl service;
+
+	@Mock
+	DMaaPContext dmaapContext;
+	@Mock
+	ConsumerFactory factory;
+
+	@Mock
+	ConfigurationReader configReader;
+	@Mock
+	Blacklist Blacklist;
+	@Mock
+	Emailer emailer;
 
 	@Before
 	public void setUp() throws Exception {
+
+		MockitoAnnotations.initMocks(this);
+		PowerMockito.mockStatic(DMaaPAuthenticatorImpl.class);
+		NsaSimpleApiKey user = new NsaSimpleApiKey("admin", "password");
+
+		PowerMockito.when(dmaapContext.getConfigReader()).thenReturn(configReader);
+		PowerMockito.when(configReader.getfConsumerFactory()).thenReturn(factory);
+		PowerMockito.when(configReader.getfIpBlackList()).thenReturn(Blacklist);
+		
+		PowerMockito.when(configReader.getfApiKeyDb()).thenReturn(fApiKeyDb);
+		PowerMockito.when(configReader.getSystemEmailer()).thenReturn(emailer);
+		PowerMockito.when(DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext)).thenReturn(user);
+		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
+	
 	}
 
 	@After
@@ -49,29 +99,30 @@ public class ApiKeysServiceImplTest {
 	@Test
 	public void testGetAllApiKeys() {
 		
-	/*	ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		 service = new ApiKeysServiceImpl();
 		try {
-			service.getAllApiKeys(new DMaaPContext());
+			service.getAllApiKeys(dmaapContext);
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			assertTrue(true);
+			
 		} catch (ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
+		assertTrue(true);
 	 
 	}
 	
 	@Test
 	public void testGetApiKey() {
-		/*
+		
 		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
-			service.getApiKey(new DMaaPContext(), "k35Hdw6Sde");
+			service.getApiKey(dmaapContext, "testkey");
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -81,21 +132,39 @@ public class ApiKeysServiceImplTest {
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+		}
+		assertTrue(true);
+	 
+	}
+	
+	@Test
+	public void testGetApiKey_error() {
+		
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		try {
+			service.getApiKey(dmaapContext, "k35Hdw6Sde");
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (ConfigDbException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			assertTrue(true);
+		}
 	 
 	}
 	
 	@Test
 	public void testCreateApiKey() {
 		
-	/*	ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
-			service.createApiKey(new DMaaPContext(), new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
+			service.createApiKey(dmaapContext, new ApiKeyBean("test@onap.com", "testing apikey bean"));
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-			assertTrue(true);
 		} catch (ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,18 +175,65 @@ public class ApiKeysServiceImplTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch(NoClassDefFoundError e) {
-			 assertTrue(true);
-		}*/
-	 
+			
+		}
+		 assertTrue(true);
 	}
 	
 	@Test
 	public void testUpdateApiKey() {
 		
-/*		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
 			
-			service.updateApiKey(new DMaaPContext(), "k6dWUcw4N", new ApiKeyBean("hs647a@att.com", "testing apikey bean"));
+			service.updateApiKey(dmaapContext, "admin", new ApiKeyBean("test@onapt.com", "testing apikey bean"));
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (ConfigDbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AccessDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 assertTrue(true);
+	 
+	}
+	@Test
+	public void testUpdateApiKey_error() {
+		
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		try {
+			
+			service.updateApiKey(dmaapContext, null, new ApiKeyBean("test@onapt.com", "testing apikey bean"));
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			assertTrue(true);
+		} catch (ConfigDbException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			 assertTrue(true);
+		} catch (AccessDeniedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 
+	}
+	
+	@Test
+	public void testDeleteApiKey() {
+		
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		try {
+			
+			service.deleteApiKey(dmaapContext, null);
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -132,16 +248,16 @@ public class ApiKeysServiceImplTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 */
+	 
 	}
 	
 	@Test
-	public void testDeleteApiKey() {
+	public void testDeleteApiKey_error() {
 		
-	/*	ApiKeysServiceImpl service = new ApiKeysServiceImpl();
+		ApiKeysServiceImpl service = new ApiKeysServiceImpl();
 		try {
 			
-			service.deleteApiKey(new DMaaPContext(), "k6dWUcw4N");
+			service.deleteApiKey(dmaapContext, "admin");
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -155,7 +271,60 @@ public class ApiKeysServiceImplTest {
 		} catch (AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	 
 	}
+	
+	NsaApiDb<NsaSimpleApiKey> fApiKeyDb= new NsaApiDb<NsaSimpleApiKey>() {
+		
+		
+		Set<String> keys = new HashSet<>(Arrays.asList("testkey","admin"));
+		
+		
+		@Override
+		public NsaSimpleApiKey createApiKey(String arg0, String arg1)
+				throws com.att.nsa.security.db.NsaApiDb.KeyExistsException, ConfigDbException {
+			// TODO Auto-generated method stub
+			return new NsaSimpleApiKey(arg0, arg1);
+		}
+
+		@Override
+		public boolean deleteApiKey(NsaSimpleApiKey arg0) throws ConfigDbException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean deleteApiKey(String arg0) throws ConfigDbException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public Map<String, NsaSimpleApiKey> loadAllKeyRecords() throws ConfigDbException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Set<String> loadAllKeys() throws ConfigDbException {
+			// TODO Auto-generated method stub
+			
+			return keys ;
+		}
+
+		@Override
+		public NsaSimpleApiKey loadApiKey(String arg0) throws ConfigDbException {
+			if(!keys.contains(arg0)){
+				return null;
+			}
+			return new NsaSimpleApiKey(arg0, "password");
+		}
+
+		@Override
+		public void saveApiKey(NsaSimpleApiKey arg0) throws ConfigDbException {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 }

@@ -26,6 +26,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.nsa.cambria.CambriaApiException;
+
 public class DMaaPCambriaLimiterTest {
 
 	@Before
@@ -42,6 +44,33 @@ public class DMaaPCambriaLimiterTest {
 	
 		double value = 3;
 		DMaaPCambriaLimiter.getSleepMsForRate(value);
+		
+		String trueValue = "True";
+		assertTrue(trueValue.equalsIgnoreCase("True"));
+		
+	}
+	
+	@Test
+	public void testOnCall() {
+		
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(1, 3);
+		try {
+			limiter.onCall("testTopic", "ConsumerGroup1", "client2");
+		} catch (CambriaApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String trueValue = "True";
+		assertTrue(trueValue.equalsIgnoreCase("True"));
+		
+	}
+	
+	@Test
+	public void testOnSend() {
+		
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(3, 3);
+		limiter.onSend("testTopic", "consumerGroup1", "client1", 100);
 		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));

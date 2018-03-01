@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 
 @RunWith(Suite.class)
 @SuiteClasses({ ApiKeyBeanTest.class, ApiKeyBeanTest2.class, ApiKeyBeanTest3.class, ApiKeyBeanTest4.class, ApiKeyBeanTest5.class, ApiKeyBeanTest6.class, 
-	DMaaPCambriaLimiterTest.class, DMaaPCambriaLimiterTest2.class,DMaaPCambriaLimiterTest3.class,DMaaPContextTest.class, DMaaPContextTest2.class, 
+	DMaaPCambriaLimiterTest.class, DMaaPContextTest.class, DMaaPContextTest2.class, 
 	DMaaPContextTest3.class,DMaaPContextTest4.class,DMaaPContextTest5.class,DMaaPContextTest6.class,
 	LogDetailsTest.class, LogDetailsTest2.class,LogDetailsTest3.class,LogDetailsTest4.class,LogDetailsTest5.class,LogDetailsTest6.class,
 	LogDetailsTest7.class,LogDetailsTest8.class,LogDetailsTest9.class,LogDetailsTest10.class,LogDetailsTest11.class,LogDetailsTest12.class,

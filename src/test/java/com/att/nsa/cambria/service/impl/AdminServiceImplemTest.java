@@ -19,171 +19,163 @@
  * ============LICENSE_END=========================================================
  */
 
-
 package com.att.nsa.cambria.service.impl;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.Date;
 
+import com.att.nsa.cambria.backends.ConsumerFactory;
 import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.cambria.embed.EmbedConfigurationReader;
+import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
 import com.att.nsa.cambria.utils.ConfigurationReader;
+import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
 import com.att.nsa.configs.ConfigDbException;
-import com.att.nsa.drumlin.till.data.sha1HmacSigner;
+import com.att.nsa.limits.Blacklist;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
+import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ DMaaPAuthenticatorImpl.class, DMaaPResponseBuilder.class })
 public class AdminServiceImplemTest {
-	
-	private static  DMaaPContext context = new DMaaPContext();
-	
-	private static EmbedConfigurationReader embedConfigurationReader = new EmbedConfigurationReader();
 
-	@BeforeClass
-	public static void setUp() throws Exception {
+	@InjectMocks
+	AdminServiceImpl adminServiceImpl;
 
-		final long nowMs = System.currentTimeMillis();
-		Date date = new Date(nowMs + 10000);
+	@Mock
+	DMaaPContext dmaapContext;
+	@Mock
+	ConsumerFactory factory;
 
-		final String serverCalculatedSignature = sha1HmacSigner.sign(date.toString(), "password");
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		request.addHeader("X-Auth", "admin:" + serverCalculatedSignature);
+	@Mock
+	ConfigurationReader configReader;
+	@Mock
+	Blacklist Blacklist;
 
-		//NsaSimpleApiKey apiKey = new NsaSimpleApiKey("admin", "password");
-	//	PowerMockito.when(baseNsaApiDbImpl.loadApiKey("b/7ouTn9FfEw2PQwL0ov/Q==")).thenReturn(apiKey);
+	@Before
+	public void setUp() throws Exception {
 
-		request.addHeader("X-Date", date);
-		request.addHeader("Date", date);
-		MockHttpServletResponse response = new MockHttpServletResponse();
-		context.setRequest(request);
-		context.setResponse(response);
-		context.setConfigReader(embedConfigurationReader.buildConfigurationReader());
+		MockitoAnnotations.initMocks(this);
+		PowerMockito.mockStatic(DMaaPAuthenticatorImpl.class);
+		NsaSimpleApiKey user = new NsaSimpleApiKey("admin", "password");
+
+		PowerMockito.when(dmaapContext.getConfigReader()).thenReturn(configReader);
+		PowerMockito.when(configReader.getfConsumerFactory()).thenReturn(factory);
+		PowerMockito.when(configReader.getfIpBlackList()).thenReturn(Blacklist);
+
+		PowerMockito.when(DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext)).thenReturn(user);
+		PowerMockito.mockStatic(DMaaPResponseBuilder.class);
 	}
 
-	@AfterClass
-	public static void tearDown() throws Exception {
-		embedConfigurationReader.tearDown();
+	@After
+	public void tearDown() throws Exception {
 	}
 
-	
-	//ISSUES WITH AUTHENTICATION
+	// ISSUES WITH AUTHENTICATION
 	@Test
 	public void testShowConsumerCache() {
-		
-		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
+
 		try {
-			adminServiceImpl.showConsumerCache(context);
+			adminServiceImpl.showConsumerCache(dmaapContext);
 		} catch (IOException | AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testDropConsumerCache() {
-		
-		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
+
 		try {
-			adminServiceImpl.dropConsumerCache(context);
+			adminServiceImpl.dropConsumerCache(dmaapContext);
 		} catch (IOException | AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testGetBlacklist() {
-		
-		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
+
 		try {
-			adminServiceImpl.getBlacklist(context);
+			adminServiceImpl.getBlacklist(dmaapContext);
 		} catch (IOException | AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testAddToBlacklist() {
-		
-		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
+
 		try {
-			adminServiceImpl.addToBlacklist(context, "120.120.120.120");
+			adminServiceImpl.addToBlacklist(dmaapContext, "120.120.120.120");
 		} catch (IOException | AccessDeniedException | ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
+
 	@Test
 	public void testRemoveFromBlacklist() {
-		
-		AdminServiceImpl adminServiceImpl = new AdminServiceImpl();
+
 		try {
-			adminServiceImpl.addToBlacklist(context, "120.120.120.120");
+			adminServiceImpl.removeFromBlacklist(dmaapContext, "120.120.120.120");
 		} catch (IOException | AccessDeniedException | ConfigDbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			assertTrue(true);
 		}
-		
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
-	 
+
 	}
-	
-	
 
 }
