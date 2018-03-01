@@ -170,9 +170,7 @@ public class DMaaPKafkaMetaBroker implements Broker {
 				// make Kafka aware of the
 				// topic creation. (Otherwise, the topic is only partially
 				// created in ZK.)
-				zkClient = new ZkClient(ConfigurationReader.getMainZookeeperConnectionString(), 10000, 10000,
-						ZKStringSerializer$.MODULE$);
-
+				zkClient = ZkClientFactory.createZkClient();
 				log.info("Zookeeper client loaded successfully. Creating topic.");
 				AdminUtils.createTopic(zkClient, topic, partitions, replicas, new Properties());
 			} catch (kafka.common.TopicExistsException e) {
@@ -217,8 +215,7 @@ public class DMaaPKafkaMetaBroker implements Broker {
 			// Kafka aware of the
 			// topic creation. (Otherwise, the topic is only partially created
 			// in ZK.)
-			zkClient = new ZkClient(ConfigurationReader.getMainZookeeperConnectionString(), 10000, 10000,
-					ZKStringSerializer$.MODULE$);
+			zkClient = ZkClientFactory.createZkClient();
 
 			log.info("Zookeeper client loaded successfully. Deleting topic.");
 			AdminUtils.deleteTopic(zkClient, topic);
@@ -245,6 +242,8 @@ public class DMaaPKafkaMetaBroker implements Broker {
 		// throw new UnsupportedOperationException ( "We can't programmatically
 		// delete Kafka topics yet." );
 	}
+	
+	
 
 	//private final rrNvReadable fSettings;
 	private final ZkClient fZk;
