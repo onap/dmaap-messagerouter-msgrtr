@@ -214,7 +214,7 @@ public class MMServiceImpl implements MMService {
 			try {
 				coes.write(baos);
 			} catch (Exception ex) {
-
+				LOG.error("Exception at subscribe(.......): " + ex);
 			}
 
 			c.commitOffsets();
