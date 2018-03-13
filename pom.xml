@@ -104,6 +104,12 @@
 			<groupId>org.grails</groupId>
 			<artifactId>grails-web</artifactId>
 			<version>2.4.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.grails</groupId>
+					<artifactId>grails-web-jsp</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		 <dependency>
       <groupId>org.grails</groupId>
