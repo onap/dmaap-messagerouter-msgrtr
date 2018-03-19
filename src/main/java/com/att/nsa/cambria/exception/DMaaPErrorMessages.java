@@ -21,7 +21,6 @@
  *******************************************************************************/
 package com.att.nsa.cambria.exception;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,61 +32,43 @@ import org.springframework.stereotype.Component;
 @Component
 public class DMaaPErrorMessages {
 
-	@Value("${resource.not.found}")
-	private String notFound;
+	private String notFound="The requested resource was not found.Please verify the URL and try again.";
 	
-	@Value("${server.unavailable}")
-	private String serverUnav;
+	private String serverUnav="Server is temporarily unavailable or busy.Try again later, or try another server in the cluster.";
 	
-	@Value("${http.method.not.allowed}")
-	private String methodNotAllowed;
+	private String methodNotAllowed="The specified HTTP method is not allowed for the requested resource.Enter a valid HTTP method and try again.";
 	
-	@Value("${incorrect.request.json}")
-	private String badRequest;
+	private String badRequest="Incorrect JSON object. Please correct the JSON format and try again.";
 	
-	@Value("${network.time.out}")
-	private String nwTimeout;
+	private String nwTimeout="Connection to the DMaaP MR was timed out.Please try again.";
 	
-	@Value("${get.topic.failure}")
-	private String topicsfailure;
+	private String topicsfailure="Failed to retrieve list of all topics.";
 	
-	@Value("${not.permitted.access.1}")
-	private String notPermitted1;
+	private String notPermitted1="Access Denied.User does not have permission to perform";
 	
-	@Value("${not.permitted.access.2}")
-	private String notPermitted2;
+	private String notPermitted2="operation on Topic";
 	
-	@Value("${get.topic.details.failure}")
-	private String topicDetailsFail;
+	private String topicDetailsFail="Failed to retrieve details of topic:";
 	
-	@Value("${create.topic.failure}")
-	private String createTopicFail;
+	private String createTopicFail="Failed to create topic:";
 	
-	@Value("${delete.topic.failure}")
-	private String deleteTopicFail;
+	private String deleteTopicFail="Failed to delete topic:";
 	
-	@Value("${incorrect.json}")
-	private String incorrectJson;
+	private String incorrectJson="Incorrect JSON object.Could not parse JSON. Please correct the JSON format and try again.";
 	
-	@Value("${consume.msg.error}")
-	private String consumeMsgError;
+	private String consumeMsgError="Error while reading data from topic.";
 	
-	@Value("${publish.msg.error}")
-	private String publishMsgError;
+	private String publishMsgError="Error while publishing data to topic.";
 	
 	
-	@Value("${publish.msg.count}")
-	private String publishMsgCount;
+	private String publishMsgCount="Successfully published number of messages :";
 	
 	
-	@Value("${authentication.failure}")
-	private String authFailure;
-	@Value("${msg_size_exceeds}")
-	private String msgSizeExceeds;
+	private String authFailure="Access Denied: Invalid Credentials. Enter a valid MechId and Password and try again.";
+	private String msgSizeExceeds="Message size exceeds the default size.";
 	
 	
-	@Value("${topic.not.exist}")
-	private String topicNotExist;
+	private String topicNotExist="No such topic exists.";
 	
 	public String getMsgSizeExceeds() {
 		return msgSizeExceeds;

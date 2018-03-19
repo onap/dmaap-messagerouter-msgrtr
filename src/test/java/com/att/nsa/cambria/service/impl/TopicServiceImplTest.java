@@ -134,9 +134,9 @@ public class TopicServiceImplTest {
 	@Test(expected = DMaaPAccessDeniedException.class)
 	public void testCreateTopicWithEnforcedName()
 			throws DMaaPAccessDeniedException, CambriaApiException, IOException, TopicExistsException {
-
+		
+		PowerMockito.when(DMaaPAuthenticatorImpl.isIgnoreAuth()).thenReturn(true);
 		Assert.assertNotNull(topicService);
-
 		PowerMockito.mockStatic(PropertiesMapBean.class);
 
 		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "enforced.topic.name.AAF"))
@@ -150,7 +150,6 @@ public class TopicServiceImplTest {
 
 		TopicBean topicBean = new TopicBean();
 		topicBean.setTopicName("enfTopicNamePlusExtra");
-
 		topicService.createTopic(dmaapContext, topicBean);
 	}
 
@@ -201,7 +200,8 @@ public class TopicServiceImplTest {
 	@Test(expected = DMaaPAccessDeniedException.class)
 	public void testCreateTopicNoUserInContextAndNoAuthHeader()
 			throws DMaaPAccessDeniedException, CambriaApiException, IOException, TopicExistsException {
-
+		
+		PowerMockito.when(DMaaPAuthenticatorImpl.isIgnoreAuth()).thenReturn(true);
 		Assert.assertNotNull(topicService);
 
 		PowerMockito.mockStatic(PropertiesMapBean.class);
@@ -218,14 +218,14 @@ public class TopicServiceImplTest {
 
 		TopicBean topicBean = new TopicBean();
 		topicBean.setTopicName("enfTopicNamePlusExtra");
-
 		topicService.createTopic(dmaapContext, topicBean);
 	}
 
 	@Test(expected = DMaaPAccessDeniedException.class)
 	public void testCreateTopicNoUserInContextAndAuthHeaderAndPermitted()
 			throws DMaaPAccessDeniedException, CambriaApiException, IOException, TopicExistsException {
-
+		
+		PowerMockito.when(DMaaPAuthenticatorImpl.isIgnoreAuth()).thenReturn(true);
 		Assert.assertNotNull(topicService);
 
 		PowerMockito.mockStatic(PropertiesMapBean.class);
@@ -245,7 +245,6 @@ public class TopicServiceImplTest {
 
 		TopicBean topicBean = new TopicBean();
 		topicBean.setTopicName("enfTopicNamePlusExtra");
-
 		topicService.createTopic(dmaapContext, topicBean);
 	}
 

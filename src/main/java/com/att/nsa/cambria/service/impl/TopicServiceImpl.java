@@ -195,7 +195,7 @@ public class TopicServiceImpl implements TopicService {
 		String key = null;
 		String appName=dmaapContext.getRequest().getHeader("AppName");
 		String enfTopicName= com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,"enforced.topic.name.AAF");
-	
+	    if(DMaaPAuthenticatorImpl.isIgnoreAuth()){
 		if(user != null)
 		{
 			key = user.getKey();
@@ -266,6 +266,7 @@ public class TopicServiceImpl implements TopicService {
 				
 			}
 		}
+	    }
 
 		try {
 			final String topicName = topicBean.getTopicName();
@@ -315,7 +316,8 @@ public class TopicServiceImpl implements TopicService {
 			LOGGER.info("Authenticating the user, as ACL authentication is not provided");
 //			String permission = "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
 			String permission = "";
-			String nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
+			String nameSpace="";
+			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
 			 String mrFactoryVal=AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"msgRtr.topicfactory.aaf");
 //			String tokens[] = topicName.split(".mr.topic.");
 			permission = mrFactoryVal+nameSpace+"|destroy";
