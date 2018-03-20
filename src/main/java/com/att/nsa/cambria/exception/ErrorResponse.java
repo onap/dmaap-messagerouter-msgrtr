@@ -51,7 +51,7 @@ public class ErrorResponse {
 		this.httpStatusCode = httpStatusCode;
 		this.mrErrorCode = mrErrorCode;
 		this.errorMessage = errorMessage;
-		this.helpURL = "https://wiki.web.att.com/display/DMAAP/DMaaP+Home";
+		this.helpURL = "http://onap.readthedocs.io";
 		this.statusTs = statusTs;
 		this.topic = topic;
 		this.publisherId = publisherId;
@@ -66,7 +66,7 @@ public class ErrorResponse {
 		this.httpStatusCode = httpStatusCode;
 		this.mrErrorCode = mrErrorCode;
 		this.errorMessage = errorMessage;
-		this.helpURL = "https://wiki.web.att.com/display/DMAAP/DMaaP+Home";
+		this.helpURL = "http://onap.readthedocs.io";
 		
 	}
 	
