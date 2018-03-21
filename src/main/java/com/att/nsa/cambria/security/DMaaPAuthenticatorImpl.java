@@ -132,9 +132,5 @@ public class DMaaPAuthenticatorImpl<K extends NsaApiKey> implements DMaaPAuthent
 		this.fAuthenticators.add(a);
 	}
 	
-	public static boolean isIgnoreAuth(){
-		return (System.getenv("ignoreAuth")!=null) ? Boolean.valueOf(System.getenv("ignoreAuth")):(System.getProperty("ignoreAuth")!=null? Boolean.valueOf(System.getProperty("ignoreAuth")):false );
-		
-	}
 
 }

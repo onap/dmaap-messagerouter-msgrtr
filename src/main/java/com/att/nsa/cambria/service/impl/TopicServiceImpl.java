@@ -195,7 +195,6 @@ public class TopicServiceImpl implements TopicService {
 		String key = null;
 		String appName=dmaapContext.getRequest().getHeader("AppName");
 		String enfTopicName= com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,"enforced.topic.name.AAF");
-	    if(DMaaPAuthenticatorImpl.isIgnoreAuth()){
 		if(user != null)
 		{
 			key = user.getKey();
@@ -214,7 +213,7 @@ public class TopicServiceImpl implements TopicService {
 		}
 				
 		//else if (user==null && (null==dmaapContext.getRequest().getHeader("Authorization") && null == dmaapContext.getRequest().getHeader("cookie")) ) {
-			else if (user == null &&  null==dmaapContext.getRequest().getHeader("Authorization")     && 
+			/*else if (user == null &&  null==dmaapContext.getRequest().getHeader("Authorization")     && 
 					 (null == appName  &&  null == dmaapContext.getRequest().getHeader("cookie"))) {
 			LOGGER.error("Failed to create topic"+topicBean.getTopicName()+", Authentication failed.");
 			
@@ -223,7 +222,7 @@ public class TopicServiceImpl implements TopicService {
 					errorMessages.getCreateTopicFail()+" "+errorMessages.getNotPermitted1()+" create "+errorMessages.getNotPermitted2());
 			LOGGER.info(errRes.toString());
 			throw new DMaaPAccessDeniedException(errRes);
-		}
+		}*/
 		
 		if (user == null &&  (null!=dmaapContext.getRequest().getHeader("Authorization") ||
 					 null != dmaapContext.getRequest().getHeader("cookie"))) {
@@ -266,7 +265,6 @@ public class TopicServiceImpl implements TopicService {
 				
 			}
 		}
-	    }
 
 		try {
 			final String topicName = topicBean.getTopicName();

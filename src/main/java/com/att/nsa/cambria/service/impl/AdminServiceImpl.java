@@ -161,7 +161,7 @@ public class AdminServiceImpl implements AdminService {
 	{
 		
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dMaaPContext);
-		if ( (!DMaaPAuthenticatorImpl.isIgnoreAuth())&&(user == null || !user.getKey ().equals ( "admin" )) )
+		if ( (user == null || !user.getKey ().equals ( "admin" )) )
 		{
 			throw new AccessDeniedException ();
 		}
