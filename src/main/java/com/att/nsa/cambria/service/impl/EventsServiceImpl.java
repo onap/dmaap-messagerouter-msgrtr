@@ -535,7 +535,7 @@ public class EventsServiceImpl implements EventsService {
 		// start processing, building a batch to push to the backend
 		final long startMs = System.currentTimeMillis();
 		long count = 0;
-		long maxEventBatch =  1024 * 16;
+		long maxEventBatch =  (long)1024 * 16;
 		String evenlen = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,BATCH_LENGTH);
 			if(null!=evenlen)maxEventBatch=Long.parseLong(evenlen);
 		//final long maxEventBatch = ctx.getConfigReader().getSettings().getLong(BATCH_LENGTH, 1024 * 16);
