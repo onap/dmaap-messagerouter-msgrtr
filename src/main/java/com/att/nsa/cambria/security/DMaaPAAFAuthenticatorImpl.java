@@ -62,7 +62,7 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 		
 		String permission = "";
 		String nameSpace ="";
-		if(topicName.contains(".") && (topicName.contains("com.att")||topicName.contains("org"))) {
+		if(topicName.contains(".") && (topicName.contains("com.onap")||topicName.contains("org"))) {
 			//String topic = topicName.substring(topicName.lastIndexOf(".")+1);
 			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
 		}
@@ -70,7 +70,7 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 			nameSpace = null;
 			 nameSpace= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"defaultNSforUEB");
 			
-			if(null==nameSpace)nameSpace="com.att.dmaap.mr.ueb";
+			if(null==nameSpace)nameSpace="com.onap.dmaap.mr.ueb";
 			
 			
 			/*ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
