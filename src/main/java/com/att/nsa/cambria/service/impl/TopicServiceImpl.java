@@ -224,8 +224,7 @@ public class TopicServiceImpl implements TopicService {
 			throw new DMaaPAccessDeniedException(errRes);
 		}*/
 		
-		if (user == null &&  (null!=dmaapContext.getRequest().getHeader("Authorization") ||
-					 null != dmaapContext.getRequest().getHeader("cookie"))) {
+		if (user == null &&  (null!=dmaapContext.getRequest().getHeader("Authorization"))) {
 			//if (user == null && (null!=dmaapContext.getRequest().getHeader("Authorization") || null != dmaapContext.getRequest().getHeader("cookie"))) {
 			 // ACL authentication is not provided so we will use the aaf authentication
 			LOGGER.info("Authorization the topic");
