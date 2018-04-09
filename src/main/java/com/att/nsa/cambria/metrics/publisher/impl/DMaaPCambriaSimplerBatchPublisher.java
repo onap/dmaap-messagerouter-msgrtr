@@ -190,7 +190,8 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 						+ "Consider using CambriaBatchingPublisher.close( long timeout, TimeUnit timeoutUnits ) to recapture unsent messages on close.");
 			}
 		} catch (InterruptedException e) {
-			getLog().warn("Possible message loss. " + e.getMessage(), e);
+			getLog().info(" Interruption Exception is caught here : " + e.getMessage());
+			Thread.currentThread().interrupt();
 		} catch (IOException e) {
 			getLog().warn("Possible message loss. " + e.getMessage(), e);
 		}
