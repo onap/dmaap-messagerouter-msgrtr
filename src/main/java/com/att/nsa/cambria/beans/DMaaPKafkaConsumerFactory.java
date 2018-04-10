@@ -187,7 +187,7 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 						"			String consumerId, int timeoutMs) : " + x);
 				throw new UnavailableException("Couldn't connect to ZK.");
 			} catch (KafkaConsumerCacheException e) {
-				log.warn("Failed to cache consumer (this may have performance implications): "
+				log.error("Failed to cache consumer (this may have performance implications): "
 						+ e.getMessage());
 			} catch (Exception e) {
 				throw new UnavailableException(
