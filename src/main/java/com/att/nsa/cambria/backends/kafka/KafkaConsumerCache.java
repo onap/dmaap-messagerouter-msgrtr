@@ -268,6 +268,7 @@ public class KafkaConsumerCache {
 			} catch (InterruptedException e) {
 				// Ignore
 				log.error("error while setting curator framework :" + e.getMessage());
+				Thread.currentThread().interrupt();
 			}
 		}
 
