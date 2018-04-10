@@ -403,7 +403,7 @@ public class KafkaConsumerCache {
 		} catch (NoNodeException e) {
 			log.error("Exception at : " + e);
 		} catch (Exception e) {
-			log.debug("Unexpected exception while deleting consumer: " + e.getMessage());
+			log.error("Unexpected exception while deleting consumer: " + e);
 		}
 
 		log.info("Dropped " + key + " consumer due to timeout");
