@@ -105,7 +105,7 @@ public class ContentLengthFilter implements Filter {
 				chain.doFilter(req, res);
 			}
 		} catch (CambriaApiException | NumberFormatException e) {
-			log.error("message size is greater then default");
+			log.error("message size is greater then default:" + e);
 			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_EXPECTATION_FAILED,
 					DMaaPResponseCode.MSG_SIZE_EXCEEDS_MSG_LIMIT.getResponseCode(), errorMessages.getMsgSizeExceeds()
 							+ jsonObj.toString());
