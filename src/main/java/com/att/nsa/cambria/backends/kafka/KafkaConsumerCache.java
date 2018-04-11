@@ -522,6 +522,7 @@ public class KafkaConsumerCache {
 			try {
 				curator.setData().forPath(consumerPath, fApiId.getBytes());
 			} catch (KeeperException.NoNodeException e) {
+				log.error(e.toString());
 				curator.create().creatingParentsIfNeeded().forPath(consumerPath, fApiId.getBytes());
 			}
 
