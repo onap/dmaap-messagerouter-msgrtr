@@ -142,7 +142,8 @@ public class DMaaPCambriaLimiter {
 					log.info(ri.getLabel() + ": " + "No sleep configured, just throwing error.");
 				}
 			} catch (InterruptedException e) {
-				// ignore
+				log.error(e.toString());
+				Thread.currentThread().interrupt();
 			}
 			ErrorResponse errRes = new ErrorResponse(HttpStatusCodes.k429_tooManyRequests, 
 					DMaaPResponseCode.TOO_MANY_REQUESTS.getResponseCode(), 
