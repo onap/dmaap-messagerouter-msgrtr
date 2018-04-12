@@ -542,7 +542,8 @@ public class KafkaConsumerCache {
 					Thread.sleep(kSetting_ConsumerHandoverWaitMs);
 			//Thread.sleep(fSettings.getInt(kSetting_ConsumerHandoverWaitMs, kDefault_ConsumerHandoverWaitMs));
 		} catch (InterruptedException e) {
-			// Ignore
+			log.error(e.toString());
+			Thread.currentThread().interrupt();
 		}
 	}
 
