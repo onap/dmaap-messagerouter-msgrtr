@@ -22,6 +22,7 @@
 package com.att.nsa.cambria.resources.streamReaders;
 
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,14 +35,17 @@ import com.att.nsa.cambria.backends.Publisher.message;
 import com.att.nsa.cambria.beans.LogDetails;
 import com.att.nsa.cambria.resources.CambriaEventSet.reader;
 
+import jline.internal.Log;
+
 /**
  * 
  * @author author
  *
  */
 public class CambriaJsonStreamReader implements reader {
+	private static final Logger LOG = Logger.getLogger(CambriaJsonStreamReader.class.toString());
 	private final JSONTokener fTokens;
-	private final boolean fIsList;
+	private final boolean fIsList;		
 	private long fCount;
 	private final String fDefPart;
 	public static final String kKeyField = "cambria.partition";
@@ -109,6 +113,7 @@ public class CambriaJsonStreamReader implements reader {
 			fCount++;
 			return new msg(o);
 		} catch (JSONException e) {
+			Log.error(e.toString());
 			throw new CambriaApiException(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 
 		}
