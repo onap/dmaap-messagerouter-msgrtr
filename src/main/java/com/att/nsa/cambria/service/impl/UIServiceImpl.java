@@ -115,7 +115,7 @@ public class UIServiceImpl implements UIService {
 			DMaaPResponseBuilder.respondOk(dmaapContext, key.asJsonObject());
 		} else {
 			LOGGER.info("Details of apikey [" + apiKey + "] not found. Returning response");
-			throw new Exception("Key [" + apiKey + "] not found.");
+			throw new IOException("Key [" + apiKey + "] not found.");
 		}
 
 	}
