@@ -235,6 +235,7 @@ public class MMServiceImpl implements MMService {
 
 			throw excp;
 		} catch (Exception excp) {
+			LOG.error(excp.toString());
 
 			ctx.getConfigReader().getfConsumerFactory().destroyConsumer(topic, consumerGroup, clientId);
 
