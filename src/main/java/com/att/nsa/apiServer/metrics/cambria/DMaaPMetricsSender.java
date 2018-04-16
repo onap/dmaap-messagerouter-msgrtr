@@ -145,7 +145,7 @@ public class DMaaPMetricsSender implements Runnable {
 			fCambria = DMaaPCambriaClientFactory.createSimplePublisher(cambriaBaseUrl, topic);
 		} catch (UnknownHostException e) {
 			log.warn("Unable to get localhost address in MetricsSender constructor.", e);
-			throw new RuntimeException(e);
+			throw new IllegalArgumentException(e);
 		}
 	}
 
