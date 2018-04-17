@@ -53,7 +53,7 @@ public class CambriaPublisherUtility
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			throw new RuntimeException ( e );
+			throw new AssertionError ( e );
 		}
 	}
 /**
