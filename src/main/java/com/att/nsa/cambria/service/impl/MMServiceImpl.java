@@ -223,7 +223,7 @@ public class MMServiceImpl implements MMService {
 			metricsSet.consumeTick(sent);
 
 		} catch (UnavailableException excp) {
-
+			LOG.error(excp.toString());
 			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_SERVICE_UNAVAILABLE,
 					DMaaPResponseCode.SERVER_UNAVAILABLE.getResponseCode(),
 					errorMessages.getServerUnav() + excp.getMessage(), null, Utils.getFormattedDate(new Date()), topic,
