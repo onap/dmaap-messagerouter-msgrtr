@@ -72,6 +72,7 @@ public class CambriaJsonStreamReader implements reader {
 				throw new CambriaApiException(HttpServletResponse.SC_BAD_REQUEST, "Expecting an array or an object.");
 			}
 		} catch (JSONException e) {
+			Log.error(e);
 			throw new CambriaApiException(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 		}
 	}
