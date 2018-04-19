@@ -242,7 +242,7 @@ public class DMaaPCambriaClientFactory {
 			return new DMaaPCambriaConsumerImpl(hostSet, topic, consumerGroup,
 					consumerId, timeoutMs, limit, filter, apiKey, apiSecret);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			throw new NumberFormatException(e.toString());
 		}
 	}
 
