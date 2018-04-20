@@ -314,7 +314,9 @@ public class TopicServiceImpl implements TopicService {
 //			String permission = "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
 			String permission = "";
 			String nameSpace="";
+			if(topicName.indexOf(".")>1){
 			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
+			}
 			 String mrFactoryVal=AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"msgRtr.topicfactory.aaf");
 //			String tokens[] = topicName.split(".mr.topic.");
 			permission = mrFactoryVal+nameSpace+"|destroy";

@@ -21,17 +21,12 @@
  *******************************************************************************/
 package com.att.nsa.cambria.security;
 
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.HttpStatus;
 
 import com.att.nsa.cambria.CambriaApiException;
 import com.att.nsa.cambria.constants.CambriaConstants;
-import com.att.nsa.cambria.exception.DMaaPResponseCode;
-import com.att.nsa.cambria.exception.ErrorResponse;
-import com.att.nsa.cambria.utils.Utils;
 
 
 /**
@@ -60,28 +55,9 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 	public String aafPermissionString(String topicName, String action) throws CambriaApiException {
 		
 		
-		String permission = "";
-		String nameSpace ="";
-		if(topicName.contains(".") && (topicName.contains("com.onap")||topicName.contains("org"))) {
-			//String topic = topicName.substring(topicName.lastIndexOf(".")+1);
-			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
-		}
-		else {
-			nameSpace = null;
-			 nameSpace= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"defaultNSforUEB");
-			
-			if(null==nameSpace)nameSpace="com.onap.dmaap.mr.ueb";
-			
-			
-			/*ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
-					DMaaPResponseCode.TOPIC_NOT_IN_AAF.getResponseCode(), "Topic does not exist in AAF"
-							, null, Utils.getFormattedDate(new Date()), topicName,
-					null, null, null, null);
-					
-			throw new CambriaApiException(errRes);*/
-		}
-		
-		permission = nameSpace+".mr.topic|:topic."+topicName+"|"+action;
+		String mrNameS = com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,
+				"msgRtr.namespace.aaf");
+		String permission = mrNameS+"|:topic."+topicName+"|"+action;
 		return permission;
 		
 	}
