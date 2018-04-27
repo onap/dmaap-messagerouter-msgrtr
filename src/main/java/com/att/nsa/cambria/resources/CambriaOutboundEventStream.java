@@ -44,6 +44,8 @@ import com.att.nsa.cambria.metabroker.Topic;
 import com.att.nsa.cambria.utils.DMaaPResponseBuilder.StreamWriter;
 import com.att.nsa.cambria.utils.Utils;
 
+import jline.internal.Log;
+
 
 /**
  * class used to write the consumed messages
@@ -327,7 +329,8 @@ public class CambriaOutboundEventStream implements StreamWriter {
 					// FIXME: would be good to wait/signal
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// ignore
+					Log.error(e.toString());
+				Thread.currentThread().interrupt();	
 				}
 			}
 		});

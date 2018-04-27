@@ -25,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,6 +33,8 @@ import com.att.nsa.cambria.CambriaApiException;
 import com.att.nsa.cambria.backends.Publisher.message;
 import com.att.nsa.cambria.beans.LogDetails;
 import com.att.nsa.cambria.resources.CambriaEventSet.reader;
+
+import jline.internal.Log;
 
 /**
  * This stream reader just pulls single lines. It uses the default partition if provided. If
@@ -42,6 +45,7 @@ import com.att.nsa.cambria.resources.CambriaEventSet.reader;
  */
 public class CambriaTextStreamReader implements reader
 {
+	private Logger log = Logger.getLogger(CambriaTextStreamReader.class.toString());
 	/**
 	 * This is the constructor for Cambria Text Reader format
 	 * @param is
@@ -131,6 +135,7 @@ public class CambriaTextStreamReader implements reader
 		}
 		catch ( IOException e )
 		{
+			Log.error(e);
 			throw new CambriaApiException ( HttpServletResponse.SC_BAD_REQUEST, e.getMessage () );
 		}
 	}
