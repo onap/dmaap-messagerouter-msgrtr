@@ -87,7 +87,7 @@ public class DMaaPMetricsSender implements Runnable {
 			if(Setting_CambriaTopic==null) {
 				Setting_CambriaTopic = "msgrtr.apinode.metrics.dmaap";   
 				}
-			//		Setting_CambriaBaseUrl=Setting_CambriaBaseUrl==null?defaultTopic:Setting_CambriaBaseUrl;
+			
 			
 			String Setting_CambriaSendFreqSecs=com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaSendFreqSecs);
 			
