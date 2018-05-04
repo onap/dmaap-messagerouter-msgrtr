@@ -99,10 +99,7 @@ public class DMaaPMetricsSender implements Runnable {
 			return DMaaPMetricsSender.sendPeriodically(scheduler, metrics,
 					Setting_CambriaBaseUrl,Setting_CambriaTopic,_CambriaSendFreqSecs
 				);
-			/*return DMaaPMetricsSender.sendPeriodically(scheduler, metrics,
-					settings.getString(kSetting_CambriaBaseUrl, "localhost"),
-					settings.getString(kSetting_CambriaTopic, defaultTopic),
-					settings.getInt(kSetting_CambriaSendFreqSecs, 30));*/
+			
 		} else {
 			return null;
 		}
