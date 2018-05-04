@@ -239,7 +239,9 @@ public class KafkaConsumerCache {
 			//final long freq = fSettings.getLong(kSetting_SweepEverySeconds, kDefault_SweepEverySeconds);
 			long freq = kDefault_SweepEverySeconds;
 			String strkSetting_SweepEverySeconds = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_SweepEverySeconds);
-			if(null==strkSetting_SweepEverySeconds) strkSetting_SweepEverySeconds = kDefault_SweepEverySeconds+"";
+			if(null==strkSetting_SweepEverySeconds) {
+				strkSetting_SweepEverySeconds = kDefault_SweepEverySeconds+"";
+			}
 			
 			  freq = Long.parseLong(strkSetting_SweepEverySeconds);
 					
