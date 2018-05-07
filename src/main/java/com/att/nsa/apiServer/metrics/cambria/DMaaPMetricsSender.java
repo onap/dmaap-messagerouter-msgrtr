@@ -40,7 +40,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.cambria.constants.CambriaConstants;
 import com.att.nsa.cambria.metrics.publisher.CambriaPublisher;
 import com.att.nsa.cambria.metrics.publisher.DMaaPCambriaClientFactory;
-import com.att.nsa.drumlin.till.nv.rrNvReadable;
+
 import com.att.nsa.metrics.CdmMetricsRegistry;
 import com.att.nsa.metrics.impl.CdmConstant;
 
