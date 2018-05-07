@@ -77,7 +77,6 @@ public class DMaaPMetricsSender implements Runnable {
 	boolean setEnable=true;
 	if (cambriaSetting!=null && cambriaSetting.equals("false") )
 	setEnable= false;
-	//System.out.println(setEnable+"XXXXXXXXXXXXXXXX");
 		if (setEnable) {
 			String Setting_CambriaBaseUrl=com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaEnabled);
 			
