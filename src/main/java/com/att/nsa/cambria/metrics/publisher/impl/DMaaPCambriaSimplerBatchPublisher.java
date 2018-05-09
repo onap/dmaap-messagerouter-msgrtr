@@ -122,7 +122,7 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 			try {
 				return new DMaaPCambriaSimplerBatchPublisher(fUrls, fTopic, fMaxBatchSize, fMaxBatchAgeMs, fCompress);
 			} catch (MalformedURLException e) {
-				throw new RuntimeException(e);
+				throw new IllegalArgumentException(e);
 			}
 		}
 
