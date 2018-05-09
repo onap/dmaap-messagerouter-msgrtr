@@ -539,8 +539,9 @@ public class KafkaConsumerCache {
 		try {
 			int kSetting_ConsumerHandoverWaitMs = kDefault_ConsumerHandoverWaitMs;
 			String strkSetting_ConsumerHandoverWaitMs= AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_ConsumerHandoverWaitMs+"");
-			if(strkSetting_ConsumerHandoverWaitMs!=null) kSetting_ConsumerHandoverWaitMs = Integer.parseInt(strkSetting_ConsumerHandoverWaitMs);
-			
+			if(strkSetting_ConsumerHandoverWaitMs!=null) {
+				kSetting_ConsumerHandoverWaitMs = Integer.parseInt(strkSetting_ConsumerHandoverWaitMs);
+			}
 					Thread.sleep(kSetting_ConsumerHandoverWaitMs);
 			//Thread.sleep(fSettings.getInt(kSetting_ConsumerHandoverWaitMs, kDefault_ConsumerHandoverWaitMs));
 		} catch (InterruptedException e) {
