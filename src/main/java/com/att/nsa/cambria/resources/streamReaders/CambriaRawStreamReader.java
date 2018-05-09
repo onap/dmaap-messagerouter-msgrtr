@@ -130,7 +130,7 @@ public class CambriaRawStreamReader implements reader
 		}
 		catch ( IOException e )
 		{
-			throw new CambriaApiException ( HttpServletResponse.SC_BAD_REQUEST, e.getMessage () );
+			throw new CambriaApiException ( HttpServletResponse.SC_BAD_REQUEST, e.toString());
 		}
 	}
 	
