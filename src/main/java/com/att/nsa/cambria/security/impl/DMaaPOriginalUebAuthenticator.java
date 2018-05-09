@@ -34,6 +34,8 @@ import com.att.nsa.drumlin.till.data.sha1HmacSigner;
 import com.att.nsa.security.NsaApiKey;
 import com.att.nsa.security.db.NsaApiDb;
 
+import jline.internal.Log;
+
 /**
  * This authenticator handles an AWS-like authentication, originally used by the
  * Cambria server (the API server for UEB).
@@ -139,6 +141,7 @@ public class DMaaPOriginalUebAuthenticator<K extends NsaApiKey> implements DMaaP
 				return null;
 			}
 		} catch (ConfigDbException e) {
+			Log.error(e);
 			authLog("Couldn't load API key " + clientApiKey + ": " + e.getMessage(), remoteAddr);
 			return null;
 		}
