@@ -163,7 +163,9 @@ public class TopicServiceImpl implements TopicService {
 		if (null!=t.getOwners ())
 		o.put ( "owner", t.getOwners ().iterator ().next () );
 		if(null!=t.getReaderAcl ())
-		o.put ( "readerAcl", aclToJson ( t.getReaderAcl () ) );
+		{
+			o.put ( "readerAcl", aclToJson ( t.getReaderAcl () ) );
+		}
 		if(null!=t.getWriterAcl ())
 		o.put ( "writerAcl", aclToJson ( t.getWriterAcl () ) );
 	

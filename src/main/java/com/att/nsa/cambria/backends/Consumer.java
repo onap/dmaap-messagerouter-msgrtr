@@ -75,7 +75,7 @@ public interface Consumer
 	 * @param atOffset start with the next message at or after atOffset. -1 means next from last request
 	 * @return the next message, or null if none are waiting
 	 */
-//	Message nextMessage ( long atOffset );
+
 
 	/**
 	 * Close/clean up this consumer

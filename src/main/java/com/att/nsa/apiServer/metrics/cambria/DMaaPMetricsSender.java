@@ -40,7 +40,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.cambria.constants.CambriaConstants;
 import com.att.nsa.cambria.metrics.publisher.CambriaPublisher;
 import com.att.nsa.cambria.metrics.publisher.DMaaPCambriaClientFactory;
-import com.att.nsa.drumlin.till.nv.rrNvReadable;
+
 import com.att.nsa.metrics.CdmMetricsRegistry;
 import com.att.nsa.metrics.impl.CdmConstant;
 
@@ -83,9 +83,10 @@ public class DMaaPMetricsSender implements Runnable {
 			Setting_CambriaBaseUrl=Setting_CambriaBaseUrl==null?"localhost":Setting_CambriaBaseUrl;
 			
 			String Setting_CambriaTopic=com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaTopic);
-			if(Setting_CambriaTopic==null) Setting_CambriaTopic = "msgrtr.apinode.metrics.dmaap";     
+			if(Setting_CambriaTopic==null) {
+				Setting_CambriaTopic = "msgrtr.apinode.metrics.dmaap";   
+				}
 			
-	//		Setting_CambriaBaseUrl=Setting_CambriaBaseUrl==null?defaultTopic:Setting_CambriaBaseUrl;
 			
 			String Setting_CambriaSendFreqSecs=com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaSendFreqSecs);
 			
