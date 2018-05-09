@@ -179,7 +179,7 @@ public class DMaaPMetricsSender implements Runnable {
 	private final CambriaPublisher fCambria;
 	private final String fHostname;
 
-	//private static final Logger log = LoggerFactory.getLogger(MetricsSender.class);
+
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(MetricsSender.class);
 	/**
