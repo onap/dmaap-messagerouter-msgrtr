@@ -46,7 +46,7 @@ import org.apache.curator.utils.ZKPaths;
 import org.apache.http.annotation.NotThreadSafe;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.NoNodeException;
-//import org.slf4j.Logger;
+
 //import org.slf4j.LoggerFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
