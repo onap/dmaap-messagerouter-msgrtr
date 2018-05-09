@@ -111,7 +111,10 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 			//	kSetting_EnableCache, kDefault_IsCacheEnabled);
 		boolean kSetting_EnableCache= kDefault_IsCacheEnabled;
 		String strkSetting_EnableCache = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_EnableCache+"");
-		if(null!=strkSetting_EnableCache)kSetting_EnableCache=Boolean.parseBoolean(strkSetting_EnableCache);
+		if(null!=strkSetting_EnableCache)
+			{
+				kSetting_EnableCache=Boolean.parseBoolean(strkSetting_EnableCache);
+			}
 			
 				final boolean isCacheEnabled = kSetting_EnableCache;
 				
