@@ -355,7 +355,7 @@ public class MMServiceImpl implements MMService {
 		final long startMs = System.currentTimeMillis();
 		long count = 0;
 
-		long maxEventBatch = 1024 * 16;
+		long maxEventBatch = (long)1024 * 16;
 		String batchlen = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, BATCH_LENGTH);
 		if (null != batchlen)
 			maxEventBatch = Long.parseLong(batchlen);
