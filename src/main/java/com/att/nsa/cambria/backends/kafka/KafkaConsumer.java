@@ -30,7 +30,7 @@ import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.message.MessageAndMetadata;
 
-//import org.slf4j.Logger;
+
 //import org.slf4j.LoggerFactory;
 
 import com.att.eelf.configuration.EELFLogger;
