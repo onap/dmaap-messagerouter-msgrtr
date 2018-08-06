@@ -70,7 +70,7 @@ public class DMaaPMetricsSender implements Runnable {
 	 * @param defaultTopic
 	 * @return a handle to the scheduled task
 	 */
-	public static ScheduledFuture<?> sendPeriodically(ScheduledExecutorService scheduler, CdmMetricsRegistry metrics,
+	public static ScheduledFuture sendPeriodically(ScheduledExecutorService scheduler, CdmMetricsRegistry metrics,
 			 String defaultTopic) {
 		log.info("Inside : DMaaPMetricsSender : sendPeriodically");
 	String	cambriaSetting= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaEnabled);
