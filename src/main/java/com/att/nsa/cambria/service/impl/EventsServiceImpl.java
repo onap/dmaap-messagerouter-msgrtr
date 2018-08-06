@@ -93,7 +93,7 @@ public class EventsServiceImpl implements EventsService {
 	private DMaaPErrorMessages errorMessages;
 
 	//@Value("${metrics.send.cambria.topic}")
-	//private String metricsTopic;
+	
 	
 	public void setErrorMessages(DMaaPErrorMessages errorMessages) {
 		this.errorMessages = errorMessages;
