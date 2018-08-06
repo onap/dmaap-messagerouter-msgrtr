@@ -145,7 +145,7 @@ public class EventsServiceImpl implements EventsService {
 		int timeoutMs= CambriaConstants.kNoTimeout;
 		String strtimeoutMS = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"timeout");
 		if(strtimeoutMS!=null)timeoutMs=Integer.parseInt(strtimeoutMS);
-		//int timeoutMs = ctx.getConfigReader().getSettings().getInt("timeout", CambriaConstants.kNoTimeout);
+		
 		if (req.getParameter("timeout") != null) {
 			timeoutMs = Integer.parseInt(req.getParameter("timeout"));
 		}
