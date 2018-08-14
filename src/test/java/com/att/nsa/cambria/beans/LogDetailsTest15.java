@@ -27,6 +27,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.beans.LogDetails;
+
 public class LogDetailsTest15 {
 
 	@Before

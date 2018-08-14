@@ -22,6 +22,7 @@ package com.att.nsa.cambria.metabroker;
 
 import java.util.Set;
 
+import com.att.dmf.mr.metabroker.Topic;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.security.NsaAcl;
 import com.att.nsa.security.NsaApiKey;

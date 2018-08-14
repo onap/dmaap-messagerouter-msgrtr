@@ -26,7 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.transaction.TransactionObj;
+import com.att.dmf.mr.transaction.TransactionObj;
 
 public class TransactionObjTest {
 

@@ -22,23 +22,57 @@ package com.att.nsa.cambria.backends.kafka;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.curator.framework.CuratorFramework;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
-import com.att.nsa.cambria.backends.MetricsSet;
-import com.att.nsa.cambria.backends.kafka.KafkaConsumerCache.KafkaConsumerCacheException;
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 
+import com.att.dmf.mr.backends.MetricsSet;
+import com.att.dmf.mr.backends.kafka.Kafka011Consumer;
+import com.att.dmf.mr.backends.kafka.KafkaConsumerCache;
+import com.att.dmf.mr.backends.kafka.KafkaConsumerCache.KafkaConsumerCacheException;
+import com.att.dmf.mr.constants.CambriaConstants;
+import com.att.dmf.mr.security.DMaaPAuthenticatorImpl;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ AJSCPropertiesMap.class })
 public class KafkaConsumerCacheTest {
+	private KafkaConsumerCache kafkaConsumerCache =null;
+	@Mock
+	private ConcurrentHashMap<String, Kafka011Consumer> fConsumers;
+	@Mock
+	private MetricsSet fMetrics;
 
 	@Before
 	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
+
+
+	@Test
+	public void testSweep() {
+		kafkaConsumerCache = new KafkaConsumerCache();
+		PowerMockito.mockStatic(AJSCPropertiesMap.class);
+		PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, "kSetting_TouchEveryMs")).thenReturn("100");
+		kafkaConsumerCache.sweep();
+
+	}
+	
 
 	// DOES NOT WORK
 	@Test
@@ -55,11 +89,13 @@ public class KafkaConsumerCacheTest {
 		 * e1) { // TODO Auto-generated catch block e1.printStackTrace(); } }
 		 */
 
-		KafkaConsumerCache kafka = null;
+		
 		new CuratorFrameworkImpl();
 		new MetricsSetImpl();
+		KafkaConsumerCache kafka=null;
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
+			kafka.setfApiId("1");
 			kafka.startCache("DMAAP", null);
 		} catch (NoClassDefFoundError e) {
 
@@ -84,20 +120,17 @@ public class KafkaConsumerCacheTest {
 
 	}
 
-	/*@Test
-	public void testStopCache() {
-
-		KafkaConsumerCache kafka = null;
-		new CuratorFrameworkImpl();
-		new MetricsSetImpl();
-		try {
-			kafka = new KafkaConsumerCache("123", null);
-			kafka.stopCache();
-		} catch (NoClassDefFoundError e) {
-
-		}
-
-	}*/
+	/*
+	 * @Test public void testStopCache() {
+	 * 
+	 * KafkaConsumerCache kafka = null; new CuratorFrameworkImpl(); new
+	 * MetricsSetImpl(); try { kafka = new KafkaConsumerCache("123", null);
+	 * kafka.stopCache(); } catch (NoClassDefFoundError e) {
+	 * 
+	 * }
+	 * 
+	 * }
+	 */
 
 	@Test
 	public void testGetConsumerFor() {
@@ -105,7 +138,7 @@ public class KafkaConsumerCacheTest {
 		KafkaConsumerCache kafka = null;
 
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
 			kafka.getConsumerFor("testTopic", "CG1", "23");
 		} catch (NoClassDefFoundError e) {
 
@@ -119,11 +152,11 @@ public class KafkaConsumerCacheTest {
 	@Test
 	public void testPutConsumerFor() {
 
-		KafkaConsumer consumer = null;
+		Kafka011Consumer consumer = null;
 		KafkaConsumerCache kafka = null;
 
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
 
 		} catch (NoClassDefFoundError e) {
 			try {
@@ -145,7 +178,7 @@ public class KafkaConsumerCacheTest {
 		KafkaConsumerCache kafka = null;
 
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
 
 		} catch (NoClassDefFoundError e) {
 			try {
@@ -163,7 +196,7 @@ public class KafkaConsumerCacheTest {
 
 		KafkaConsumerCache kafka = null;
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
 
 		} catch (NoClassDefFoundError e) {
 			try {
@@ -182,7 +215,7 @@ public class KafkaConsumerCacheTest {
 		KafkaConsumerCache kafka = null;
 
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
 			// kafka.signalOwnership("testTopic", "CG1", "23");
 		} catch (NoClassDefFoundError e) {
 			try {
@@ -192,13 +225,13 @@ public class KafkaConsumerCacheTest {
 				e.printStackTrace();
 			} catch (NullPointerException e1) {
 				// TODO Auto-generated catch block
-				//assertTrue(true);
+				// assertTrue(true);
 				e1.printStackTrace();
 			}
 
 		}
-		
-		//assertTrue(true);
+
+		// assertTrue(true);
 	}
 
 	@Test
@@ -207,7 +240,7 @@ public class KafkaConsumerCacheTest {
 		KafkaConsumerCache kafka = null;
 
 		try {
-			kafka = new KafkaConsumerCache("123", null);
+			kafka = new KafkaConsumerCache();
 			// kafka.dropConsumer("testTopic", "CG1", "23");
 		} catch (NoClassDefFoundError e) {
 			try {

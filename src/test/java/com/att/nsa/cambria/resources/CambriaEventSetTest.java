@@ -30,7 +30,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.CambriaApiException;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.resources.CambriaEventSet;
+import com.att.dmf.mr.resources.CambriaOutboundEventStream;
 
 
 public class CambriaEventSetTest {
@@ -54,14 +56,14 @@ public class CambriaEventSetTest {
 		InputStream stream = new ByteArrayInputStream(str.getBytes());
 		try {
 			event = new CambriaEventSet("application/cambria", stream, true, "hi");
-		} catch (CambriaApiException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
 			event.next();
-		} catch (CambriaApiException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

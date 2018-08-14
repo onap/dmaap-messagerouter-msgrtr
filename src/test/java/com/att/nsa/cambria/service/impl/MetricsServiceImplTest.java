@@ -29,8 +29,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.CambriaApiException;
-import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.service.impl.MetricsServiceImpl;
 
 public class MetricsServiceImplTest {
 

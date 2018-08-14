@@ -28,7 +28,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.metabroker.Broker.TopicExistsException;
+import com.att.dmf.mr.backends.memory.MemoryMetaBroker;
+import com.att.dmf.mr.metabroker.Broker.TopicExistsException;
 
 public class MemoryMetaBrokerTest {
 

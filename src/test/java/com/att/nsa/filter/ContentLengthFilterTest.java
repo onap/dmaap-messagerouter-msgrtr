@@ -29,6 +29,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.mr.filter.ContentLengthFilter;
+
 public class ContentLengthFilterTest {
 
 	@Before

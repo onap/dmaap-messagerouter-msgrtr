@@ -26,6 +26,10 @@ import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.Matchers.any;
+
+import java.util.Properties;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -33,36 +37,48 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.att.nsa.cambria.CambriaApiException;
-import com.att.nsa.cambria.metabroker.Broker.TopicExistsException;
+import com.att.dmf.mr.CambriaApiException;
+import org.apache.kafka.clients.admin.AdminClient;
+
+import com.att.dmf.mr.beans.DMaaPKafkaMetaBroker;
+import com.att.dmf.mr.constants.CambriaConstants;
+import com.att.dmf.mr.metabroker.Topic;
+import com.att.dmf.mr.metabroker.Broker1.TopicExistsException;
 import com.att.nsa.configs.ConfigDb;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.configs.ConfigPath;
 
-import kafka.admin.AdminUtils;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ AdminUtils.class, ZkClientFactory.class })
+@PrepareForTest({ AdminClient.class})
 public class DMaaPKafkaMetaBrokerTest {
 
 	@InjectMocks
 	private DMaaPKafkaMetaBroker dMaaPKafkaMetaBroker;
-
 	@Mock
-	private ZkClient zk;
+	private ZkClient fZk;
+	@Mock
+	private AdminClient fKafkaAdminClient;
+	@Mock
+	private AdminClient client;
 	@Mock
 	private ConfigDb configDb;
 	@Mock
 	ConfigPath fBaseTopicData;
 	@Mock
 	private ZkClient zkClient;
+	@Mock
+	Topic mockTopic;
 
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		PowerMockito.mockStatic(AdminUtils.class);
-		PowerMockito.mockStatic(ZkClientFactory.class);
+		PowerMockito.mockStatic(AdminClient.class);
+		//PowerMockito.when(AdminClient.create (any(Properties.class) )).thenReturn(fKafkaAdminClient);
+		
+		//PowerMockito.mockStatic(AdminUtils.class);
 		PowerMockito.when(configDb.parse("/topics")).thenReturn(fBaseTopicData);
+		
 
 	}
 
@@ -80,7 +96,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testcreateTopic() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenReturn(zkClient);
 			dMaaPKafkaMetaBroker.createTopic("testtopic", "testtopic", "admin", 1, 1, true);
 		} catch (CambriaApiException e) {
 			// TODO Auto-generated catch block
@@ -93,12 +108,12 @@ public class DMaaPKafkaMetaBrokerTest {
 		}
 
 	}
+	
 
 	@Test
 	public void testcreateTopic_wrongPartition() {
 		try {
 
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenReturn(zkClient);
 			dMaaPKafkaMetaBroker.createTopic("testtopic", "testtopic", "admin", 0, 1, true);
 		} catch (CambriaApiException e) {
 			assertTrue(true);
@@ -115,7 +130,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	public void testcreateTopic_wrongReplica() {
 		try {
 
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenReturn(zkClient);
 			dMaaPKafkaMetaBroker.createTopic("testtopic", "testtopic", "admin", 1, 0, true);
 		} catch (CambriaApiException e) {
 			assertTrue(true);
@@ -131,7 +145,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testcreateTopic_error1() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenThrow(new ZkNoNodeException());
 			dMaaPKafkaMetaBroker.createTopic("testtopic", "testtopic", "admin", 1, 1, true);
 		} catch (CambriaApiException e) {
 			assertTrue(true);
@@ -147,8 +160,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testcreateTopic_error2() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient())
-					.thenThrow(new kafka.admin.AdminOperationException("error"));
 			dMaaPKafkaMetaBroker.createTopic("testtopic", "testtopic", "admin", 1, 1, true);
 		} catch (CambriaApiException e) {
 			assertTrue(true);
@@ -163,7 +174,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testcreateTopic_error3() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenThrow(new kafka.common.TopicExistsException());
 			dMaaPKafkaMetaBroker.createTopic("testtopic", "testtopic", "admin", 1, 1, true);
 		} catch (CambriaApiException e) {
 			// TODO Auto-generated catch block
@@ -180,7 +190,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testDeleteTopic() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenReturn(zkClient);
 			dMaaPKafkaMetaBroker.deleteTopic("testtopic");
 		} catch (CambriaApiException e) {
 			// TODO Auto-generated catch block
@@ -198,7 +207,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testDeleteTopic_error1() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenThrow(new ZkNoNodeException());
 			dMaaPKafkaMetaBroker.deleteTopic("testtopic");
 		} catch (CambriaApiException e) {
 			assertTrue(true);
@@ -214,8 +222,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testDeleteTopic_error2() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient())
-					.thenThrow(new kafka.admin.AdminOperationException("error"));
 			dMaaPKafkaMetaBroker.deleteTopic("testtopic");
 		} catch (CambriaApiException e) {
 			assertTrue(true);
@@ -231,7 +237,6 @@ public class DMaaPKafkaMetaBrokerTest {
 	@Test
 	public void testDeleteTopic_error3() {
 		try {
-			PowerMockito.when(ZkClientFactory.createZkClient()).thenThrow(new kafka.common.TopicExistsException());
 			dMaaPKafkaMetaBroker.deleteTopic("testtopic");
 		} catch (CambriaApiException e) {
 			// TODO Auto-generated catch block

@@ -27,8 +27,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import com.att.aft.dme2.internal.jettison.json.JSONException;
-import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.cambria.transaction.TransactionObj;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.service.impl.TransactionServiceImpl;
+import com.att.dmf.mr.transaction.TransactionObj;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 

@@ -32,7 +32,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
-import com.att.nsa.cambria.constants.CambriaConstants;
+import com.att.dmf.mr.constants.CambriaConstants;
+import com.att.dmf.mr.utils.DMaaPCuratorFactory;
+import com.att.dmf.mr.utils.PropertyReader;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.loadException;
 import com.att.nsa.drumlin.till.nv.impl.nvPropertiesFile;
 import com.att.nsa.drumlin.till.nv.impl.nvReadableTable;

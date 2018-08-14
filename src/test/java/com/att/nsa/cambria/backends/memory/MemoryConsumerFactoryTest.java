@@ -28,6 +28,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.backends.memory.MemoryConsumerFactory;
+
 public class MemoryConsumerFactoryTest {
 
 	@Before
@@ -46,8 +48,9 @@ public class MemoryConsumerFactoryTest {
 		String topic = "testTopic";
 		String consumerGroupId = "CG1";
 		String clientId = "C1";
+		String remoteHost="remoteHost";
 		int timeoutMs = 1000; 
-		factory.getConsumerFor(topic, consumerGroupId, clientId, timeoutMs);
+		factory.getConsumerFor(topic, consumerGroupId, clientId, timeoutMs,remoteHost);
 		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));

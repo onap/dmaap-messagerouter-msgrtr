@@ -29,6 +29,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.att.dmf.mr.beans.DMaaPContext;
+
 public class DMaaPContextTest4 {
 
 	@Before

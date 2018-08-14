@@ -28,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.apache.log4j.Logger;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DMaaPKafkaMetaBrokerTest.class, ApiKeyBeanTest.class, ApiKeyBeanTest2.class, ApiKeyBeanTest3.class, ApiKeyBeanTest4.class, ApiKeyBeanTest5.class, ApiKeyBeanTest6.class, 
+@SuiteClasses({  ApiKeyBeanTest.class, ApiKeyBeanTest2.class, ApiKeyBeanTest3.class, ApiKeyBeanTest4.class, ApiKeyBeanTest5.class, ApiKeyBeanTest6.class, 
 	DMaaPCambriaLimiterTest.class, DMaaPContextTest.class, DMaaPContextTest2.class, 
 	DMaaPContextTest3.class,DMaaPContextTest4.class,DMaaPContextTest5.class,DMaaPContextTest6.class,
 	LogDetailsTest.class, LogDetailsTest2.class,LogDetailsTest3.class,LogDetailsTest4.class,LogDetailsTest5.class,LogDetailsTest6.class,

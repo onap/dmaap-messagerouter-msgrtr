@@ -28,6 +28,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.backends.memory.MemoryQueuePublisher;
+
 
 public class MemoryQueuePublisherTest {
 
@@ -44,7 +46,7 @@ public class MemoryQueuePublisherTest {
 		MemoryQueuePublisher publisher = new MemoryQueuePublisher(null, null);
 		
 		try {
-			publisher.sendBatchMessage("testTopic", null);
+			publisher.sendBatchMessageNew("testTopic", null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

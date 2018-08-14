@@ -33,7 +33,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
-import com.att.nsa.cambria.backends.Publisher.message;
+import com.att.dmf.mr.backends.Publisher.message;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
 
 import kafka.common.FailedToSendMessageException;

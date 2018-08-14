@@ -28,6 +28,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.backends.memory.MessageLogger;
+
 
 public class MessageLoggerTest {
 
@@ -82,7 +84,7 @@ public class MessageLoggerTest {
 		MessageLogger dropper = new MessageLogger();
 		
 		try {
-			dropper.sendBatchMessage("testTopic", null);
+			dropper.sendBatchMessageNew("testTopic", null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -21,9 +21,9 @@
 package com.att.nsa.cambria.exception;
 
 import static org.junit.Assert.*;
-import com.att.nsa.cambria.exception.DMaaPWebExceptionMapper;
-import com.att.nsa.cambria.transaction.TransactionObj;
-import com.att.nsa.cambria.transaction.impl.DMaaPSimpleTransactionFactory;
+import com.att.dmf.mr.exception.DMaaPWebExceptionMapper;
+import com.att.dmf.mr.transaction.TransactionObj;
+import com.att.dmf.mr.transaction.impl.DMaaPSimpleTransactionFactory;
 
 import org.junit.After;
 import org.junit.Before;

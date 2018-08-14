@@ -21,6 +21,8 @@
 package com.att.nsa.cambria.beans;
 
 import static org.junit.Assert.*;
+
+import com.att.dmf.mr.beans.ApiKeyBean;
 import com.att.nsa.metrics.CdmMetricsRegistry;
 
 import java.io.IOException;

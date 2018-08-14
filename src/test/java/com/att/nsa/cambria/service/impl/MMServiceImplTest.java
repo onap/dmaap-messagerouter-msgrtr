@@ -26,25 +26,27 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.att.ajsc.beans.PropertiesMapBean;
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
-import com.att.nsa.cambria.CambriaApiException;
-import com.att.nsa.cambria.backends.ConsumerFactory;
-import com.att.nsa.cambria.backends.ConsumerFactory.UnavailableException;
-import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.cambria.beans.DMaaPKafkaMetaBroker;
-import com.att.nsa.cambria.constants.CambriaConstants;
-import com.att.nsa.cambria.exception.DMaaPErrorMessages;
-import com.att.nsa.cambria.metabroker.Topic;
-import com.att.nsa.cambria.metabroker.Broker.TopicExistsException;
-import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
-import com.att.nsa.cambria.utils.ConfigurationReader;
-import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
-import com.att.nsa.cambria.utils.Emailer;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.backends.ConsumerFactory;
+import com.att.dmf.mr.backends.ConsumerFactory.UnavailableException;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.beans.DMaaPKafkaMetaBroker;
+import com.att.dmf.mr.constants.CambriaConstants;
+import com.att.dmf.mr.exception.DMaaPErrorMessages;
+import com.att.dmf.mr.metabroker.Topic;
+import com.att.dmf.mr.metabroker.Broker.TopicExistsException;
+import com.att.dmf.mr.security.DMaaPAuthenticatorImpl;
+import com.att.dmf.mr.service.impl.MMServiceImpl;
+import com.att.dmf.mr.utils.ConfigurationReader;
+import com.att.dmf.mr.utils.DMaaPResponseBuilder;
+import com.att.dmf.mr.utils.Emailer;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
 import com.att.nsa.limits.Blacklist;
@@ -191,6 +193,15 @@ public class MMServiceImplTest {
 		}
 
 	}
+	
+	@Test(expected = CambriaApiException.class)
+	public void testSubscribe_NullTopic_Error() throws ConfigDbException, TopicExistsException, AccessDeniedException, UnavailableException,
+	CambriaApiException, IOException {
+
+		    PowerMockito.when(configReader.getfMetrics()).thenThrow(new ConcurrentModificationException("Error occurred"));
+			PowerMockito.when(dmaapKafkaMetaBroker.getTopic(anyString())).thenReturn(metatopic);
+			service.subscribe(dmaapContext, "testTopic", "CG1", "23");
+	}
 
 	@Test
 	public void testPushEvents_wttransaction() {
@@ -226,6 +237,20 @@ public class MMServiceImplTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Test(expected = CambriaApiException.class)
+	public void testPushEvents_wttransaction_error() throws Exception {
+
+		String source = "source of my InputStream";
+
+		InputStream iStream = new ByteArrayInputStream(source.getBytes("UTF-8"));
+		PowerMockito.mockStatic(AJSCPropertiesMap.class);
+		PowerMockito.mockStatic(PropertiesMapBean.class);
+		PowerMockito.when(AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, "event.batch.length")).thenReturn("-5");
+		PowerMockito.when(configReader.getfPublisher()).thenThrow(new ConcurrentModificationException("Error occurred"));
+		service.pushEvents(dmaapContext, "msgrtr.apinode.metrics.dmaap1", iStream, "3", "12:00:00");
+
 	}
 
 	@Test

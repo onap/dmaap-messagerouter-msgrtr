@@ -28,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.apache.log4j.Logger;
 
 @RunWith(Suite.class)
-@SuiteClasses({ KafkaConsumerTest.class, KafkaConsumerCacheTest.class, KafkaPublisherTest.class, })
+@SuiteClasses({ KafkaConsumerCacheTest.class, KafkaPublisherTest.class, })
 public class JUnitTestSuite {
 	private static final Logger LOGGER = Logger.getLogger(JUnitTestSuite.class);
 

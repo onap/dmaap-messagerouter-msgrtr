@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
-import com.att.nsa.cambria.backends.MetricsSet;
+import com.att.dmf.mr.backends.MetricsSet;
 import com.att.nsa.metrics.CdmMeasuredItem;
 
 public class MetricsSetImpl implements MetricsSet {

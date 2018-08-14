@@ -32,6 +32,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.metrics.publisher.impl.DMaaPCambriaConsumerImpl;
+
 public class DMaaPCambriaConsumerImplTest {
 	
 	private DMaaPCambriaConsumerImpl consumer = null; 

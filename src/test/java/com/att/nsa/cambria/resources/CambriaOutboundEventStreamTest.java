@@ -26,8 +26,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.cambria.constants.CambriaConstants;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.constants.CambriaConstants;
+import com.att.dmf.mr.resources.CambriaOutboundEventStream;
 
 public class CambriaOutboundEventStreamTest {
 

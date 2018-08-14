@@ -21,7 +21,9 @@
 package com.att.nsa.cambria;
 
 import static org.junit.Assert.*;
-import com.att.nsa.cambria.exception.ErrorResponse;
+
+import com.att.dmf.mr.CambriaApiVersionInfo;
+import com.att.dmf.mr.exception.ErrorResponse;
 
 import java.io.IOException;
 

@@ -26,6 +26,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.att.nsa.cambria.embed.EmbedConfigurationReader;
+import com.att.dmf.mr.utils.ConfigurationReader;
 
 public class ConfigurationReaderTest {
 

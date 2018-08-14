@@ -23,7 +23,9 @@ package com.att.nsa.cambria.metabroker;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.att.nsa.cambria.CambriaApiException;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.metabroker.Broker;
+import com.att.dmf.mr.metabroker.Topic;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 

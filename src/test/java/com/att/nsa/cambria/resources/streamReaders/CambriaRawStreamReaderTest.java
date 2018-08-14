@@ -24,13 +24,15 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import com.att.nsa.cambria.backends.Publisher.message;
+import com.att.dmf.mr.backends.Publisher.message;
+import com.att.dmf.mr.resources.streamReaders.CambriaRawStreamReader;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.CambriaApiException;
+import com.att.dmf.mr.CambriaApiException;
 
 public class CambriaRawStreamReaderTest {
 

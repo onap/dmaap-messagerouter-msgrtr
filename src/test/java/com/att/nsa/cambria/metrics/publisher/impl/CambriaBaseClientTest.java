@@ -25,6 +25,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+
+import com.att.dmf.mr.metrics.publisher.impl.CambriaBaseClient;
 import com.att.eelf.configuration.EELFLogger;
 
 import org.json.JSONArray;

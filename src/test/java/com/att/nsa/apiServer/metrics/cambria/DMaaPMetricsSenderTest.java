@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
+import com.att.mr.apiServer.metrics.cambria.DMaaPMetricsSender;
 
 public class DMaaPMetricsSenderTest {
 

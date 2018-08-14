@@ -32,7 +32,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import com.att.nsa.cambria.beans.DMaaPContext;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.utils.DMaaPResponseBuilder;
 
 public class DMaaPResponseBuilderTest {
 	

@@ -25,11 +25,12 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import com.att.nsa.cambria.backends.ConsumerFactory;
-import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
-import com.att.nsa.cambria.utils.ConfigurationReader;
-import com.att.nsa.cambria.utils.DMaaPResponseBuilder;
+import com.att.dmf.mr.backends.ConsumerFactory;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.security.DMaaPAuthenticatorImpl;
+import com.att.dmf.mr.service.impl.AdminServiceImpl;
+import com.att.dmf.mr.utils.ConfigurationReader;
+import com.att.dmf.mr.utils.DMaaPResponseBuilder;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.limits.Blacklist;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;

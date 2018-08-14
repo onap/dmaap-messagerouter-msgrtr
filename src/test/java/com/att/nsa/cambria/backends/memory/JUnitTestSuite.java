@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 
 @RunWith(Suite.class)
 @SuiteClasses({ MemoryConsumerFactoryTest.class, MemoryMetaBrokerTest.class, MemoryQueueTest.class, 
-	MemoryQueuePublisherTest.class, MessageDropperTest.class, MessageLoggerTest.class, })
+	MemoryQueuePublisherTest.class,  MessageLoggerTest.class, })
 public class JUnitTestSuite {
 	private static final Logger LOGGER = Logger.getLogger(JUnitTestSuite.class);
 

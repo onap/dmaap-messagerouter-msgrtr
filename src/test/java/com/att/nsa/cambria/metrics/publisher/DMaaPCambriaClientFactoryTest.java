@@ -29,10 +29,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.listener.DME2EndPointLoader;
-import com.att.nsa.cambria.metrics.publisher.CambriaConsumer;
-import com.att.nsa.cambria.metrics.publisher.CambriaPublisherUtility;
-import com.att.nsa.cambria.metrics.publisher.DMaaPCambriaClientFactory;
+import com.att.dmf.mr.listener.DME2EndPointLoader;
+import com.att.dmf.mr.metrics.publisher.CambriaConsumer;
+import com.att.dmf.mr.metrics.publisher.CambriaPublisherUtility;
+import com.att.dmf.mr.metrics.publisher.DMaaPCambriaClientFactory;
 
 public class DMaaPCambriaClientFactoryTest {
 	

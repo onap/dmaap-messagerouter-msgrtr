@@ -20,8 +20,8 @@
 
 package com.att.nsa.cambria.service.impl;
 
-import com.att.nsa.cambria.backends.Publisher.message;
-import com.att.nsa.cambria.beans.LogDetails;
+import com.att.dmf.mr.backends.Publisher.message;
+import com.att.dmf.mr.beans.LogDetails;
 
 public class MessageTest implements message {
 

@@ -26,6 +26,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.transaction.impl.DMaaPSimpleTransactionFactory;
+
 public class DMaaPSimpleTransactionFactoryTest {
 
 	@Before

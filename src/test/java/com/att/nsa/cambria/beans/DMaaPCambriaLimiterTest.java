@@ -26,7 +26,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.att.nsa.cambria.CambriaApiException;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.beans.DMaaPCambriaLimiter;
 
 public class DMaaPCambriaLimiterTest {
 
@@ -53,9 +54,9 @@ public class DMaaPCambriaLimiterTest {
 	@Test
 	public void testOnCall() {
 		
-		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(1, 3);
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(1,2, 3);
 		try {
-			limiter.onCall("testTopic", "ConsumerGroup1", "client2");
+			limiter.onCall("testTopic", "ConsumerGroup1", "client2","remoteHost");
 		} catch (CambriaApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +70,7 @@ public class DMaaPCambriaLimiterTest {
 	@Test
 	public void testOnSend() {
 		
-		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(3, 3);
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(3,3, 3);
 		limiter.onSend("testTopic", "consumerGroup1", "client1", 100);
 		
 		String trueValue = "True";

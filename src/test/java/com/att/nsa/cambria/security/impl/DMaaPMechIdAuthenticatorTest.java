@@ -29,10 +29,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.att.nsa.cambria.CambriaApiException;
-import com.att.nsa.cambria.beans.DMaaPContext;
-import com.att.nsa.cambria.security.DMaaPAuthenticator;
-import com.att.nsa.cambria.security.DMaaPAuthenticatorImpl;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.dmf.mr.security.DMaaPAuthenticator;
+import com.att.dmf.mr.security.DMaaPAuthenticatorImpl;
+import com.att.dmf.mr.security.impl.DMaaPMechIdAuthenticator;
 
 
 

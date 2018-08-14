@@ -29,7 +29,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.att.nsa.cambria.CambriaApiException;
+import com.att.dmf.mr.CambriaApiException;
+import com.att.dmf.mr.security.DMaaPAAFAuthenticatorImpl;
 
 
 

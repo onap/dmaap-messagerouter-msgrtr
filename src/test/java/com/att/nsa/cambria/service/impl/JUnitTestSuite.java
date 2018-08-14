@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 @RunWith(Suite.class)
 @SuiteClasses({ UIServiceImplTest.class, AdminServiceImplemTest.class, ApiKeysServiceImplTest.class, 
 	ShowConsumerCacheTest.class,TopicServiceImplTest.class, TransactionServiceImplTest.class, MMServiceImplTest.class, 
-	BaseTransactionDbImplTest.class, EventsServiceImplTest.class, MetricsServiceImplTest.class})
+	BaseTransactionDbImplTest.class,  MetricsServiceImplTest.class,EventsServiceImplTest.class})
 public class JUnitTestSuite {
 	private static final Logger LOGGER = Logger.getLogger(JUnitTestSuite.class);
 

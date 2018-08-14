@@ -28,6 +28,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.att.dmf.mr.beans.DMaaPContext;
+
 public class DMaaPContextTest6 {
 
 	@Before
