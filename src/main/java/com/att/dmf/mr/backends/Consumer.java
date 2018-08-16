@@ -77,9 +77,9 @@ public interface Consumer
 	 * @param atOffset start with the next message at or after atOffset. -1 means next from last request
 	 * @return the next message, or null if none are waiting
 	 */
-//	Message nextMessage ( long atOffset );
 
-	//Message nextMessage (ArrayList cl);
+
+	
 	/**
 	 * Close/clean up this consumer
 	 * @return 
@@ -100,7 +100,7 @@ public interface Consumer
 	
 	void setOffset(long offset);
 	
-	//public 	org.apache.kafka.clients.consumer.KafkaConsumer getConsumer();
+	
 	
 	
 }
