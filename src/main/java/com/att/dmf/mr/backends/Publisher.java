@@ -29,7 +29,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.att.dmf.mr.beans.LogDetails;
 
-//import kafka.producer.KeyedMessage;
 /**
  * A publisher interface. Publishers receive messages and post them to a topic.
  * @author peter
@@ -95,7 +94,6 @@ public interface Publisher
 	 */
 	public void sendMessages ( String topic, List<? extends message> msgs ) throws IOException;
 	
-	//public void sendBatchMessage(String topic ,ArrayList<KeyedMessage<String,String>> kms) throws IOException;
 	public void sendBatchMessageNew(String topic ,ArrayList<ProducerRecord<String,String>> kms) throws IOException;
 	public void sendMessagesNew( String topic, List<? extends message> msgs ) throws IOException;
 }
