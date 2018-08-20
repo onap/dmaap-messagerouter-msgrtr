@@ -163,7 +163,7 @@ public class KafkaConsumerCache {
 			strkSetting_ZkBasePath = kDefault_ZkBasePath;
 		fBaseZkPath = strkSetting_ZkBasePath;
 
-		fConsumers = new ConcurrentHashMap<String, Kafka011Consumer>();
+		fConsumers = new ConcurrentHashMap<>();
 		fSweepScheduler = Executors.newScheduledThreadPool(1);
 
 		curatorConsumerCache = null;
@@ -392,7 +392,7 @@ public class KafkaConsumerCache {
 			throws KafkaConsumerCacheException {
 		if (getStatus() != KafkaConsumerCache.Status.CONNECTED)
 			throw new KafkaConsumerCacheException("The cache service is unavailable.");
-		ArrayList<Kafka011Consumer> kcl = new ArrayList<Kafka011Consumer>();
+		ArrayList<Kafka011Consumer> kcl = new ArrayList<>();
 		// final String consumerKey = makeConsumerKey(topic, consumerGroupId,
 		// clientId);
 		Enumeration<String> strEnum = fConsumers.keys();
@@ -416,7 +416,7 @@ public class KafkaConsumerCache {
 	public ArrayList<Kafka011Consumer> getConsumerListForCG(String group) throws KafkaConsumerCacheException {
 		if (getStatus() != KafkaConsumerCache.Status.CONNECTED)
 			throw new KafkaConsumerCacheException("The cache service is unavailable.");
-		ArrayList<Kafka011Consumer> kcl = new ArrayList<Kafka011Consumer>();
+		ArrayList<Kafka011Consumer> kcl = new ArrayList<>();
 		// final String consumerKey = makeConsumerKey(topic, consumerGroupId,
 		// clientId);
 		Enumeration<String> strEnum = fConsumers.keys();
@@ -460,7 +460,7 @@ public class KafkaConsumerCache {
 	}
 
 	public Collection<? extends Consumer> getConsumers() {
-		return new LinkedList<Kafka011Consumer>(fConsumers.values());
+		return new LinkedList<>(fConsumers.values());
 	}
 
 	/**
