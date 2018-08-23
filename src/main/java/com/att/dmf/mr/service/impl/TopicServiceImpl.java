@@ -273,8 +273,8 @@ public class TopicServiceImpl implements TopicService {
 				 */
 
 				//key = dmaapContext.getRequest().getUserPrincipal().getName().toString();
-				key="admin";
-				LOGGER.info("key ==================== " + key);
+				//key="admin";
+				//LOGGER.info("key ==================== " + key);
 
 			}
 		}
