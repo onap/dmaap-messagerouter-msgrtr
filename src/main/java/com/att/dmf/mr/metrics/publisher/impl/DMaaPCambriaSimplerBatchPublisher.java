@@ -186,7 +186,7 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 	public void close() {
 		try {
 			final List<message> remains = close(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-			if (remains.size() > 0) {
+			if (remains.isEmpty()) {
 				getLog().warn("Closing publisher with " + remains.size() + " messages unsent. "
 						+ "Consider using CambriaBatchingPublisher.close( long timeout, TimeUnit timeoutUnits ) to recapture unsent messages on close.");
 			}
@@ -251,7 +251,7 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 	 */
 	private synchronized boolean shouldSendNow() {
 		boolean shouldSend = false;
-		if (fPending.size() > 0) {
+		if (fPending.isEmpty()) {
 			final long nowMs = Clock.now();
 
 			shouldSend = (fPending.size() >= fMaxBatchSize);
@@ -273,7 +273,7 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 	private synchronized boolean sendBatch() {
 		// it's possible for this call to be made with an empty list. in this
 		// case, just return.
-		if (fPending.size() < 1) {
+		if (fPending.isEmpty()) {
 			return true;
 		}
 
