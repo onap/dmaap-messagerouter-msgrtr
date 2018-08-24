@@ -65,7 +65,7 @@ public class DMaaPCambriaLimiter {
 	public DMaaPCambriaLimiter(@Qualifier("propertyReader") rrNvReadable settings)
 			throws missingReqdSetting, invalidSettingValue {
 			fRateInfo = new HashMap<String, RateInfo>();
-		fRateInfoCheck = new HashMap<String, RateInfoCheck>();
+		fRateInfoCheck = new HashMap<>();
 		fMaxEmptyPollsPerMinute = settings.getDouble(CambriaConstants.kSetting_MaxEmptyPollsPerMinute,
 				CambriaConstants.kDefault_MaxEmptyPollsPerMinute);
 		fMaxPollsPerMinute = settings.getDouble(CambriaConstants.kSetting_MaxPollsPerMinute,
@@ -112,7 +112,7 @@ public class DMaaPCambriaLimiter {
 	 */
 	public DMaaPCambriaLimiter(double maxEmptyPollsPerMinute,double maxPollsPerMinute, int windowLengthMins, long sleepMs ,long sleepMS1) {
 		fRateInfo = new HashMap<String, RateInfo>();
-		fRateInfoCheck = new HashMap<String, RateInfoCheck>();
+		fRateInfoCheck = new HashMap<>();
 		fMaxEmptyPollsPerMinute = Math.max(0, maxEmptyPollsPerMinute);
 		fMaxPollsPerMinute = Math.max(0, maxPollsPerMinute);
 		fWindowLengthMins = windowLengthMins;

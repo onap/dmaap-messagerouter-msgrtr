@@ -178,10 +178,10 @@ public class KafkaPublisher implements Publisher {
 			throws IOException {
 		log.info("sending " + msgs.size() + " events to [" + topic + "]");
 try{
-		final List<ProducerRecord<String, String>> kms = new ArrayList<ProducerRecord<String, String>>(msgs.size());
+		final List<ProducerRecord<String, String>> kms = new ArrayList<>(msgs.size());
 			for (message o : msgs) {
 			
-			final ProducerRecord<String, String> data = new ProducerRecord<String, String>(topic, o.getKey(), o.toString());
+			final ProducerRecord<String, String> data = new ProducerRecord<>(topic, o.getKey(), o.toString());
 			
 		
 		try {
