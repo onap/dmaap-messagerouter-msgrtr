@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.att.dmf.mr.utils.ConfigurationReader;
 import com.att.nsa.configs.confimpl.ZkConfigDb;
 import com.att.nsa.drumlin.till.nv.rrNvReadable;
-//import com.att.nsa.configs.confimpl.ZkConfigDb;
+
 /**
  * Provide the zookeeper config db connection 
  * @author nilanjana.maity
@@ -42,7 +42,7 @@ public class DMaaPZkConfigDb extends ZkConfigDb {
 	public DMaaPZkConfigDb(@Qualifier("dMaaPZkClient") DMaaPZkClient zk,
 			@Qualifier("propertyReader") rrNvReadable settings) {
 		
-		//super(com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kSetting_ZkConfigDbRoot)==null?CambriaConstants.kDefault_ZkConfigDbRoot:com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kSetting_ZkConfigDbRoot));
+		
 		super(ConfigurationReader.getMainZookeeperConnectionString(),ConfigurationReader.getMainZookeeperConnectionSRoot());
 		
 	}
