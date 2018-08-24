@@ -23,7 +23,7 @@ package com.att.dmf.mr.beans;
 
 import java.security.Key;
 
-//import org.apache.log4-j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.att.dmf.mr.constants.CambriaConstants;
@@ -48,11 +48,11 @@ import com.att.nsa.util.rrConvertor;
  */
 public class DMaaPNsaApiDb {
 	
-	//private rrNvReadable settings;
+	
 	private DMaaPZkConfigDb cdb;
 	
 	//private static final Logger log = Logger
-		//	.getLogger(DMaaPNsaApiDb.class.toString());
+		
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(DMaaPNsaApiDb.class);
 	
 /**
@@ -63,7 +63,7 @@ public class DMaaPNsaApiDb {
  */
 	@Autowired
 	public DMaaPNsaApiDb(rrNvReadable settings, DMaaPZkConfigDb cdb) {
-		//this.setSettings(settings);
+		
 		this.setCdb(cdb);
 	}
 	/**
@@ -79,11 +79,11 @@ public class DMaaPNsaApiDb {
 			missingReqdSetting {
 		// Cambria uses an encrypted api key db
 
-		//final String keyBase64 = settings.getString("cambria.secureConfig.key",			null);
+		
 		final String keyBase64 =com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"cambria.secureConfig.key");
 		
 		
-	//	final String initVectorBase64 = settings.getString(				"cambria.secureConfig.iv", null);
+	
 	final String initVectorBase64 =com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"cambria.secureConfig.iv");
 		// if neither value was provided, don't encrypt api key db
 		if (keyBase64 == null && initVectorBase64 == null) {
@@ -109,17 +109,17 @@ public class DMaaPNsaApiDb {
 	 * @return
 	 * returns settings
 	 */
-/*	public rrNvReadable getSettings() {
-		return settings;
-	}*/
+
+		
+	
 
 	/**
 	 * @param settings
 	 * set settings
 	 */
-	/*public void setSettings(rrNvReadable settings) {
-		this.settings = settings;
-	}*/
+	
+		
+	
 
 	 /**
 	 * @return
