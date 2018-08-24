@@ -46,9 +46,9 @@ public class MemoryMetaBroker implements Broker {
 	 * @param settings
 	 */
 	public MemoryMetaBroker(MemoryQueue mq, ConfigDb configDb) {
-	//public MemoryMetaBroker(MemoryQueue mq, ConfigDb configDb, rrNvReadable settings) {
+	
 		fQueue = mq;
-		fTopics = new HashMap<String, MemTopic>();
+		fTopics = new HashMap<>();
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class MemoryMetaBroker implements Broker {
 
 		@Override
 		public Set<String> getOwners() {
-			final TreeSet<String> set = new TreeSet<String> ();
+			final TreeSet<String> set = new TreeSet<> ();
 			set.add ( fOwner );
 			return set;
 		}
