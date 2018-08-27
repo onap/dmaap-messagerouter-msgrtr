@@ -21,11 +21,11 @@
  *******************************************************************************/
 package com.att.dmf.mr.metrics.publisher;
 
-//import org.slf4j.Logger;
+
 
 //
 import com.att.eelf.configuration.EELFLogger;
-//import com.att.eelf.configuration.EELFManager;
+
 
 /**
  * 
