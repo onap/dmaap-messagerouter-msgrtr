@@ -42,10 +42,6 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.drumlin.till.nv.rrNvReadable;
 
 
-//import kafka.javaapi.producer.Producer;
-//import kafka.producer.KeyedMessage;
-//import kafka.producer.ProducerConfig;
-//import kafka.producer.KeyedMessage;
 
 /**
  * Sends raw JSON objects into Kafka.
@@ -77,8 +73,7 @@ public class KafkaPublisher implements Publisher {
 			kafkaConnUrl="localhost:9092";
 		}
 		
-	 //	props.put("bootstrap.servers", bootSever);
-	//System.setProperty("java.security.auth.login.config",jaaspath);
+	
 	
 		
 		transferSetting( props, "bootstrap.servers",kafkaConnUrl);
@@ -93,7 +88,7 @@ public class KafkaPublisher implements Publisher {
 		 props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
 		
-		//fProducer = new Producer<String, String>(fConfig);
+		
 		fProducer = new KafkaProducer<>(props);
 	}
 
