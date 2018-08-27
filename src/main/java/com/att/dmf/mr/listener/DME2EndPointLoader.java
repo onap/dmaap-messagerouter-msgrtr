@@ -51,7 +51,7 @@ public class DME2EndPointLoader {
 	private String protocol;
 	private String serviceURL;
 	private static DME2EndPointLoader loader = new DME2EndPointLoader();
-//	private static final Logger LOG = LoggerFactory.getLogger(EventsServiceImpl.class);
+
 	private static final EELFLogger LOG = EELFManager.getInstance().getLogger(EventsServiceImpl.class);
 	private DME2EndPointLoader() {
 	}
