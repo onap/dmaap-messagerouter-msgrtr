@@ -88,7 +88,7 @@ public class DMaaPNsaApiDb {
 		// if neither value was provided, don't encrypt api key db
 		if (keyBase64 == null && initVectorBase64 == null) {
 			log.info("This server is configured to use an unencrypted API key database. See the settings documentation.");
-			return new BaseNsaApiDbImpl<NsaSimpleApiKey>(cdb,
+			return new BaseNsaApiDbImpl<>(cdb,
 					new NsaSimpleApiKeyFactory());
 		} else if (keyBase64 == null) {
 			// neither or both, otherwise something's goofed
@@ -100,7 +100,7 @@ public class DMaaPNsaApiDb {
 			log.info("This server is configured to use an encrypted API key database.");
 			final Key key = EncryptingLayer.readSecretKey(keyBase64);
 			final byte[] iv = rrConvertor.base64Decode(initVectorBase64);
-			return new EncryptingApiDbImpl<NsaSimpleApiKey>(cdb,
+			return new EncryptingApiDbImpl<>(cdb,
 					new NsaSimpleApiKeyFactory(), key, iv);
 		}
 	}
