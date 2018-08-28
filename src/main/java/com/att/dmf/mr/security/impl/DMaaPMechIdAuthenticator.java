@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.att.dmf.mr.beans.DMaaPContext;
 import com.att.dmf.mr.security.DMaaPAuthenticator;
-//import com.att.nsa.security.db.NsaApiDb;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.security.NsaApiKey;
@@ -65,7 +65,7 @@ public class DMaaPMechIdAuthenticator <K extends NsaApiKey> implements DMaaPAuth
 		log.info ( "AUTH-LOG(" + remoteAddr + "): " + msg );
 	}
 
-//	private final NsaApiDb<K> fDb;
+
 	//private static final Logger log = Logger.getLogger( MechIdAuthenticator.class.toString());
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(MechIdAuthenticator.class);
 /**
