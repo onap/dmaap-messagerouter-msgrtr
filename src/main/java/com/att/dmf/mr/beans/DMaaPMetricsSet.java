@@ -84,9 +84,9 @@ public class DMaaPMetricsSet extends CdmMetricsRegistryImpl implements MetricsSe
 	 * 
 	 * @param cs
 	 */
-	//public DMaaPMetricsSet() {
+	
 		public DMaaPMetricsSet(rrNvReadable cs) {
-		//fSettings = cs;
+		
 		fVersion = new CdmStringConstant("Version " + CambriaApiVersionInfo.getVersion());
 		super.putItem("version", fVersion);
 
