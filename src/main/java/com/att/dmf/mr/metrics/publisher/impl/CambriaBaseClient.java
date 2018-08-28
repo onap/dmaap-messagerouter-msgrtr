@@ -31,7 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.att.dmf.mr.constants.CambriaConstants;
-//import org.slf4j.Logger;
+
 //import org.slf4j.LoggerFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -52,12 +52,12 @@ public class CambriaBaseClient extends HttpClient implements com.att.dmf.mr.metr
 
 	public CambriaBaseClient ( Collection<String> hosts, String clientSignature ) throws MalformedURLException
 	{
-		/*super ( hosts, CambriaConstants.kStdCambriaServicePort, clientSignature,
-			CacheUse.NONE, 1, 1, TimeUnit.MILLISECONDS );*/
+		
+			
 		
 		super(ConnectionType.HTTP, hosts, CambriaConstants.kStdCambriaServicePort, clientSignature, CacheUse.NONE, 1, 1L, TimeUnit.MILLISECONDS, 32, 32, 600000);
 
-		//fLog = LoggerFactory.getLogger ( this.getClass().getName () );
+		
 		fLog = EELFManager.getInstance().getLogger(this.getClass().getName());
 		//( this.getClass().getName () );
 	}
@@ -85,7 +85,7 @@ public class CambriaBaseClient extends HttpClient implements com.att.dmf.mr.metr
 	{
 		fLog = log; 
 		
-		//replaceLogger ( log );
+		
 	}
 
 	public EELFLogger  getLog ()
