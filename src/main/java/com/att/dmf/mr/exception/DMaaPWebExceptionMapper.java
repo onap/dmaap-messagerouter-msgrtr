@@ -35,7 +35,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.http.HttpStatus;
-//import org.apache.log-4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.att.eelf.configuration.EELFLogger;
@@ -51,8 +51,7 @@ import com.att.eelf.configuration.EELFManager;
 @Singleton
 public class DMaaPWebExceptionMapper implements ExceptionMapper<WebApplicationException>{
 	
-	//private static final Logger LOGGER = Logger
-		//	.getLogger(DMaaPWebExceptionMapper.class);
+	
 	private static final EELFLogger LOGGER = EELFManager.getInstance().getLogger(DMaaPWebExceptionMapper.class);
 	private ErrorResponse errRes;
 	
