@@ -67,7 +67,7 @@ public class KafkaLiveLockAvoider2 {
 		}
 		
 	} catch (Exception e) {
-		//e.printStackTrace();
+		
 		log.error("Error during creation of permanent Znodes under /live-lock-avoid ",e);
 		
 	}
@@ -138,7 +138,7 @@ public class KafkaLiveLockAvoider2 {
 	protected void assignNewProcessNode(String appId, Watcher processNodeWatcher ) {
 		
 		String taskHolderZnodePath = ZNODE_ROOT+ZNODE_UNSTICK_TASKS+"/"+appId;
-		//Watcher processNodeWatcher = createWatcher();
+		
 		
 		try {
 			
