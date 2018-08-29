@@ -39,16 +39,16 @@ public interface Topic extends ReadWriteSecuredResource
 	 *
 	 *//*
 	public class AccessDeniedException extends Exception
-	{	
+	
 		*//**
 		 * AccessDenied Description
 		 *//*
-		public AccessDeniedException () { super ( "Access denied." ); } 
+		
 		*//**
 		 * AccessDenied Exception for the user while authenticating the user request
 		 * @param user
 		 *//*
-		public AccessDeniedException ( String user ) { super ( "Access denied for " + user ); } 
+		
 		private static final long serialVersionUID = 1L;
 	}*/
 
