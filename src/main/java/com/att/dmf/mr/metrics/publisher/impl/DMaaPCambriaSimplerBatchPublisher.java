@@ -305,8 +305,8 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 
 			// code from REST Client Starts
 
-			// final String serverCalculatedSignature = sha1HmacSigner.sign
-			// ("2015-09-21T11:38:19-0700", "iHAxArrj6Ve9JgmHvR077QiV");
+			
+			
 
 			Client client = ClientBuilder.newClient();
 			String metricTopicname = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"metrics.send.cambria.topic");
@@ -323,32 +323,19 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 			Entity<byte[]> data = Entity.entity(baseStream.toByteArray(), "application/cambria");
 
 			Response response = target.request().post(data);
-			// header("X-CambriaAuth",
-			// "2OH46YIWa329QpEF:"+serverCalculatedSignature).
-			// header("X-CambriaDate", "2015-09-21T11:38:19-0700").
-			// post(Entity.json(baseStream.toByteArray()));
-
+			
 			getLog().info("Response received :: " + response.getStatus());
 			getLog().info("Response received :: " + response.toString());
 
 			// code from REST Client Ends
 
-			/*
-			 * final JSONObject result = post ( url, contentType,
-			 * baseStream.toByteArray(), true ); final String logLine =
-			 * "cambria reply ok (" + (Clock.now()-startMs) + " ms):" +
-			 * result.toString (); getLog().info ( logLine );
-			 */
+			
 			fPending.clear();
 			return true;
 		} catch (IllegalArgumentException x) {
 			getLog().warn(x.getMessage(), x);
 		}
-		/*
-		 * catch ( HttpObjectNotFoundException x ) { getLog().warn (
-		 * x.getMessage(), x ); } catch ( HttpException x ) { getLog().warn (
-		 * x.getMessage(), x ); }
-		 */
+		
 		catch (IOException x) {
 			getLog().warn(x.getMessage(), x);
 		}
