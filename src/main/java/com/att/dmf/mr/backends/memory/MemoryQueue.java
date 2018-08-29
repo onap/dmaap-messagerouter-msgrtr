@@ -43,7 +43,7 @@ public class MemoryQueue {
 	 * constructor storing hashMap objects in Queue and Offsets object
 	 */
 	public MemoryQueue() {
-		fQueue = new HashMap<String, LogBuffer>();
+		fQueue = new HashMap<>();
 		fOffsets = new HashMap<String, HashMap<String, Integer>>();
 	}
 
@@ -102,7 +102,7 @@ public class MemoryQueue {
 
 		HashMap<String, Integer> offsetMap = fOffsets.get(consumerName);
 		if (offsetMap == null) {
-			offsetMap = new HashMap<String, Integer>();
+			offsetMap = new HashMap<>();
 			fOffsets.put(consumerName, offsetMap);
 		}
 		Integer offset = offsetMap.get(topic);
@@ -169,7 +169,7 @@ public class MemoryQueue {
 		public LogBuffer(int maxSize) {
 			fBaseOffset = 0;
 			fMaxSize = maxSize;
-			fList = new ArrayList<String>();
+			fList = new ArrayList<>();
 		}
 
 		/**
