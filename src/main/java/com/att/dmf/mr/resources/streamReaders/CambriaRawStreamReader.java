@@ -137,5 +137,5 @@ public class CambriaRawStreamReader implements reader
 	private final InputStream fStream;
 	private final String fDefPart;
 	private boolean fClosed;
-	//private String transactionId;
+	
 }
