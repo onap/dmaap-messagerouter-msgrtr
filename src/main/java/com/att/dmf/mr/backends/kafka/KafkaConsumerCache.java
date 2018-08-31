@@ -638,9 +638,8 @@ public class KafkaConsumerCache {
 			throws KafkaConsumerCacheException {
 		// get a lock at <base>/<topic>::<consumerGroupId>::<consumerId>
 		final String consumerKey = makeConsumerKey(topic, consumerGroupId, consumerId);
-		final CdmTimer timer = new CdmTimer(fMetrics, "CacheSignalOwnership");
 
-		try {
+		try(final CdmTimer timer = new CdmTimer(fMetrics, "CacheSignalOwnership")) {
 			final String consumerPath = fBaseZkPath + "/" + consumerKey;
 			log.debug(fApiId + " attempting to claim ownership of consumer " + consumerKey);
 			final CuratorFramework curator = ConfigurationReader.getCurator();
@@ -667,7 +666,8 @@ public class KafkaConsumerCache {
 				consumerHandoverWaitMs = Integer.parseInt(strkSetting_ConsumerHandoverWaitMs);
 			Thread.sleep(consumerHandoverWaitMs);
 		} catch (InterruptedException e) {
-			// Ignore
+			log.error("Expcetion in signalOwnership",e);
+			Thread.currentThread().interrupt();
 		}
 	}
 
