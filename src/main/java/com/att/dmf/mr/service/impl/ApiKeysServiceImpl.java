@@ -54,7 +54,7 @@ import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 @Service
 public class ApiKeysServiceImpl implements ApiKeysService {
 
-	//private Logger log = Logger.getLogger(ApiKeysServiceImpl.class.toString());
+	
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(ApiKeysServiceImpl.class.toString());
 	/**
 	 * This method will provide all the ApiKeys present in kafka server.
@@ -139,7 +139,7 @@ public class ApiKeysServiceImpl implements ApiKeysService {
 			 String kSetting_AllowAnonymousKeys= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"apiKeys.allowAnonymous");
 			 if(null==kSetting_AllowAnonymousKeys) kSetting_AllowAnonymousKeys ="false";
 			 
-	     // if ((contactEmail == null) || (contactEmail.length() == 0))
+	    
 			 if ( kSetting_AllowAnonymousKeys.equalsIgnoreCase("true")    &&  !emailProvided   )
 	      {
 	        DMaaPResponseBuilder.respondWithErrorInJson(dmaapContext, 400, "You must provide an email address.");
@@ -165,7 +165,7 @@ public class ApiKeysServiceImpl implements ApiKeysService {
 			log.debug("=======ApiKeysServiceImpl: createApiKey : saving api key : "
 					+ key.toString() + "=====");
 			apiKeyDb.saveApiKey(key);
-			// System.out.println("here4");
+			
 			// email out the secret to validate the email address
 			if ( emailProvided )
 			{
@@ -196,9 +196,7 @@ public class ApiKeysServiceImpl implements ApiKeysService {
 				);
 			DMaaPResponseBuilder.respondOk(dmaapContext,
 					o);
-			 /*o.put("secret", "Emailed to " + contactEmail + ".");
-			DMaaPResponseBuilder.respondOk(dmaapContext,
-					o); */
+			
 			return;
 		} else {
 			log.debug("=======ApiKeysServiceImpl: createApiKey : Error in creating API Key.=====");
