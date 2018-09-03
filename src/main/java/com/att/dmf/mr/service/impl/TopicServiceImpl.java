@@ -45,7 +45,7 @@ import com.att.dmf.mr.exception.DMaaPResponseCode;
 import com.att.dmf.mr.exception.ErrorResponse;
 import com.att.dmf.mr.metabroker.Broker.TopicExistsException;
 import com.att.dmf.mr.metabroker.Broker1;
-//import com.att.dmf.mr.metabroker.Broker1;
+
 import com.att.dmf.mr.metabroker.Topic;
 import com.att.dmf.mr.security.DMaaPAAFAuthenticator;
 import com.att.dmf.mr.security.DMaaPAAFAuthenticatorImpl;
@@ -67,13 +67,13 @@ import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 public class TopicServiceImpl implements TopicService {
 
 	// private static final Logger LOGGER =
-	// Logger.getLogger(TopicServiceImpl.class);
+	
 	private static final EELFLogger LOGGER = EELFManager.getInstance().getLogger(TopicServiceImpl.class);
 	@Autowired
 	private DMaaPErrorMessages errorMessages;
 
 	// @Value("${msgRtr.topicfactory.aaf}")
-	// private String mrFactory;
+	
 
 	public DMaaPErrorMessages getErrorMessages() {
 		return errorMessages;
@@ -125,7 +125,7 @@ public class TopicServiceImpl implements TopicService {
 		for (Topic topic : getMetaBroker(dmaapContext).getAllTopics()) {
 			JSONObject obj = new JSONObject();
 			obj.put("topicName", topic.getName());
-			// obj.put("description", topic.getDescription());
+			
 			obj.put("owner", topic.getOwner());
 			obj.put("txenabled", topic.isTransactionEnabled());
 			topicsList.put(obj);
@@ -193,7 +193,7 @@ public class TopicServiceImpl implements TopicService {
 
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
 		String key = null;
-		//String appName = dmaapContext.getRequest().getHeader("AppName");
+		
 		String enfTopicName = com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,
 				"enforced.topic.name.AAF");
 
@@ -209,13 +209,13 @@ public class TopicServiceImpl implements TopicService {
 						"Failed to create topic: Access Denied.User does not have permission to perform create topic");
 
 				LOGGER.info(errRes.toString());
-				// throw new DMaaPAccessDeniedException(errRes);
+				
 
 			}
 		}
-		// else if (user==null &&
+	
 		// (null==dmaapContext.getRequest().getHeader("Authorization") && null
-		// == dmaapContext.getRequest().getHeader("cookie")) ) {
+		
 		/*else if (user == null && null == dmaapContext.getRequest().getHeader("Authorization")
 				) {
 			LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
@@ -230,9 +230,9 @@ public class TopicServiceImpl implements TopicService {
 
 		if (user == null /*&& (null != dmaapContext.getRequest().getHeader("Authorization")
 				)*/) {
-			// if (user == null &&
+			
 			// (null!=dmaapContext.getRequest().getHeader("Authorization") ||
-			// null != dmaapContext.getRequest().getHeader("cookie"))) {
+			
 			// ACL authentication is not provided so we will use the aaf
 			// authentication
 			/*LOGGER.info("Authorization the topic");
@@ -250,14 +250,14 @@ public class TopicServiceImpl implements TopicService {
 			permission = mrFactoryVal + nameSpace + "|create";
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();*/
 
-			//if (!aaf.aafAuthentication(dmaapContext.getRequest(), permission)) {
+			
 			if (false) {
 				LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
 
 				ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_UNAUTHORIZED,
 						DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 						"Failed to create topic: Access Denied.User does not have permission to create topic with perm "
-								//+ permission);
+								
 						+ "permission");
 						
 
@@ -267,12 +267,12 @@ public class TopicServiceImpl implements TopicService {
 			} else {
 				// if user is null and aaf authentication is ok then key should
 				// be ""
-				// key = "";
+				
 				/**
 				 * Added as part of AAF user it should return username
 				 */
 
-				//key = dmaapContext.getRequest().getUserPrincipal().getName().toString();
+				
 				//key="admin";
 				//LOGGER.info("key ==================== " + key);
 
@@ -283,7 +283,7 @@ public class TopicServiceImpl implements TopicService {
 			final String topicName = topicBean.getTopicName();
 			final String desc = topicBean.getTopicDescription();
 			int partition = topicBean.getPartitionCount();
-			// int replica = topicBean.getReplicationCount();
+			
 			if (partition == 0) {
 				partition = 8;
 			}
@@ -291,7 +291,7 @@ public class TopicServiceImpl implements TopicService {
 
 			int replica = topicBean.getReplicationCount();
 			if (replica == 0) {
-				//replica = 3;
+				
 				replica = 1;
 			}
 			final int replicas = replica;
@@ -503,24 +503,24 @@ public class TopicServiceImpl implements TopicService {
 		LOGGER.info("Granting write access to producer [" + producerId + "] for topic " + topicName);
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
 
-		// if (user == null) {
+		
 		//
 		// LOGGER.info("Authenticating the user, as ACL authentication is not
-		// provided");
+		
 		//// String permission =
-		// "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
+		
 		//
-		// DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
+		
 		// String permission = aaf.aafPermissionString(topicName, "manage");
 		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
 		// {
 		// LOGGER.error("Failed to permit write access to producer [" +
 		// producerId + "] for topic " + topicName
-		// + ". Authentication failed.");
+		
 		// ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Grant publish permissions>
-		// "+errorMessages.getNotPermitted2()+ topicName);
+		
 		// LOGGER.info(errRes);
 		// throw new DMaaPAccessDeniedException(errRes);
 		// }
@@ -561,25 +561,25 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Revoking write access to producer [" + producerId + "] for topic " + topicName);
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
-		// if (user == null) {
+		
 		//
 		//// String permission =
-		// "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
+		
 		// DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
 		// String permission = aaf.aafPermissionString(topicName, "manage");
 		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
 		// {
 		// LOGGER.error("Failed to revoke write access to producer [" +
 		// producerId + "] for topic " + topicName
-		// + ". Authentication failed.");
+		
 		// ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Revoke publish permissions>
-		// "+errorMessages.getNotPermitted2()+ topicName);
+		
 		// LOGGER.info(errRes);
 		// throw new DMaaPAccessDeniedException(errRes);
 		//
-		// }
+	
 		// }
 
 		Topic topic = getMetaBroker(dmaapContext).getTopic(topicName);
@@ -612,21 +612,21 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Granting read access to consumer [" + consumerId + "] for topic " + topicName);
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
-		// if (user == null) {
+		
 		//
 		//// String permission =
-		// "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
+		
 		// DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
 		// String permission = aaf.aafPermissionString(topicName, "manage");
 		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
 		// {
 		// LOGGER.error("Failed to permit read access to consumer [" +
 		// consumerId + "] for topic " + topicName
-		// + ". Authentication failed.");
+		
 		// ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Grant consume permissions>
-		// "+errorMessages.getNotPermitted2()+ topicName);
+		
 		// LOGGER.info(errRes);
 		// throw new DMaaPAccessDeniedException(errRes);
 		// }
@@ -662,27 +662,26 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Revoking read access to consumer [" + consumerId + "] for topic " + topicName);
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
-		// if (user == null) {
+		
 		//// String permission =
-		// "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
+		
 		// DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
 		// String permission = aaf.aafPermissionString(topicName, "manage");
 		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
 		// {
 		// LOGGER.error("Failed to revoke read access to consumer [" +
 		// consumerId + "] for topic " + topicName
-		// + ". Authentication failed.");
+		
 		// ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Grant consume permissions>
-		// "+errorMessages.getNotPermitted2()+ topicName);
+		
 		// LOGGER.info(errRes);
 		// throw new DMaaPAccessDeniedException(errRes);
 		// }
 		//
 		//
-		// }
-
+	
 		Topic topic = getMetaBroker(dmaapContext).getTopic(topicName);
 
 		if (null == topic) {
