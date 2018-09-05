@@ -52,7 +52,7 @@ public class ContentLengthFilter implements Filter {
 
 	private FilterConfig filterConfig = null;
 	DMaaPErrorMessages errorMessages = null;
-	//private Logger log = Logger.getLogger(ContentLengthFilter.class.toString());
+	
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(ContentLengthFilter.class);
 	/**
 	 * Default constructor.
@@ -110,7 +110,7 @@ public class ContentLengthFilter implements Filter {
 					DMaaPResponseCode.MSG_SIZE_EXCEEDS_MSG_LIMIT.getResponseCode(), errorMessages.getMsgSizeExceeds()
 							+ jsonObj.toString());
 			log.info(errRes.toString());
-			// throw new CambriaApiException(errRes);
+			
 		}
 
 	}
