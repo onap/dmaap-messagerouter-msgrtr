@@ -54,9 +54,9 @@ public class DMaaPOriginalUebAuthenticator<K extends NsaApiKey> implements DMaaP
 	public DMaaPOriginalUebAuthenticator(NsaApiDb<K> db, long requestTimeWindowMs) {
 		fDb = db;
 		fRequestTimeWindowMs = requestTimeWindowMs;
-		//fAuthenticators = new LinkedList<DMaaPAuthenticator<K>>();
+		
 
-		//fAuthenticators.add(new DMaaPOriginalUebAuthenticator<K>(db, requestTimeWindowMs));
+		
 
 	}
 
@@ -243,51 +243,51 @@ public class DMaaPOriginalUebAuthenticator<K extends NsaApiKey> implements DMaaP
 		    "EEEE, dd-MMM-yy HH:mm:ss zzz",
 		};
 
-	/*private static final String kDateFormats[] = {
-			// W3C date format (RFC 3339).
-			"yyyy-MM-dd'T'HH:mm:ssz",
+	
+			
+			
 
-			// Preferred HTTP date format (RFC 1123).
-			"EEE, dd MMM yyyy HH:mm:ss zzz",
+		
+			
 
-			// simple unix command line 'date' format
-			"EEE MMM dd HH:mm:ss z yyyy",
+			
+			
 
-			// Common date format (RFC 822).
-			"EEE, dd MMM yy HH:mm:ss z", "EEE, dd MMM yy HH:mm z", "dd MMM yy HH:mm:ss z", "dd MMM yy HH:mm z",
+			
+			
 
-			// Obsoleted HTTP date format (ANSI C asctime() format).
-			"EEE MMM dd HH:mm:ss yyyy",
+			
+			
 
-			// Obsoleted HTTP date format (RFC 1036).
-			"EEEE, dd-MMM-yy HH:mm:ss zzz", }; */
+			
+			
 	// logger declaration
-	//private static final Logger log = Logger.getLogger(DMaaPOriginalUebAuthenticator.class.toString());
+	
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(DMaaPOriginalUebAuthenticator.class);
 	@Override
-//	public K authenticate(DMaaPContext ctx) {
+
 		// TODO Auto-generated method stub
-		//return null;
+		
 	//}
 	
 	public K authenticate(DMaaPContext ctx) {
 		
-		/*final HttpServletRequest req = ctx.getRequest();
-		for (DMaaPAuthenticator<K> a : fAuthenticators) {
-			if (a.qualify(req)) {
-				final K k = a.isAuthentic(req);
-				if (k != null)
-					return k;
-			}
-			// else: this request doesn't look right to the authenticator
-		}*/
+		
+		
+			
+				
+				
+					
+			
+			
+		
 		return null;
 	}
 
 
 	public void addAuthenticator ( DMaaPAuthenticator<K> a )
 	{
-		//this.fAuthenticators.add(a);
+		
 	}
-	//private final LinkedList<DMaaPAuthenticator<K>> fAuthenticators;
+	
 }
