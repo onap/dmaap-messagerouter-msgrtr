@@ -86,7 +86,7 @@ public class DMaaPMetricsSender implements Runnable {
 			String Setting_CambriaTopic=com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaTopic);
 			if(Setting_CambriaTopic==null) Setting_CambriaTopic = "msgrtr.apinode.metrics.dmaap";     
 			
-	//		Setting_CambriaBaseUrl=Setting_CambriaBaseUrl==null?defaultTopic:Setting_CambriaBaseUrl;
+	
 			
 			String Setting_CambriaSendFreqSecs=com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSetting_CambriaSendFreqSecs);
 			
@@ -179,7 +179,7 @@ public class DMaaPMetricsSender implements Runnable {
 	private final CambriaPublisher fCambria;
 	private final String fHostname;
 
-	//private static final Logger log = LoggerFactory.getLogger(MetricsSender.class);
+	
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(MetricsSender.class);
 	/**
