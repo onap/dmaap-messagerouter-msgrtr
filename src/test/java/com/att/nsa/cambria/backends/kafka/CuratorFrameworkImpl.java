@@ -24,23 +24,32 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.curator.CuratorZookeeperClient;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.WatcherRemoveCuratorFramework;
 import org.apache.curator.framework.api.CreateBuilder;
 import org.apache.curator.framework.api.CuratorListener;
 import org.apache.curator.framework.api.DeleteBuilder;
 import org.apache.curator.framework.api.ExistsBuilder;
 import org.apache.curator.framework.api.GetACLBuilder;
 import org.apache.curator.framework.api.GetChildrenBuilder;
+import org.apache.curator.framework.api.GetConfigBuilder;
 import org.apache.curator.framework.api.GetDataBuilder;
+import org.apache.curator.framework.api.ReconfigBuilder;
+import org.apache.curator.framework.api.RemoveWatchesBuilder;
 import org.apache.curator.framework.api.SetACLBuilder;
 import org.apache.curator.framework.api.SetDataBuilder;
 import org.apache.curator.framework.api.SyncBuilder;
 import org.apache.curator.framework.api.UnhandledErrorListener;
+import org.apache.curator.framework.api.transaction.CuratorMultiTransaction;
 import org.apache.curator.framework.api.transaction.CuratorTransaction;
+import org.apache.curator.framework.api.transaction.TransactionOp;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.listen.Listenable;
+import org.apache.curator.framework.schema.SchemaSet;
+import org.apache.curator.framework.state.ConnectionStateErrorPolicy;
 import org.apache.curator.framework.state.ConnectionStateListener;
 import org.apache.curator.utils.EnsurePath;
 import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.server.quorum.flexible.QuorumVerifier;
 
 public class CuratorFrameworkImpl implements CuratorFramework {
 
@@ -198,6 +207,72 @@ public class CuratorFrameworkImpl implements CuratorFramework {
 	public CuratorFramework usingNamespace(String arg0) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ReconfigBuilder reconfig() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GetConfigBuilder getConfig() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CuratorMultiTransaction transaction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransactionOp transactionOp() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void createContainers(String path) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RemoveWatchesBuilder watches() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WatcherRemoveCuratorFramework newWatcherRemoveCuratorFramework() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConnectionStateErrorPolicy getConnectionStateErrorPolicy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QuorumVerifier getCurrentConfig() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SchemaSet getSchemaSet() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isZk34CompatibilityMode() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

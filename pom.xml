@@ -247,28 +247,23 @@
 		<!-- Begin - Spring Dependencies for DI -->
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-			<version>4.3.16.RELEASE</version>
+			<version>4.3.18.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>4.3.18.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.3.15.RELEASE</version>
+			<version>4.3.18.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -306,8 +301,13 @@
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka_2.11</artifactId>
-		<version>0.11.0.0</version>
+		<version>0.11.0.2</version>
 		</dependency>
+	<dependency>
+		<groupId>com.google.guava</groupId>
+		<artifactId>guava</artifactId>
+		<version>23.1-jre</version>
+	</dependency>
 
 		<dependency>
 			<groupId>com.att.eelf</groupId>
@@ -388,13 +388,13 @@
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
-			<version>2.6.0</version>
+			<version>4.0.1</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-test</artifactId>
-			<version>2.6.0</version>
+			<version>4.0.1</version>
 		</dependency>
 
 
