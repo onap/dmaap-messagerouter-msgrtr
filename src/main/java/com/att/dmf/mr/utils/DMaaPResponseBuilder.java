@@ -218,7 +218,7 @@ public class DMaaPResponseBuilder {
 	/**
 	 * interface used to define write method for outputStream
 	 */
-	public static abstract interface StreamWriter {
+	public abstract static interface StreamWriter {
 		/**
 		 * abstract method used to write the response
 		 * 
@@ -252,27 +252,20 @@ public class DMaaPResponseBuilder {
 		
 
 		boolean fResponseEntityAllowed = (!(ctx.getRequest().getMethod().equalsIgnoreCase("HEAD")));
-
-		OutputStream os = null;
-		try{
+		
 		if (fResponseEntityAllowed) {
-			os = ctx.getResponse().getOutputStream();
-			return os;
+			try(OutputStream os = ctx.getResponse().getOutputStream()){
+				return os;
+			}catch (Exception e){
+				log.error("Exception in getStreamForBinaryResponse",e);
+				throw new IOException();
+			}
 		} else {
-			os = new NullStream();
-			return os;
-		}
-		}catch (Exception e){
-			throw new IOException();
-			
-		}
-		finally{
-			if(null != os){
-				try{
-					os.close();
-				}catch(Exception e) {
-					 
-				}
+			try(OutputStream os = new NullStream()){
+				return os;
+			}catch (Exception e){
+				log.error("Exception in getStreamForBinaryResponse",e);
+				throw new IOException();
 			}
 		}
 	}
