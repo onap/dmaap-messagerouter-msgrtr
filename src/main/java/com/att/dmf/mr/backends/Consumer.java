@@ -21,7 +21,6 @@
  *******************************************************************************/
 package com.att.dmf.mr.backends;
 
-import java.util.ArrayList;
 
 /**
  * A consumer interface. Consumers pull the next message from a given topic.
