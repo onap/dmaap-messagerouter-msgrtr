@@ -35,6 +35,9 @@ import com.att.dmf.mr.backends.ConsumerFactory;
  */
 public class MemoryConsumerFactory implements ConsumerFactory
 {
+
+	private final MemoryQueue fQueue;
+	
 	/**
 	 * 
 	 * Initializing constructor
@@ -59,8 +62,6 @@ public class MemoryConsumerFactory implements ConsumerFactory
 		return new MemoryConsumer ( topic, consumerGroupId );
 	}
 
-	private final MemoryQueue fQueue;
-
 	/**
 	 * 
 	 * Define nested inner class
@@ -68,6 +69,12 @@ public class MemoryConsumerFactory implements ConsumerFactory
 	 */
 	private class MemoryConsumer implements Consumer
 	{
+
+		private final String fTopic;
+		private final String fConsumer;
+		private final long fCreateMs;
+		private long fLastAccessMs;
+		
 		/**
 		 * 
 		 * Initializing MemoryConsumer constructor 
@@ -92,11 +99,6 @@ public class MemoryConsumerFactory implements ConsumerFactory
 		{
 			return fQueue.get ( fTopic, fConsumer );
 		}
-
-		private final String fTopic;
-		private final String fConsumer;
-		private final long fCreateMs;
-		private long fLastAccessMs;
 
 		@Override
 		public boolean close() {
@@ -168,7 +170,7 @@ public class MemoryConsumerFactory implements ConsumerFactory
 	 */
 	public Collection<? extends Consumer> getConsumers ()
 	{
-		return new ArrayList<MemoryConsumer> ();
+		return new ArrayList<> ();
 	}
 
 	@Override
