@@ -49,7 +49,7 @@ import com.att.nsa.metrics.CdmMeasuredItem;
 @Component
 public class MetricsServiceImpl implements MetricsService {
 
-	//private static final Logger LOG = Logger.getLogger(MetricsService.class.toString());
+	
 	private static final EELFLogger LOG = EELFManager.getInstance().getLogger(MetricsService.class);
 	/**
 	 * 
