@@ -35,9 +35,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 //@ComponentScan(basePackages="com.att.dmf.mr.backends.kafka")
 @Component
@@ -57,7 +55,7 @@ public class KafkaLiveLockAvoider2 {
 	
    @PostConstruct
 	public void init() {
-	System.out.println("Welcome......................................................................................");
+	 log.info("Welcome......................................................................................");
 	try {
 		if (curatorFramework.checkExists().forPath(locksPath) == null) {
 			curatorFramework.create().creatingParentsIfNeeded().forPath(locksPath);
