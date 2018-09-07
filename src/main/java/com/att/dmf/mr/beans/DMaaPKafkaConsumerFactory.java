@@ -185,9 +185,9 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 
 					log.info("Creating Kafka consumer for group [" + consumerGroupName + "], consumer [" + consumerId
 							+ "], on topic [" + topic + "].");
-
-					fCache.signalOwnership(topic, consumerGroupName, consumerId);
-
+                    if(fCache!=null) {
+						fCache.signalOwnership(topic, consumerGroupName, consumerId);
+					}
 					final Properties props = createConsumerConfig(topic,consumerGroupName, consumerId);
 					long fCreateTimeMs = System.currentTimeMillis();
 					KafkaConsumer<String, String> cc = new KafkaConsumer<>(props);
@@ -220,7 +220,7 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 						try {
 							ipLock.release();
 						} catch (Exception e) {
-							throw new UnavailableException("Error while releasing consumer factory lock" + e, e);
+							log.error("Error while releasing consumer factory lock" + e, e);
 						}
 					}
 				}
