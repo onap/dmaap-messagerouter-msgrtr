@@ -35,7 +35,7 @@ import com.att.eelf.configuration.EELFManager;
 public class CambriaServletContextListener implements ServletContextListener {
 	
 	DME2EndPointLoader loader = DME2EndPointLoader.getInstance();
-//	private static Logger log = Logger.getLogger(CambriaServletContextListener.class);
+
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(CambriaServletContextListener.class);
 	
 
