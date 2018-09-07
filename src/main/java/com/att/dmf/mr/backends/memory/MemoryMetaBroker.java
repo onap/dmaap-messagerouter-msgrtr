@@ -39,6 +39,10 @@ import com.att.nsa.security.NsaApiKey;
  *
  */
 public class MemoryMetaBroker implements Broker {
+
+	private final MemoryQueue fQueue;
+	private final HashMap<String, MemTopic> fTopics;
+	
 	/**
 	 * 
 	 * @param mq
@@ -78,10 +82,16 @@ public class MemoryMetaBroker implements Broker {
 		fQueue.removeTopic(topic);
 	}
 
-	private final MemoryQueue fQueue;
-	private final HashMap<String, MemTopic> fTopics;
-
 	private static class MemTopic implements Topic {
+
+		private final String fName;
+		private final String fDesc;
+		private final String fOwner;
+		private NsaAcl fReaders;
+		private NsaAcl fWriters;
+		private boolean ftransactionEnabled;
+		private String accessDenide = "User does not own this topic ";
+		
 		/**
 		 * constructor initialization
 		 * 
@@ -141,7 +151,7 @@ public class MemoryMetaBroker implements Broker {
 		@Override
 		public void permitWritesFromUser(String publisherId, NsaApiKey asUser) throws AccessDeniedException {
 			if (!fOwner.equals(asUser.getKey())) {
-				throw new AccessDeniedException("User does not own this topic " + fName);
+				throw new AccessDeniedException(accessDenide + fName);
 			}
 			if (fWriters == null) {
 				fWriters = new NsaAcl();
@@ -152,7 +162,7 @@ public class MemoryMetaBroker implements Broker {
 		@Override
 		public void denyWritesFromUser(String publisherId, NsaApiKey asUser) throws AccessDeniedException {
 			if (!fOwner.equals(asUser.getKey())) {
-				throw new AccessDeniedException("User does not own this topic " + fName);
+				throw new AccessDeniedException(accessDenide + fName);
 			}
 			fWriters.remove(publisherId);
 		}
@@ -160,7 +170,7 @@ public class MemoryMetaBroker implements Broker {
 		@Override
 		public void permitReadsByUser(String consumerId, NsaApiKey asUser) throws AccessDeniedException {
 			if (!fOwner.equals(asUser.getKey())) {
-				throw new AccessDeniedException("User does not own this topic " + fName);
+				throw new AccessDeniedException(accessDenide + fName);
 			}
 			if (fReaders == null) {
 				fReaders = new NsaAcl();
@@ -171,17 +181,10 @@ public class MemoryMetaBroker implements Broker {
 		@Override
 		public void denyReadsByUser(String consumerId, NsaApiKey asUser) throws AccessDeniedException {
 			if (!fOwner.equals(asUser.getKey())) {
-				throw new AccessDeniedException("User does not own this topic " + fName);
+				throw new AccessDeniedException(accessDenide + fName);
 			}
 			fReaders.remove(consumerId);
 		}
-
-		private final String fName;
-		private final String fDesc;
-		private final String fOwner;
-		private NsaAcl fReaders;
-		private NsaAcl fWriters;
-		private boolean ftransactionEnabled;
 
 		@Override
 		public boolean isTransactionEnabled() {
