@@ -28,8 +28,12 @@ import com.att.nsa.apiServer.NsaAppException;
 
 public class CambriaApiException extends NsaAppException
 {
+	/*
+	 * defined long type constant serialVersionUID
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	private ErrorResponse errRes;
+	private transient ErrorResponse errRes;
 	/**
 	 * Implements constructor CambriaApiException
 	 * @param jsonObject
@@ -66,10 +70,6 @@ public class CambriaApiException extends NsaAppException
 		this.errRes = errRes;
 	}
 	
-	/*
-	 * defined long type constant serialVersionUID
-	 */
-	private static final long serialVersionUID = 1L;
 	public ErrorResponse getErrRes() {
 		return errRes;
 	}
