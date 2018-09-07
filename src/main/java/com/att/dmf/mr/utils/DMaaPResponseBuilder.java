@@ -130,10 +130,10 @@ public class DMaaPResponseBuilder {
 	 */
 	public static void respondOkWithStream(DMaaPContext ctx, String mediaType, StreamWriter writer) throws IOException {
 		ctx.getResponse().setStatus(200);
-		OutputStream os = getStreamForBinaryResponse(ctx, mediaType);
-		writer.write(os);
-		os.close();
-		
+		try(OutputStream os = getStreamForBinaryResponse(ctx, mediaType)) {
+			writer.write(os);
+		}
+
 		
 	}
 
