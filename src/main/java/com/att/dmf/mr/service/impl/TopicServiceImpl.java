@@ -273,7 +273,7 @@ public class TopicServiceImpl implements TopicService {
 				 */
 
 				
-				//key="admin";
+				
 				//LOGGER.info("key ==================== " + key);
 
 			}
@@ -616,7 +616,7 @@ public class TopicServiceImpl implements TopicService {
 		//
 		//// String permission =
 		
-		// DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
+		
 		// String permission = aaf.aafPermissionString(topicName, "manage");
 		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
 		// {
@@ -627,7 +627,7 @@ public class TopicServiceImpl implements TopicService {
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Grant consume permissions>
 		
-		// LOGGER.info(errRes);
+		
 		// throw new DMaaPAccessDeniedException(errRes);
 		// }
 		// }
