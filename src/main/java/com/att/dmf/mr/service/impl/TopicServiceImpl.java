@@ -216,17 +216,17 @@ public class TopicServiceImpl implements TopicService {
 	
 		// (null==dmaapContext.getRequest().getHeader("Authorization") && null
 		
-		/*else if (user == null && null == dmaapContext.getRequest().getHeader("Authorization")
-				) {
-			LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
+		
+				
+			
 
-			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_UNAUTHORIZED,
-					DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
-					"Failed to create topic: Access Denied.User does not have permission to perform create topic");
+			
+					
+					
 
-			LOGGER.info(errRes.toString());
-			// throw new DMaaPAccessDeniedException(errRes);
-		}*/
+			
+			
+	
 
 		if (user == null /*&& (null != dmaapContext.getRequest().getHeader("Authorization")
 				)*/) {
@@ -235,20 +235,20 @@ public class TopicServiceImpl implements TopicService {
 			
 			// ACL authentication is not provided so we will use the aaf
 			// authentication
-			/*LOGGER.info("Authorization the topic");
+			
 
-			String permission = "";
-			String nameSpace = "";
-			if (topicBean.getTopicName().indexOf(".") > 1)
-				nameSpace = topicBean.getTopicName().substring(0, topicBean.getTopicName().lastIndexOf("."));
+			
+			
+			
+				
 
-			String mrFactoryVal = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
-					"msgRtr.topicfactory.aaf");
+			
+					
 
-			// AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSettings_KafkaZookeeper);
+			
 
-			permission = mrFactoryVal + nameSpace + "|create";
-			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();*/
+			
+			
 
 			
 			if (false) {
