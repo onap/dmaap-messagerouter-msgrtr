@@ -46,7 +46,7 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 			
 			auth = true;
 		}
-		//System.out.println("role " +role +"    user: "+ req.getRemoteUser() +"   : auth="+auth);
+		
 		return auth;
 	}
 
@@ -57,7 +57,7 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 		String permission = "";
 		String nameSpace ="";
 		if(topicName.contains(".") && topicName.contains("com.att")) {
-			//String topic = topicName.substring(topicName.lastIndexOf(".")+1);
+			
 			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
 		}
 		else {
@@ -67,12 +67,7 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 			if(null==nameSpace)nameSpace="com.att.dmaap.mr.ueb";
 			
 			
-			/*ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_FORBIDDEN,
-					DMaaPResponseCode.TOPIC_NOT_IN_AAF.getResponseCode(), "Topic does not exist in AAF"
-							, null, Utils.getFormattedDate(new Date()), topicName,
-					null, null, null, null);
-					
-			throw new CambriaApiException(errRes);*/
+			
 		}
 		
 		permission = nameSpace+".mr.topic|:topic."+topicName+"|"+action;
