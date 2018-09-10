@@ -81,10 +81,7 @@ public class CambriaJsonStreamReader implements reader {
 
 			final int c = fTokens.next();
 			
-			/*if (c ==','){
-				fCloseCount++;
-				System.out.println("fCloseCount=" + fCloseCount +" fCount "+fCount);
-			}*/
+			
 			if (fIsList) {
 				if (c == ']' || (fCount > 0 && c == 10))
 					return null;
@@ -125,7 +122,7 @@ public class CambriaJsonStreamReader implements reader {
 		 * 
 		 * @param o
 		 */
-		//public msg(JSONObject o){}
+		
 		
 		
 		public msg(JSONObject o) {
