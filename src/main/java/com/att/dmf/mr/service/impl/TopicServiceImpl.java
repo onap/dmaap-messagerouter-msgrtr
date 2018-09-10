@@ -511,7 +511,7 @@ public class TopicServiceImpl implements TopicService {
 		
 		//
 		
-		// String permission = aaf.aafPermissionString(topicName, "manage");
+		
 		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
 		// {
 		// LOGGER.error("Failed to permit write access to producer [" +
@@ -521,7 +521,7 @@ public class TopicServiceImpl implements TopicService {
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Grant publish permissions>
 		
-		// LOGGER.info(errRes);
+		
 		// throw new DMaaPAccessDeniedException(errRes);
 		// }
 		// }
@@ -576,7 +576,7 @@ public class TopicServiceImpl implements TopicService {
 		// DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 		// errorMessages.getNotPermitted1()+" <Revoke publish permissions>
 		
-		// LOGGER.info(errRes);
+		
 		// throw new DMaaPAccessDeniedException(errRes);
 		//
 	
