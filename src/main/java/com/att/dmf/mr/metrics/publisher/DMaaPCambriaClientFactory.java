@@ -386,12 +386,7 @@ public class DMaaPCambriaClientFactory {
 	 *            Your API secret
 	 * @return an identity manager
 	 */
-	/*
-	 * public static CambriaIdentityManager createIdentityManager (
-	 * Collection<String> hostSet, String apiKey, String apiSecret ) { final
-	 * CambriaIdentityManager cim = new CambriaMetaClient ( hostSet );
-	 * cim.setApiCredentials ( apiKey, apiSecret ); return cim; }
-	 */
+	
 
 	/**
 	 * Create a topic manager for working with topics.
@@ -405,12 +400,7 @@ public class DMaaPCambriaClientFactory {
 	 *            Your API secret
 	 * @return a topic manager
 	 */
-	/*
-	 * public static CambriaTopicManager createTopicManager ( Collection<String>
-	 * hostSet, String apiKey, String apiSecret ) { final CambriaMetaClient tmi
-	 * = new CambriaMetaClient ( hostSet ); tmi.setApiCredentials ( apiKey,
-	 * apiSecret ); return tmi; }
-	 */
+	
 
 	/**
 	 * Inject a consumer. Used to support unit tests.
