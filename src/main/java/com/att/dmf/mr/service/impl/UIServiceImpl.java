@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-//import kafka.common.TopicExistsException;
+
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,7 +50,7 @@ import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 @Service
 public class UIServiceImpl implements UIService {
 
-	//private static final Logger LOGGER = Logger.getLogger(UIServiceImpl.class);
+	
 	private static final EELFLogger LOGGER = EELFManager.getInstance().getLogger(UIServiceImpl.class);
 	/**
 	 * Returning template of hello page

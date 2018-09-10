@@ -169,37 +169,7 @@ public class DMaaPCambriaLimiter {
 			log.info(errRes.toString());
 			throw new CambriaApiException(errRes);
 		}
-		/*if (fMaxPollsPerMinute <= 0) {
-			return;
-		}
 		
-		final RateInfoCheck ric = getRateInfoCheck(topic, consumerGroup, clientId);
-		final double ratevalue = ric.onCall();
-		if (ratevalue > fMaxPollsPerMinute) {
-			try {
-				log.warn(ri.getLabel() + ": " + rate + " empty replies/minute, limit is " + fMaxEmptyPollsPerMinute
-						+ ".");
-				if (fSleepMs1 > fMaxPollsPerMinute) {
-				log.warn(ri.getLabel() + ": " + "Slowing response with " + fSleepMs
-							+ " ms sleep, then responding in error.");
-					Thread.sleep(fSleepMs1);
-					ric.reset();
-				} else {
-					log.info(ri.getLabel() + ": " + "No sleep configured, just throwing error.");
-				}
-			} catch (InterruptedException e) {
-				// ignore
-			}
-			
-			
-			ErrorResponse errRes = new ErrorResponse(HttpStatusCodes.k429_tooManyRequests, 
-					DMaaPResponseCode.TOO_MANY_REQUESTS.getResponseCode(), 
-					"This client is making too many requests "
-							+ ",decrease the number of requests. ","",Utils.getFormattedDate(new Date()),topic,"","",consumerGroup+"/"+clientId,remoteHost);
-			
-			log.info(errRes.toString());
-			throw new CambriaApiException(errRes);
-		}*/
 		
 	}
 
@@ -307,15 +277,7 @@ public class DMaaPCambriaLimiter {
 	}
 	
 	
-	/* private RateInfoCheck getRateInfoCheck(String topic, String consumerGroup, String clientId) {
-		final String key = makeKey(topic, consumerGroup, clientId);
-		RateInfoCheck ri = fRateInfoCheck.get(key);
-		if (ri == null) {
-			ri = new RateInfoCheck(key, 1);
-			fRateInfoCheck.put(key, ri);
-		}
-		return ri;
-	} */
+	
 
 	
 	
