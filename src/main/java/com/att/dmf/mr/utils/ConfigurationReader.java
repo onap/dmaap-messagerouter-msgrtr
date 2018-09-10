@@ -55,7 +55,7 @@ import com.att.nsa.drumlin.till.nv.rrNvReadable.invalidSettingValue;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
 import com.att.nsa.limits.Blacklist;
 import com.att.nsa.security.NsaAuthenticatorService;
-//import com.att.nsa.security.authenticators.OriginalUebAuthenticator;
+
 import com.att.nsa.security.db.BaseNsaApiDbImpl;
 import com.att.nsa.security.db.NsaApiDb;
 import com.att.nsa.security.db.NsaApiDb.KeyExistsException;
@@ -70,7 +70,7 @@ import com.att.nsa.security.db.simple.NsaSimpleApiKeyFactory;
 @Component
 public class ConfigurationReader {
 
-//	private rrNvReadable settings;
+
 	private Broker1 fMetaBroker;
 	private ConsumerFactory fConsumerFactory;
 	private Publisher fPublisher;
@@ -78,7 +78,7 @@ public class ConfigurationReader {
 	@Autowired
 	private DMaaPCambriaLimiter fRateLimiter;
 	private NsaApiDb<NsaSimpleApiKey> fApiKeyDb;
-	/* private DMaaPTransactionObjDB<DMaaPTransactionObj> fTranDb; */
+	
 	private DMaaPAuthenticator<NsaSimpleApiKey> fSecurityManager;
 	private NsaAuthenticatorService<NsaSimpleApiKey> nsaSecurityManager;
 	private static CuratorFramework curator;
@@ -90,7 +90,7 @@ public class ConfigurationReader {
 	private Emailer fEmailer;
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(ConfigurationReader.class);
-	//private static final Logger log = Logger.getLogger(ConfigurationReader.class.toString());
+	
 
 	/**
 	 * constructor to initialize all the values
@@ -129,7 +129,7 @@ public class ConfigurationReader {
 			@Qualifier("dMaaPAuthenticatorImpl") DMaaPAuthenticator<NsaSimpleApiKey> fSecurityManager
 			)
 					throws missingReqdSetting, invalidSettingValue, ServletException, KafkaConsumerCacheException, ConfigDbException {
-		//this.settings = settings;
+		
 		this.fMetrics = fMetrics;
 		this.zk = zk;
 		this.fConfigDb = fConfigDb;
