@@ -319,7 +319,7 @@ public class TopicServiceImpl implements TopicService {
 			throw new CambriaApiException(errRes);
 		} catch (com.att.dmf.mr.metabroker.Broker1.TopicExistsException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Exception is at createTopic(  ) ", e);
 		}
 	}
 
