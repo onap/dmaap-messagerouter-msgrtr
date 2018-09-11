@@ -137,18 +137,18 @@ public class ConfigurationReader {
 		ConfigurationReader.curator = curator;
 		this.fConsumerFactory = fConsumerFactory;
 		this.fMetaBroker = fMetaBroker;
-		//System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSs  " + fMetaBroker);
+		
 		this.q = q;
 		this.mmb = mmb;
 		this.fApiKeyDb = fApiKeyDb;
-		/* this.fTranDb = fTranDb; */
+		
 		this.fSecurityManager = fSecurityManager;
 		
 		long allowedtimeSkewMs=600000L;
 		String strallowedTimeSkewM= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"authentication.allowedTimeSkewMs");
 		if(null!=strallowedTimeSkewM)allowedtimeSkewMs= Long.parseLong(strallowedTimeSkewM);
 				
-	//	boolean requireSecureChannel = true;
+	
 		//String strrequireSecureChannel= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"aauthentication.requireSecureChannel");
 		//if(strrequireSecureChannel!=null)requireSecureChannel=Boolean.parseBoolean(strrequireSecureChannel);
 		//this.nsaSecurityManager = new NsaAuthenticatorService<NsaSimpleApiKey>(this.fApiKeyDb, settings.getLong("authentication.allowedTimeSkewMs", 600000L), settings.getBoolean("authentication.requireSecureChannel", true));
