@@ -52,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
 			throws ConfigDbException, IOException {
 
 		/*
-		 * ConfigurationReader configReader = dmaapContext.getConfigReader();
+		
 		 * 
 		 * LOG.info("configReader : "+configReader.toString());
 		 * 
@@ -77,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
 			IOException {
 
 		/*
-		 * if (null != transactionId) {
+		 
 		 * 
 		 * ConfigurationReader configReader = dmaapContext.getConfigReader();
 		 * 
