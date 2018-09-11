@@ -39,9 +39,9 @@ public class PropertyReader extends nvReadableStack {
 	 * initializing logger
 	 * 
 	 */
-	//private static final Logger LOGGER = Logger.getLogger(PropertyReader.class);
+	
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(PropertyReader.class);
-//	private static final String MSGRTR_PROPERTIES_FILE = "msgRtrApi.properties";
+
 
 	/**
 	 * constructor initialization
@@ -50,11 +50,11 @@ public class PropertyReader extends nvReadableStack {
 	 * 
 	 */
 	public PropertyReader() throws loadException {
-	/*	Map<String, String> argMap = new HashMap<String, String>();
-		final String config = getSetting(argMap, CambriaConstants.kConfig, MSGRTR_PROPERTIES_FILE);
-		final URL settingStream = findStream(config, ConfigurationReader.class);
-		push(new nvPropertiesFile(settingStream));
-		push(new nvReadableTable(argMap));*/
+	
+		
+		
+	
+		
 	}
 
 	/**
@@ -83,43 +83,43 @@ public class PropertyReader extends nvReadableStack {
 	 * @exception MalformedURLException
 	 * 
 	 */
-	/*public static URL findStream(final String resourceName, Class<?> clazz) {
-		try {
-			File file = new File(resourceName);
+	
+		
+		
 
-			if (file.isAbsolute()) {
-				return file.toURI().toURL();
-			}
+			
+			
+		
 
-			String filesRoot = System.getProperty("RRWT_FILES", null);
+		
 
-			if (null != filesRoot) {
+			
 
-				String fullPath = filesRoot + "/" + resourceName;
+				
 
-				LOGGER.debug("Looking for [" + fullPath + "].");
+				
 
-				file = new File(fullPath);
-				if (file.exists()) {
-					return file.toURI().toURL();
-				}
-			}
+				
+			
+					
+			
+		
 
-			URL res = clazz.getClassLoader().getResource(resourceName);
+			
 
-			if (null != res) {
-				return res;
-			}
+			
+				
+		
 
-			res = ClassLoader.getSystemResource(resourceName);
+			
 
-			if (null != res) {
-				return res;
-			}
-		} catch (MalformedURLException e) {
-			LOGGER.error("Unexpected failure to convert a local filename into a URL: " + e.getMessage(), e);
-		}
-		return null;
-	}
-*/
+			
+				
+		
+		
+			
+	
+		
+	
+
 }
