@@ -90,8 +90,7 @@ public interface ConsumerFactory {
 	 * @return
 	 * @throws UnavailableException
 	 */
-	//public Consumer getConsumerFor(String topic, String consumerGroupId,
-		//	String clientId, int timeoutMs) throws UnavailableException;
+	
 
 	/**
 	 * For factories that employ a caching mechanism, this allows callers to
