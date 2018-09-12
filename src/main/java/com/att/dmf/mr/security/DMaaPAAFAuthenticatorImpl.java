@@ -56,7 +56,7 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 		
 		String permission = "";
 		String nameSpace ="";
-		if(topicName.contains(".") && topicName.contains("com.att")) {
+		if(topicName.contains(".") && topicName.contains("org.onap")) {
 			
 			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
 		}
@@ -64,13 +64,13 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 			nameSpace = null;
 			 nameSpace= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"defaultNSforUEB");
 			
-			if(null==nameSpace)nameSpace="com.att.dmaap.mr.ueb";
+			if(null==nameSpace)nameSpace="org.onap.dmaap.mr";
 			
 			
 			
 		}
 		
-		permission = nameSpace+".mr.topic|:topic."+topicName+"|"+action;
+		permission = nameSpace+".topic|:topic."+topicName+"|"+action;
 		return permission;
 		
 	}
