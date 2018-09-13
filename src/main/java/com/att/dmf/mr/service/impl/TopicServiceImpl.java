@@ -188,12 +188,11 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	public void createTopic(DMaaPContext dmaapContext, TopicBean topicBean)
 			throws CambriaApiException, DMaaPAccessDeniedException, IOException, TopicExistsException {
-
 		LOGGER.info("Creating topic " + topicBean.getTopicName());
 
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
 		String key = null;
-		
+		String appName = dmaapContext.getRequest().getHeader("AppName");
 		String enfTopicName = com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,
 				"enforced.topic.name.AAF");
 
@@ -209,57 +208,55 @@ public class TopicServiceImpl implements TopicService {
 						"Failed to create topic: Access Denied.User does not have permission to perform create topic");
 
 				LOGGER.info(errRes.toString());
-				
+				// throw new DMaaPAccessDeniedException(errRes);
 
 			}
 		}
-	
+		// else if (user==null &&
 		// (null==dmaapContext.getRequest().getHeader("Authorization") && null
-		
-		
-				
-			
+		// == dmaapContext.getRequest().getHeader("cookie")) ) {
+		else if (user == null && null == dmaapContext.getRequest().getHeader("Authorization")
+				&& (null == appName && null == dmaapContext.getRequest().getHeader("cookie"))) {
+			LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
 
-			
-					
-					
+			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_UNAUTHORIZED,
+					DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
+					"Failed to create topic: Access Denied.User does not have permission to perform create topic");
 
-			
-			
-	
+			LOGGER.info(errRes.toString());
+			// throw new DMaaPAccessDeniedException(errRes);
+		}
 
-		if (user == null /*&& (null != dmaapContext.getRequest().getHeader("Authorization")
-				)*/) {
-			
+		if (user == null && (null != dmaapContext.getRequest().getHeader("Authorization")
+				)) {
+			// if (user == null &&
 			// (null!=dmaapContext.getRequest().getHeader("Authorization") ||
-			
+			// null != dmaapContext.getRequest().getHeader("cookie"))) {
 			// ACL authentication is not provided so we will use the aaf
 			// authentication
-			
+			LOGGER.info("Authorization the topic");
 
-			
-			
-			
-				
+			String permission = "";
+			String nameSpace = "";
+			if (topicBean.getTopicName().indexOf(".") > 1)
+				nameSpace = topicBean.getTopicName().substring(0, topicBean.getTopicName().lastIndexOf("."));
 
-			
-					
+			String mrFactoryVal = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
+					"msgRtr.topicfactory.aaf");
 
-			
+			// AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSettings_KafkaZookeeper);
 
-			
-			
+			permission = mrFactoryVal + nameSpace + "|create";
+			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
 
-			
-			if (false) {
+			if (!aaf.aafAuthentication(dmaapContext.getRequest(), permission)) {
+
 				LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
 
 				ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_UNAUTHORIZED,
 						DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 						"Failed to create topic: Access Denied.User does not have permission to create topic with perm "
-								
-						+ "permission");
-						
+								+ permission);
 
 				LOGGER.info(errRes.toString());
 				throw new DMaaPAccessDeniedException(errRes);
@@ -267,14 +264,13 @@ public class TopicServiceImpl implements TopicService {
 			} else {
 				// if user is null and aaf authentication is ok then key should
 				// be ""
-				
+				// key = "";
 				/**
 				 * Added as part of AAF user it should return username
 				 */
 
-				
-				
-				//LOGGER.info("key ==================== " + key);
+				key = dmaapContext.getRequest().getUserPrincipal().getName().toString();
+				LOGGER.info("key ==================== " + key);
 
 			}
 		}
@@ -283,15 +279,14 @@ public class TopicServiceImpl implements TopicService {
 			final String topicName = topicBean.getTopicName();
 			final String desc = topicBean.getTopicDescription();
 			int partition = topicBean.getPartitionCount();
-			
+			// int replica = topicBean.getReplicationCount();
 			if (partition == 0) {
-				partition = 8;
+				partition = 1;
 			}
 			final int partitions = partition;
 
 			int replica = topicBean.getReplicationCount();
 			if (replica == 0) {
-				
 				replica = 1;
 			}
 			final int replicas = replica;
@@ -319,7 +314,7 @@ public class TopicServiceImpl implements TopicService {
 			throw new CambriaApiException(errRes);
 		} catch (com.att.dmf.mr.metabroker.Broker1.TopicExistsException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Exception is at createTopic(  ) ", e);
+			e.printStackTrace();
 		}
 	}
 
@@ -336,6 +331,7 @@ public class TopicServiceImpl implements TopicService {
 	public void deleteTopic(DMaaPContext dmaapContext, String topicName) throws IOException, ConfigDbException,
 			CambriaApiException, TopicExistsException, DMaaPAccessDeniedException, AccessDeniedException {
 
+
 		LOGGER.info(" Deleting topic " + topicName);
 		/*if (true) { // {
 			LOGGER.error("Failed to delete topi" + topicName + ". Authentication failed.");
@@ -348,7 +344,7 @@ public class TopicServiceImpl implements TopicService {
 
 		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
 
-		/*if (user == null && null != dmaapContext.getRequest().getHeader("Authorization")) {
+		if (user == null && null != dmaapContext.getRequest().getHeader("Authorization")) {
 			LOGGER.info("Authenticating the user, as ACL authentication is not provided");
 			// String permission =
 			// "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
@@ -369,7 +365,7 @@ public class TopicServiceImpl implements TopicService {
 				throw new DMaaPAccessDeniedException(errRes);
 			}
 
-		}*/
+		}
 
 		final Broker1 metabroker = getMetaBroker(dmaapContext);
 		final Topic topic = metabroker.getTopic(topicName);
@@ -379,16 +375,10 @@ public class TopicServiceImpl implements TopicService {
 			throw new TopicExistsException("Failed to delete topic. Topic [" + topicName + "] does not exist.");
 		}
 
-		 try {
-			metabroker.deleteTopic(topicName);
-		} catch (com.att.dmf.mr.metabroker.Broker1.TopicExistsException e) {
-			// TODO Auto-generated catch block
-			throw new CambriaApiException(500, "failed to delete the topic");
-		}
+		// metabroker.deleteTopic(topicName);
 
 		LOGGER.info("Topic [" + topicName + "] deleted successfully. Sending response.");
 		DMaaPResponseBuilder.respondOkWithHtml(dmaapContext, "Topic [" + topicName + "] deleted successfully");
-
 	}
 
 	/**
