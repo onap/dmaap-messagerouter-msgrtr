@@ -37,8 +37,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.dmf.mr.constants.CambriaConstants;
@@ -59,7 +58,7 @@ public class Emailer
 	public Emailer()
 	{
 		fExec = Executors.newCachedThreadPool ();
-	//	fSettings = settings;
+	
 	}
 
 	public void send ( String to, String subj, String body ) throws IOException
@@ -83,9 +82,9 @@ public class Emailer
 	}
 
 	private final ExecutorService fExec;
-	//private final rrNvReadable fSettings;
+	
 
-	//private static final Logger log = LoggerFactory.getLogger ( Emailer.class );
+	
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(Emailer.class);
 	
