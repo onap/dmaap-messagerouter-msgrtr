@@ -44,7 +44,7 @@ public class DMaaPAuthenticatorImpl<K extends NsaApiKey> implements DMaaPAuthent
 
 
 	// Setting timeout to a large value for testing purpose.
-	// private static final long kDefaultRequestTimeWindow = 1000 * 60 * 10; //
+	
 	// 10 minutes
 	private static final long kDefaultRequestTimeWindow = 1000 * 60 * 10 * 10 * 10 * 10 * 10;
 
