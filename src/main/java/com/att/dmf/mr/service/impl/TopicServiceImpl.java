@@ -347,12 +347,12 @@ public class TopicServiceImpl implements TopicService {
 		if (user == null && null != dmaapContext.getRequest().getHeader("Authorization")) {
 			LOGGER.info("Authenticating the user, as ACL authentication is not provided");
 			// String permission =
-			// "com.att.dmaap.mr.topic"+"|"+topicName+"|"+"manage";
+			
 			String permission = "";
 			String nameSpace = topicName.substring(0, topicName.lastIndexOf("."));
 			String mrFactoryVal = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
 					"msgRtr.topicfactory.aaf");
-			// String tokens[] = topicName.split(".mr.topic.");
+			
 			permission = mrFactoryVal + nameSpace + "|destroy";
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
 			if (!aaf.aafAuthentication(dmaapContext.getRequest(), permission)) {
@@ -502,7 +502,7 @@ public class TopicServiceImpl implements TopicService {
 		//
 		
 		
-		// if(!aaf.aafAuthentication(dmaapContext.getRequest(), permission))
+		
 		// {
 		// LOGGER.error("Failed to permit write access to producer [" +
 		// producerId + "] for topic " + topicName
@@ -512,7 +512,7 @@ public class TopicServiceImpl implements TopicService {
 		// errorMessages.getNotPermitted1()+" <Grant publish permissions>
 		
 		
-		// throw new DMaaPAccessDeniedException(errRes);
+		
 		// }
 		// }
 
