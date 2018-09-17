@@ -290,7 +290,10 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 		props.put("group.id", fakeGroupName);
 		props.put("enable.auto.commit", "false"); // 0.11
 		props.put("bootstrap.servers", fkafkaBrokers);
-
+		props.put("sasl.jaas.config",
+				"org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+		props.put("security.protocol", "SASL_PLAINTEXT");
+		props.put("sasl.mechanism", "PLAIN");
 		
 		props.put("client.id", consumerId);
 

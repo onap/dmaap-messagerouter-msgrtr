@@ -82,9 +82,10 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 			fkafkaBrokers = "localhost:9092";
 		}
 		
-		
-		
 	     props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, fkafkaBrokers );
+	     props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+	  	 props.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");	     
+	     props.put("sasl.mechanism", "PLAIN");
 	   
 	     fKafkaAdminClient=AdminClient.create ( props );
 	    
@@ -118,7 +119,9 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 		}
 		
 		
-		
+		 props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+	  	 props.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");	     
+	     props.put("sasl.mechanism", "PLAIN");
 	     props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, fkafkaBrokers );
 	     
 	     fKafkaAdminClient=AdminClient.create ( props );

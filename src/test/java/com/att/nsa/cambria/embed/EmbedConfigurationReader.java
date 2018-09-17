@@ -97,7 +97,7 @@ public class EmbedConfigurationReader {
             
             final Properties props = new Properties ();
     	     props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092" );
-    	    props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret'");
+    	     props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret'");
     	  	 props.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");	     
     	     props.put("sasl.mechanism", "PLAIN");
     	     fKafkaAdminClient = AdminClient.create ( props );
