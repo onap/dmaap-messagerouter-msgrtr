@@ -46,7 +46,7 @@ public class DMaaPCambriaExceptionMapper implements ExceptionMapper<CambriaApiEx
 
 private ErrorResponse errRes;
 
-//private static final Logger LOGGER = Logger.getLogger(DMaaPCambriaExceptionMapper.class);
+
 private static final EELFLogger LOGGER = EELFManager.getInstance().getLogger(DMaaPCambriaExceptionMapper.class);
 	
 	@Autowired
