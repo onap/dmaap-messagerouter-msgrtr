@@ -114,7 +114,7 @@ public class MMServiceImpl implements MMService {
 			throws ConfigDbException, TopicExistsException, AccessDeniedException, UnavailableException,
 			CambriaApiException, IOException {
 
-		// final long startTime = System.currentTimeMillis();
+		
 		final HttpServletRequest req = ctx.getRequest();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -138,13 +138,13 @@ public class MMServiceImpl implements MMService {
 			limit = Integer.parseInt(req.getParameter("limit"));
 		}
 		limit = 1;
-		// int timeoutMs = 60000;
+		
 		int timeoutMs = CambriaConstants.kNoTimeout;
 		String strtimeoutMS = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, "timeout");
 		if (strtimeoutMS != null)
 			timeoutMs = Integer.parseInt(strtimeoutMS);
 		// int timeoutMs = ctx.getConfigReader().getSettings().getInt("timeout",
-		// CambriaConstants.kNoTimeout);
+		
 		if (req.getParameter("timeout") != null) {
 			timeoutMs = Integer.parseInt(req.getParameter("timeout"));
 		}
