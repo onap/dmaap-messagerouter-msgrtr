@@ -263,7 +263,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	 *            throws IOException
 	 */
 	public void write(final OutputStream os) throws IOException {
-		// final boolean transactionEnabled = topic.isTransactionEnabled();
+		
 		// final boolean transactionEnabled = isTransEnabled();
 		// final boolean transactionEnabled = istransEnable;
 		// synchronized(this){
@@ -282,7 +282,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 					entry.put("message", msg);
 					os.write(entry.toString().getBytes());
 				} else {
-					// os.write(message.getBytes());
+					
 						String jsonString = JSONObject.valueToString(msg);
 					os.write(jsonString.getBytes());
 				}
@@ -299,7 +299,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 					try {
 						if (istransEnable && istransType) {
 							// final String transactionId =
-							// jsonMessage.getString("transactionId");
+							
 							// responseTransactionId = transId;
 							StringBuilder consumerInfo = new StringBuilder();
 							if (null != dmaapContext && null != dmaapContext.getRequest()) {
