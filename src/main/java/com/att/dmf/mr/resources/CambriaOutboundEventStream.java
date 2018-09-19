@@ -171,7 +171,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		}
 
 		// public Builder atOffset ( int pos )
-		// {
+		
 		// fOffset = pos;
 		// return this;
 		// }
@@ -197,7 +197,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		fConsumer = builder.fConsumer;
 		fLimit = builder.fLimit;
 		fTimeoutMs = builder.fTimeoutMs;
-		// fSettings = builder.fSettings;
+		
 		fSent = 0;
 		fPretty = builder.fPretty;
 		fWithMeta = builder.fWithMeta;
@@ -244,7 +244,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		 * @param msg
 		 * @throws IOException
 		 */
-		// void onMessage(int count, Message msg) throws IOException;
+		
 		void onMessage(int count, String msg, String transId, long offSet) throws IOException, JSONException;
 	}
 
