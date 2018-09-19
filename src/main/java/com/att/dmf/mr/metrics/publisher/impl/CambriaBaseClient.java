@@ -59,7 +59,7 @@ public class CambriaBaseClient extends HttpClient implements com.att.dmf.mr.metr
 
 		
 		fLog = EELFManager.getInstance().getLogger(this.getClass().getName());
-		//( this.getClass().getName () );
+		
 	}
 
 	@Override
