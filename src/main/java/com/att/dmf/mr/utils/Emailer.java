@@ -108,7 +108,7 @@ public class Emailer
 
 		private String getSetting ( String settingKey, String defval )
 		{
-			//return fSettings.getString ( settingKey, defval );
+			
 			String strSet = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,settingKey);
 			if(strSet==null)strSet=defval;
 			return strSet;
