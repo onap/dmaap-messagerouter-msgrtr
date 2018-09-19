@@ -338,7 +338,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 			}
 		});
 
-		// if (null != dmaapContext && isTransactionEnabled()) {
+		
 		if (null != dmaapContext && istransEnable && istransType) {
 
 			dmaapContext.getResponse().setHeader("transactionId",
@@ -353,10 +353,10 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		if (null != strclose_out_stream)
 			close_out_stream = Boolean.parseBoolean(strclose_out_stream);
 
-		// if (fSettings.getBoolean("close.output.stream", true)) {
+		
 		if (close_out_stream) {
 			os.close();
-			// }
+			
 		}
 	}
 
