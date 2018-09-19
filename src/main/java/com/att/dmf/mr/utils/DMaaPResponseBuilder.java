@@ -46,7 +46,7 @@ import com.att.eelf.configuration.EELFManager;
 
 public class DMaaPResponseBuilder {
 
-	//private static Logger log = Logger.getLogger(DMaaPResponseBuilder.class);
+	
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(DMaaPResponseBuilder.class);
 	protected static final int kBufferLength = 4096;
 
