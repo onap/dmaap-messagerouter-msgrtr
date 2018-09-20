@@ -479,10 +479,10 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	 * 
 	 * Checks whether filter is initialized
 	 */
-	/*private boolean isFilterInitialized() {
-		return (fHpAlarmFilter != null && fHppe != null);
-	}
-*/
+	
+		
+	
+
 	/**
 	 * 
 	 * @param msg
@@ -490,18 +490,18 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	 */
 	private boolean filterMatches(String msg) {
 		boolean result = true;
-		/*if (isFilterInitialized()) {
-			try {
-				final HpJsonEvent e = new HpJsonEvent("e", new JSONObject(msg));
-				result = fHpAlarmFilter.matches(fHppe, e);
-			} catch (JSONException x) {
-				// the msg may not be JSON
-				result = false;
-				log.error("Failed due to " + x.getMessage());
-			} catch (Exception x) {
-				log.error("Error using filter: " + x.getMessage(), x);
-			}
-		}*/
+		
+		
+				
+				
+			
+			
+			
+				
+			
+				
+		
+	
 
 		return result;
 	}
