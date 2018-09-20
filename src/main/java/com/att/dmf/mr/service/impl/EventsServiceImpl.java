@@ -376,7 +376,7 @@ public class EventsServiceImpl implements EventsService {
 		String topicNameStd = null;
 
 		// topicNameStd=
-		// ctx.getConfigReader().getSettings().getString("enforced.topic.name.AAF");
+		
 		topicNameStd = com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,
 				"enforced.topic.name.AAF");
 		String metricTopicname = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
@@ -404,7 +404,7 @@ public class EventsServiceImpl implements EventsService {
 		if (topicNameEnforced || (user == null && null != ctx.getRequest().getHeader("Authorization")
 				&& !topic.equalsIgnoreCase(metricTopicname))) {
 			// the topic name will be sent by the client
-			// String permission = "com.att.dmaap.mr.topic"+"|"+topic+"|"+"pub";
+		
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
 			String permission = aaf.aafPermissionString(topic, "pub");
 			if (!aaf.aafAuthentication(ctx.getRequest(), permission)) {
@@ -486,7 +486,7 @@ public class EventsServiceImpl implements EventsService {
 		if (null != batchlen)
 			maxEventBatch = Long.parseLong(batchlen);
 		// long maxEventBatch =
-		// ctx.getConfigReader().getSettings().getLong(BATCH_LENGTH, 1024 * 16);
+		
 		final LinkedList<Publisher.message> batch = new LinkedList<>();
 		// final ArrayList<KeyedMessage<String, String>> kms = new
 		// ArrayList<KeyedMessage<String, String>>();
