@@ -75,7 +75,7 @@ String msgRtr_prop="MsgRtrApi.properties";
 	int kDefault_MaxThreads = -1;
 	
 	
-//	String kSetting_TomcatProtocolClass = "tomcat.protocolClass";
+	
 	//String kDefault_TomcatProtocolClass = Http11NioProtocol.class.getName ();
 
 	String kSetting_ZkConfigDbServers = "config.zk.servers";
