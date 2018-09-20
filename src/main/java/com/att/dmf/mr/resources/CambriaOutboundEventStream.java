@@ -534,11 +534,11 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	private final Consumer fConsumer;
 	private final int fLimit;
 	private final int fTimeoutMs;
-	// private final rrNvReadable fSettings;
+	
 	private final boolean fPretty;
 	private final boolean fWithMeta;
 	private int fSent;
-//	private final HpAlarmFilter<HpJsonEvent> fHpAlarmFilter;
+
 	//private final HpProcessingEngine<HpJsonEvent> fHppe;
 	private DMaaPContext dmaapContext;
 	private String responseTransactionId;
@@ -548,7 +548,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	private ArrayList<Consumer> fKafkaConsumerList;
 	private boolean istransType = true;
 	// private static final Logger log =
-	// Logger.getLogger(CambriaOutboundEventStream.class);
+	
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(CambriaOutboundEventStream.class);
 }
