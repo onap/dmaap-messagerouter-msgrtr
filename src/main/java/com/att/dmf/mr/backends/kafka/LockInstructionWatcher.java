@@ -69,7 +69,7 @@ public class LockInstructionWatcher implements Watcher {
 			try {
 				
 				log.info("node children changed at path: {}", event.getPath());
-				//String grpName = new String(curatorFramework.getData().forPath(event.getPath()));
+				
 				List<String> children = curatorFramework.getChildren().forPath(event.getPath());
 				
 				log.info("found children nodes prodcessing now");
