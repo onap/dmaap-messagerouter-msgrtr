@@ -45,7 +45,7 @@ import com.att.dmf.mr.utils.DMaaPResponseBuilder.StreamWriter;
 import com.att.dmf.mr.utils.Utils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-//import com.att.nsa.drumlin.till.nv.rrNvReadable;
+
 /*import com.att.sa.highlandPark.config.HpConfigContext;
 import com.att.sa.highlandPark.config.HpReaderException;
 import com.att.sa.highlandPark.events.HpJsonEvent;
@@ -88,7 +88,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		private boolean fWithMeta;
 		ArrayList<Consumer> fKafkaConsumerList;
 
-		// private int fOffset;
+		
 		/**
 		 * constructor it initializes all the consumer parameters
 		 * 
@@ -97,14 +97,14 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		 */
 		public Builder(Consumer c) {
 			this.fConsumer = c;
-			// this.fSettings = settings;
+			
 
 			fLimit = CambriaConstants.kNoTimeout;
 			fTimeoutMs = CambriaConstants.kNoLimit;
 			fTopicFilter = CambriaConstants.kNoFilter;
 			fPretty = false;
 			fWithMeta = false;
-			//this.fKafkaConsumerList = consList;
+			
 			// fOffset = CambriaEvents.kNextOffset;
 		}
 
