@@ -523,7 +523,7 @@ public class EventsServiceImpl implements EventsService {
 			final int sizeNow = batch.size();
 			if (sizeNow > 0) {
 				// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
-				// kms);
+			
 				// kms.clear();
 				ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
 				pms.clear();
@@ -597,10 +597,10 @@ public class EventsServiceImpl implements EventsService {
 		if (null != evenlen)
 			maxEventBatch = Long.parseLong(evenlen);
 		// final long maxEventBatch =
-		// ctx.getConfigReader().getSettings().getLong(BATCH_LENGTH, 1024 * 16);
+		
 		final LinkedList<Publisher.message> batch = new LinkedList<Publisher.message>();
 		// final ArrayList<KeyedMessage<String, String>> kms = new
-		// ArrayList<KeyedMessage<String, String>>();
+		
 		final ArrayList<ProducerRecord<String, String>> pms = new ArrayList<ProducerRecord<String, String>>();
 		Publisher.message m = null;
 		int messageSequence = 1;
