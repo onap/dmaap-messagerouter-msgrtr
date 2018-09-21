@@ -489,7 +489,7 @@ public class EventsServiceImpl implements EventsService {
 		
 		final LinkedList<Publisher.message> batch = new LinkedList<>();
 		// final ArrayList<KeyedMessage<String, String>> kms = new
-		// ArrayList<KeyedMessage<String, String>>();
+	
 		final ArrayList<ProducerRecord<String, String>> pms = new ArrayList<>();
 		try {
 			// for each message...
@@ -499,7 +499,7 @@ public class EventsServiceImpl implements EventsService {
 				batch.add(m);
 				// final KeyedMessage<String, String> data = new
 				// KeyedMessage<String, String>(topic, m.getKey(),
-				// m.getMessage());
+			
 				// kms.add(data);
 				final ProducerRecord<String, String> data = new ProducerRecord<String, String>(topic, m.getKey(),
 						m.getMessage());
@@ -509,7 +509,7 @@ public class EventsServiceImpl implements EventsService {
 				final int sizeNow = batch.size();
 				if (sizeNow > maxEventBatch) {
 					// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
-					// kms);
+				
 					// kms.clear();
 					ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
 					pms.clear();
