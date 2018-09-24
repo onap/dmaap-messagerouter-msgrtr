@@ -71,7 +71,7 @@ public class DMaaPAuthenticatorImpl<K extends NsaApiKey> implements DMaaPAuthent
 	 *            the size of the time window for request authentication
 	 */
 	public DMaaPAuthenticatorImpl(NsaApiDb<K> db, long authTimeWindowMs) {
-		fAuthenticators = new LinkedList<DMaaPAuthenticator<K>>();
+		fAuthenticators = new LinkedList<>();
 
 		fAuthenticators.add(new DMaaPOriginalUebAuthenticator<K>(db, authTimeWindowMs));
 	}
