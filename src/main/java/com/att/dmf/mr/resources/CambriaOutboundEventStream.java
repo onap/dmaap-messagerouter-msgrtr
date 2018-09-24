@@ -105,7 +105,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 			fPretty = false;
 			fWithMeta = false;
 			
-			// fOffset = CambriaEvents.kNextOffset;
+	
 		}
 
 		/**
@@ -172,7 +172,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 
 		// public Builder atOffset ( int pos )
 		
-		// fOffset = pos;
+	
 		// return this;
 		// }
 		/**
@@ -264,7 +264,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	 */
 	public void write(final OutputStream os) throws IOException {
 		
-		// final boolean transactionEnabled = isTransEnabled();
+	
 		// final boolean transactionEnabled = istransEnable;
 		// synchronized(this){
 		os.write('[');
@@ -300,7 +300,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 						if (istransEnable && istransType) {
 							// final String transactionId =
 							
-							// responseTransactionId = transId;
+							
 							StringBuilder consumerInfo = new StringBuilder();
 							if (null != dmaapContext && null != dmaapContext.getRequest()) {
 								final HttpServletRequest request = dmaapContext.getRequest();
