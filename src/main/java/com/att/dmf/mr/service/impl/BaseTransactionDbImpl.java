@@ -143,7 +143,7 @@ public class BaseTransactionDbImpl<K extends DMaaPTransactionObj> implements DMa
 	 * @throws ConfigDbException
 	 */
 	public synchronized Set<String> loadAllTransactionObjs() throws ConfigDbException {
-		final TreeSet<String> result = new TreeSet<String>();
+		final TreeSet<String> result = new TreeSet<>();
 		for (ConfigPath cp : fDb.loadChildrenNames(fBasePath)) {
 			result.add(cp.getName());
 		}
