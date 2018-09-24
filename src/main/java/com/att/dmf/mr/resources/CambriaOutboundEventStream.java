@@ -300,7 +300,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 						if (istransEnable && istransType) {
 							// final String transactionId =
 							
-							// responseTransactionId = transId;
+							
 							StringBuilder consumerInfo = new StringBuilder();
 							if (null != dmaapContext && null != dmaapContext.getRequest()) {
 								final HttpServletRequest request = dmaapContext.getRequest();
