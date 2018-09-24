@@ -76,7 +76,7 @@ public class UIServiceImpl implements UIService {
 		LOGGER.info("Fetching list of all api keys and returning in a templated form for display.");
 		Map<String, NsaSimpleApiKey> keyMap = getApiKeyDb(dmaapContext).loadAllKeyRecords();
 
-		LinkedList<JSONObject> keyList = new LinkedList<JSONObject>();
+		LinkedList<JSONObject> keyList = new LinkedList<>();
 
 		JSONObject jsonList = new JSONObject();
 
