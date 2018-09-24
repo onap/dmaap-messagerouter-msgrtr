@@ -25,8 +25,7 @@ import java.util.ArrayList;
 
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
