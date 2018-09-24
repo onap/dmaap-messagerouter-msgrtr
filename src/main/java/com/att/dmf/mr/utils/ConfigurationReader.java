@@ -164,9 +164,9 @@ public class ConfigurationReader {
 			fMetrics.toJson();
 			fMetrics.setupCambriaSender();
 			// add the admin authenticator
-				//		final String adminSecret = settings.getString ( CambriaConstants.kSetting_AdminSecret, null );
+			
 						final String adminSecret = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kSetting_AdminSecret);
-						//adminSecret = "fe3cCompound";
+						
 						if ( adminSecret != null && adminSecret.length () > 0 )
 						{
 							try
