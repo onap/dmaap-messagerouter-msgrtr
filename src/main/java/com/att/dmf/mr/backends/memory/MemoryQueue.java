@@ -44,7 +44,7 @@ public class MemoryQueue {
 	 */
 	public MemoryQueue() {
 		fQueue = new HashMap<>();
-		fOffsets = new HashMap<String, HashMap<String, Integer>>();
+		fOffsets = new HashMap<>();
 	}
 
 	/**
