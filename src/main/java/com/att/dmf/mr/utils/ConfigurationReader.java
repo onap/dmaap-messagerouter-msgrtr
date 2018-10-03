@@ -174,7 +174,7 @@ public class ConfigurationReader {
 								
 								final NsaApiDb<NsaSimpleApiKey> adminDb = new BaseNsaApiDbImpl<NsaSimpleApiKey> ( new MemConfigDb(), new NsaSimpleApiKeyFactory() );
 								adminDb.createApiKey ( "admin", adminSecret );
-								//nsaSecurityManager.addAuthenticator ( new OriginalUebAuthenticator<NsaSimpleApiKey> ( adminDb, 10*60*1000 ) );
+							
 						        fSecurityManager.addAuthenticator ( new DMaaPOriginalUebAuthenticator<NsaSimpleApiKey> ( adminDb, 10*60*1000 ) );
 							}
 						
