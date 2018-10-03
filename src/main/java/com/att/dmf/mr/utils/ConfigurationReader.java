@@ -185,7 +185,7 @@ public class ConfigurationReader {
 						}
 					
 			// setup a backend
-			//final String type = settings.getString(CambriaConstants.kBrokerType, CambriaConstants.kBrokerType_Kafka);
+			
 			 String type = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kBrokerType);
 			if (type==null) type = CambriaConstants.kBrokerType_Kafka;
 			if (CambriaConstants.kBrokerType_Kafka.equalsIgnoreCase(type)) {
