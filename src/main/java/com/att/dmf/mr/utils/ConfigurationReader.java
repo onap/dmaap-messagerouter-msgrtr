@@ -112,6 +112,7 @@ public class ConfigurationReader {
 	 * @throws ServletException
 	 * @throws KafkaConsumerCacheException
 	 * @throws ConfigDbException 
+	 * @throws KeyExistsException 
 	 */
 	@Autowired
 	public ConfigurationReader(@Qualifier("propertyReader") rrNvReadable settings,
@@ -128,7 +129,7 @@ public class ConfigurationReader {
 			 */
 			@Qualifier("dMaaPAuthenticatorImpl") DMaaPAuthenticator<NsaSimpleApiKey> fSecurityManager
 			)
-					throws missingReqdSetting, invalidSettingValue, ServletException, KafkaConsumerCacheException, ConfigDbException {
+					throws missingReqdSetting, invalidSettingValue, ServletException, KafkaConsumerCacheException, ConfigDbException, KeyExistsException {
 		
 		this.fMetrics = fMetrics;
 		this.zk = zk;
@@ -158,7 +159,7 @@ public class ConfigurationReader {
 	}
 
 	protected void servletSetup()
-			throws rrNvReadable.missingReqdSetting, rrNvReadable.invalidSettingValue, ServletException, ConfigDbException {
+			throws rrNvReadable.missingReqdSetting, rrNvReadable.invalidSettingValue, ServletException, ConfigDbException, KeyExistsException {
 		try {
 
 			fMetrics.toJson();
@@ -169,19 +170,12 @@ public class ConfigurationReader {
 						
 						if ( adminSecret != null && adminSecret.length () > 0 )
 						{
-							try
-							{
 								
 								final NsaApiDb<NsaSimpleApiKey> adminDb = new BaseNsaApiDbImpl<NsaSimpleApiKey> ( new MemConfigDb(), new NsaSimpleApiKeyFactory() );
 								adminDb.createApiKey ( "admin", adminSecret );
 							
 						        fSecurityManager.addAuthenticator ( new DMaaPOriginalUebAuthenticator<NsaSimpleApiKey> ( adminDb, 10*60*1000 ) );
-							}
 						
-							catch ( KeyExistsException e )
-							{
-								throw new RuntimeException ( "This key can't exist in a fresh in-memory DB!", e );
-							}
 						}
 					
 			// setup a backend

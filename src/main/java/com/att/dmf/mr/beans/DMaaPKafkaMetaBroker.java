@@ -47,6 +47,7 @@ import com.att.dmf.mr.metabroker.Broker;
 import com.att.dmf.mr.metabroker.Broker1;
 import com.att.dmf.mr.metabroker.Topic;
 import com.att.dmf.mr.utils.ConfigurationReader;
+import com.att.dmf.mr.utils.Utils;
 //import org.apache.log4-j.Logger;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -83,7 +84,7 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 		}
 		
 	     props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, fkafkaBrokers );
-	     props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+	     props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='"+Utils.getKafkaproperty()+"';");
 	  	 props.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");	     
 	     props.put("sasl.mechanism", "PLAIN");
 	   
@@ -119,7 +120,7 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 		}
 		
 		
-		 props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+		 props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='"+Utils.getKafkaproperty()+"';");
 	  	 props.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");	     
 	     props.put("sasl.mechanism", "PLAIN");
 	     props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, fkafkaBrokers );

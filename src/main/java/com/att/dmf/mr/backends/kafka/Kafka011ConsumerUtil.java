@@ -73,7 +73,6 @@ public class Kafka011ConsumerUtil {
 
 				} catch (Exception e) {
 					log.error("Failed and go to Exception block for " + fGroup + " " + e.getMessage());
-					e.printStackTrace();
 				}
 			}
 		});
@@ -112,7 +111,6 @@ public class Kafka011ConsumerUtil {
 					log.error("Error occurs for " + e);
 				} catch (Exception e) {
 					log.error("Failed and go to Exception block for " + group + " " + e.getMessage());
-					e.printStackTrace();
 				}
 			}
 		});

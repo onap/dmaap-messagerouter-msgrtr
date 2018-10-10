@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.nio.channels.NotYetConnectedException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -123,7 +124,12 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 			try {
 			return new DMaaPCambriaSimplerBatchPublisher(fUrls, fTopic, fMaxBatchSize, fMaxBatchAgeMs, fCompress);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
+			
+			NotYetConnectedException exception=new NotYetConnectedException();
+			exception.setStackTrace(e.getStackTrace());
+			
+			throw exception ;
+		
 		}
 		}
 

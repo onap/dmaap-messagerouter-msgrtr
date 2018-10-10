@@ -27,7 +27,9 @@ package com.att.dmf.mr.service;
 import java.io.IOException;
 
 import org.apache.kafka.common.errors.TopicExistsException;
+import org.json.JSONException;
 
+import com.att.dmf.mr.CambriaApiException;
 import com.att.dmf.mr.beans.DMaaPContext;
 import com.att.nsa.configs.ConfigDbException;
 /**
@@ -62,7 +64,7 @@ public interface UIService {
 	 * @throws Exception
 	 */
 	void getApiKey(DMaaPContext dmaapContext, final String apiKey)
-			throws Exception;
+			throws CambriaApiException, ConfigDbException, JSONException, IOException;
 
 	/**
 	 * Fetching list of all the topics and returning in a templated form for

@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.att.dmf.mr.backends.Publisher;
 import com.att.dmf.mr.constants.CambriaConstants;
+import com.att.dmf.mr.utils.Utils;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import com.att.eelf.configuration.EELFLogger;
@@ -75,7 +76,7 @@ public class KafkaPublisher implements Publisher {
 		
 	
 	    
-		transferSetting( props, "sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+		transferSetting( props, "sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='"+Utils.getKafkaproperty()+"';");
 		transferSetting( props, "security.protocol", "SASL_PLAINTEXT");
 		transferSetting( props, "sasl.mechanism", "PLAIN");		
 		transferSetting( props, "bootstrap.servers",kafkaConnUrl);

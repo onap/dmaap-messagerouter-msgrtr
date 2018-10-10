@@ -156,7 +156,7 @@ public class Kafka011Consumer implements Consumer {
 				apiNodeId = InetAddress.getLocalHost().getCanonicalHostName() + ":" + CambriaConstants.kDefault_Port;
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				log.error("unable to get the localhost address");
 			}
 
 			try {

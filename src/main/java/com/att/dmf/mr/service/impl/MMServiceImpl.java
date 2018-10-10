@@ -404,7 +404,7 @@ public class MMServiceImpl implements MMService {
 
 			int status = HttpStatus.SC_NOT_FOUND;
 			String errorMsg = null;
-			if (excp instanceof CambriaApiException) {
+			if (excp.getClass().toString().contains("CambriaApiException")) {
 				status = ((CambriaApiException) excp).getStatus();
 				JSONTokener jsonTokener = new JSONTokener(((CambriaApiException) excp).getBody());
 				JSONObject errObject = new JSONObject(jsonTokener);
@@ -496,7 +496,7 @@ public class MMServiceImpl implements MMService {
 
 						int status = HttpStatus.SC_NOT_FOUND;
 						String errorMsg = null;
-						if (excp instanceof CambriaApiException) {
+						if (excp.getClass().toString().contains("CambriaApiException")) {
 							status = ((CambriaApiException) excp).getStatus();
 							JSONTokener jsonTokener = new JSONTokener(((CambriaApiException) excp).getBody());
 							JSONObject errObject = new JSONObject(jsonTokener);
@@ -541,7 +541,7 @@ public class MMServiceImpl implements MMService {
 				} catch (Exception excp) {
 					int status = HttpStatus.SC_NOT_FOUND;
 					String errorMsg = null;
-					if (excp instanceof CambriaApiException) {
+					if (excp.getClass().toString().contains("CambriaApiException")) {
 						status = ((CambriaApiException) excp).getStatus();
 						JSONTokener jsonTokener = new JSONTokener(((CambriaApiException) excp).getBody());
 						JSONObject errObject = new JSONObject(jsonTokener);
@@ -581,7 +581,7 @@ public class MMServiceImpl implements MMService {
 		} catch (Exception excp) {
 			int status = HttpStatus.SC_NOT_FOUND;
 			String errorMsg = null;
-			if (excp instanceof CambriaApiException) {
+			if (excp.getClass().toString().contains("CambriaApiException")) {
 				status = ((CambriaApiException) excp).getStatus();
 				JSONTokener jsonTokener = new JSONTokener(((CambriaApiException) excp).getBody());
 				JSONObject errObject = new JSONObject(jsonTokener);

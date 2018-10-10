@@ -30,9 +30,11 @@ import java.util.Map.Entry;
 
 import org.apache.kafka.common.errors.TopicExistsException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.att.dmf.mr.CambriaApiException;
 import com.att.dmf.mr.beans.DMaaPContext;
 import com.att.dmf.mr.beans.DMaaPKafkaMetaBroker;
 import com.att.dmf.mr.metabroker.Topic;
@@ -100,10 +102,13 @@ public class UIServiceImpl implements UIService {
 	/**
 	 * @param dmaapContext
 	 * @param apiKey
+	 * @throws ConfigDbException 
+	 * @throws IOException 
+	 * @throws JSONException 
 	 * @throws Exception
 	 */
 	@Override
-	public void getApiKey(DMaaPContext dmaapContext, String apiKey) throws Exception {
+	public void getApiKey(DMaaPContext dmaapContext, String apiKey) throws CambriaApiException, ConfigDbException, JSONException, IOException {
 		// TODO - We need to work on the templates and how data will be set in
 		// the template
 		LOGGER.info("Fetching detials of apikey: " + apiKey);
@@ -114,7 +119,7 @@ public class UIServiceImpl implements UIService {
 			DMaaPResponseBuilder.respondOk(dmaapContext, key.asJsonObject());
 		} else {
 			LOGGER.info("Details of apikey [" + apiKey + "] not found. Returning response");
-			throw new Exception("Key [" + apiKey + "] not found.");
+			throw new CambriaApiException(400,"Key [" + apiKey + "] not found.");
 		}
 
 	}

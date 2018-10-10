@@ -22,6 +22,7 @@
 package com.att.dmf.mr.metrics.publisher;
 
 import java.net.MalformedURLException;
+import java.nio.channels.NotYetConnectedException;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -244,7 +245,11 @@ public class DMaaPCambriaClientFactory {
 		return new DMaaPCambriaConsumerImpl(hostSet, topic, consumerGroup,
 				consumerId, timeoutMs, limit, filter, apiKey, apiSecret);
 	} catch (MalformedURLException e) {
-		throw new RuntimeException(e);
+		
+		NotYetConnectedException exception=new NotYetConnectedException();
+		exception.setStackTrace(e.getStackTrace());
+		
+		throw exception ;
 	}
 	}
 

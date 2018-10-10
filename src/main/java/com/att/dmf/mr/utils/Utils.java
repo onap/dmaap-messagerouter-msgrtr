@@ -21,16 +21,22 @@
  *******************************************************************************/
 package com.att.dmf.mr.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.att.dmf.mr.backends.kafka.KafkaPublisher;
 import com.att.dmf.mr.beans.DMaaPContext;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 /**
  * This is an utility class for various operations for formatting
  * @author nilanjana.maity
@@ -41,6 +47,7 @@ public class Utils {
 	private static final String DATE_FORMAT = "dd-MM-yyyy::hh:mm:ss:SSS";
 	public static final String CAMBRIA_AUTH_HEADER = "X-CambriaAuth";
 	private static final String BATCH_ID_FORMAT = "000000";
+	private static final EELFLogger log = EELFManager.getInstance().getLogger(Utils.class);
 
 	private Utils() {
 		super();
@@ -141,5 +148,18 @@ public class Utils {
 	      list.add(e.nextElement().toString());
 	    }
 	    return list;
+	  }
+	  
+	  public static String getKafkaproperty(){
+		  InputStream input = new Utils().getClass().getResourceAsStream("/kafka.properties");
+			Properties props = new Properties();
+			try {
+				props.load(input);
+			} catch (IOException e) {
+				log.error("failed to read kafka.properties");
+			}
+			return props.getProperty("key");
+			
+		  
 	  }
 }

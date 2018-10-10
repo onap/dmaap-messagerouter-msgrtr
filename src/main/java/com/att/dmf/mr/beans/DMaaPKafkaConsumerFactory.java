@@ -46,8 +46,7 @@ import com.att.dmf.mr.backends.kafka.KafkaLiveLockAvoider2;
 import com.att.dmf.mr.backends.kafka.LiveLockAvoidance;
 import com.att.dmf.mr.constants.CambriaConstants;
 import com.att.dmf.mr.utils.ConfigurationReader;
-
-
+import com.att.dmf.mr.utils.Utils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
@@ -290,8 +289,7 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 		props.put("group.id", fakeGroupName);
 		props.put("enable.auto.commit", "false"); // 0.11
 		props.put("bootstrap.servers", fkafkaBrokers);
-		props.put("sasl.jaas.config",
-				"org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='admin_secret';");
+		props.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='"+Utils.getKafkaproperty()+"';");
 		props.put("security.protocol", "SASL_PLAINTEXT");
 		props.put("sasl.mechanism", "PLAIN");
 		

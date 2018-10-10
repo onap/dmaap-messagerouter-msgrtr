@@ -89,7 +89,6 @@ public class Emailer
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(Emailer.class);
 	
 	public static final String kSetting_MailAuthUser = "mailLogin";
-	public static final String kSetting_MailAuthPwd = "mailPassword";
 	public static final String kSetting_MailFromEmail = "mailFromEmail";
 	public static final String kSetting_MailFromName = "mailFromName";
 	public static final String kSetting_SmtpServer = "mailSmtpServer";
@@ -162,14 +161,14 @@ public class Emailer
 				makeSetting ( prop, "mail.smtp.starttls.enable", kSetting_SmtpServerSsl, true );
 
 				final String un = getSetting ( kSetting_MailAuthUser, "" );
-				final String pw = getSetting ( kSetting_MailAuthPwd, "" );
+				final String value=(AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"mailPassword")!=null)?AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"mailPassword"):"";
 				final Session session = Session.getInstance ( prop,
 					new javax.mail.Authenticator()
 					{
 						@Override
 						protected PasswordAuthentication getPasswordAuthentication()
 						{
-							return new PasswordAuthentication ( un, pw );
+							return new PasswordAuthentication ( un, value );
 						}
 					}
 				);
