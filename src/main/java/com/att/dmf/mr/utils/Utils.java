@@ -162,4 +162,14 @@ public class Utils {
 			
 		  
 	  }
+	  
+	  public static boolean isCadiEnabled(){
+		  boolean enableCadi=false;
+		  if(System.getenv("enableCadi")!=null){
+				enableCadi=Boolean.getBoolean(System.getenv("enableCadi"));
+			}
+		  
+		  return enableCadi;
+	  }
+		  
 }

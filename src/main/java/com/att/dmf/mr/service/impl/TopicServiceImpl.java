@@ -52,6 +52,7 @@ import com.att.dmf.mr.security.DMaaPAAFAuthenticatorImpl;
 import com.att.dmf.mr.security.DMaaPAuthenticatorImpl;
 import com.att.dmf.mr.service.TopicService;
 import com.att.dmf.mr.utils.DMaaPResponseBuilder;
+import com.att.dmf.mr.utils.Utils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.configs.ConfigDbException;
@@ -215,7 +216,7 @@ public class TopicServiceImpl implements TopicService {
 		// else if (user==null &&
 		// (null==dmaapContext.getRequest().getHeader("Authorization") && null
 		// == dmaapContext.getRequest().getHeader("cookie")) ) {
-		else if (user == null && null == dmaapContext.getRequest().getHeader("Authorization")
+		else if (Utils.isCadiEnabled()&&user == null && null == dmaapContext.getRequest().getHeader("Authorization")
 				&& (null == appName && null == dmaapContext.getRequest().getHeader("cookie"))) {
 			LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
 

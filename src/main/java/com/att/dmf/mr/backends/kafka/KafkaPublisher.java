@@ -75,10 +75,11 @@ public class KafkaPublisher implements Publisher {
 		}
 		
 	
-	    
+	    if(Utils.isCadiEnabled()){
 		transferSetting( props, "sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='admin' password='"+Utils.getKafkaproperty()+"';");
 		transferSetting( props, "security.protocol", "SASL_PLAINTEXT");
-		transferSetting( props, "sasl.mechanism", "PLAIN");		
+		transferSetting( props, "sasl.mechanism", "PLAIN");	
+	    }
 		transferSetting( props, "bootstrap.servers",kafkaConnUrl);
 			
 		transferSetting( props, "request.required.acks", "1");
