@@ -165,8 +165,8 @@ public class Utils {
 	  
 	  public static boolean isCadiEnabled(){
 		  boolean enableCadi=false;
-		  if(System.getenv("enableCadi")!=null){
-				enableCadi=Boolean.getBoolean(System.getenv("enableCadi"));
+		  if(System.getenv("enableCadi")!=null&&System.getenv("enableCadi").equals("true")){
+			  enableCadi=true;
 			}
 		  
 		  return enableCadi;
