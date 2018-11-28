@@ -254,7 +254,6 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 	@Override
 	public void deleteTopic(String topic) throws CambriaApiException, TopicExistsException,ConfigDbException {
 		log.info("Deleting topic: " + topic);
-		ZkClient zkClient = null;
 		try {
 			log.info("Loading zookeeper client for topic deletion.");
 					// topic creation. (Otherwise, the topic is only partially created
@@ -269,8 +268,6 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 			throw new ConfigDbException(e);
 		}  finally {
 			log.info("Closing zookeeper connection.");
-			if (zkClient != null)
-				zkClient.close();
 		}
 
 		// throw new UnsupportedOperationException ( "We can't programmatically

@@ -23,7 +23,6 @@ package org.onap.dmaap.dmf.mr.backends.kafka;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -107,12 +106,13 @@ public class Kafka011Consumer implements Consumer {
 	public synchronized Consumer.Message nextMessage() {
 
 		try {
-			if (fPendingMsgs.size() > 0) {
+			if (!fPendingMsgs.isEmpty()) {
 				return makeMessage(fPendingMsgs.take());
 			}
 		} catch (InterruptedException x) {
 			log.warn("After size>0, pending msg take() threw InterruptedException. Ignoring. (" + x.getMessage() + ")",
 					x);
+			Thread.currentThread().interrupt();
 		}
 
 		Callable<Boolean> run = new Callable<Boolean>() {
@@ -129,11 +129,11 @@ public class Kafka011Consumer implements Consumer {
 					}
 
 				} catch (KafkaException x) {
-					log.debug(fLogTag + ": KafkaException " + x.getMessage());
+					log.debug(fLogTag + ": KafkaException " + x);
 
 				} catch (java.lang.IllegalStateException | java.lang.IllegalArgumentException x) {
 					log.error(fLogTag + ": Illegal state/arg exception in Kafka consumer; dropping stream. "
-							+ x.getMessage());
+							+ x);
 
 				}
 
@@ -150,25 +150,26 @@ public class Kafka011Consumer implements Consumer {
 			future.get(5, TimeUnit.SECONDS); // wait 1
 			// second
 		} catch (TimeoutException ex) {
+			log.error("TimeoutException in in Kafka consumer {}", ex);
 			// timed out. Try to stop the code if possible.
 			String apiNodeId = null;
 			try {
 				apiNodeId = InetAddress.getLocalHost().getCanonicalHostName() + ":" + CambriaConstants.kDefault_Port;
 			} catch (UnknownHostException e1) {
-				// TODO Auto-generated catch block
-				log.error("unable to get the localhost address");
+				log.error("unable to get the localhost address {}", e1);
 			}
 
 			try {
 				if (fKafkaLiveLockAvoider != null)
 					fKafkaLiveLockAvoider.unlockConsumerGroup(apiNodeId, fTopic + "::" + fGroup);
 			} catch (Exception e) {
-				log.error("unlockConsumerGroup(" + apiNodeId + "," + fTopic + "::" + fGroup);
+				log.error("Exception in unlockConsumerGroup(" + apiNodeId + "," + fTopic + "::" + fGroup, e);
 			}
 
 			forcePollOnConsumer();
 			future.cancel(true);
 		} catch (Exception ex) {
+			log.error("Exception in in Kafka consumer {}", ex);
 			// timed out. Try to stop the code if possible.
 			future.cancel(true);
 		}
@@ -301,7 +302,7 @@ public class Kafka011Consumer implements Consumer {
 			// second
 		} catch (TimeoutException ex) {
 			// timed out. Try to stop the code if possible.
-			log.info("Timeout Occured - Kafka connection closure with in 300 seconds by a Executors task");
+			log.info("Timeout Occured - Kafka connection closure with in 300 seconds by a Executors task {}", ex);
 			future.cancel(true);
 			setState(Kafka011Consumer.State.OPENED);
 		} catch (Exception ex) {

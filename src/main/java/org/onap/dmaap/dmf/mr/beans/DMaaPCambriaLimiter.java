@@ -157,7 +157,7 @@ public class DMaaPCambriaLimiter {
 				}
 			} catch (InterruptedException e) {
 				log.error("Exception "+ e);
-				// ignore
+				Thread.currentThread().interrupt();
 			}
 			
 			
