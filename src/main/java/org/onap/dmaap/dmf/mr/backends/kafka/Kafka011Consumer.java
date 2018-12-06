@@ -42,8 +42,7 @@ import org.apache.kafka.common.KafkaException;
 import org.onap.dmaap.dmf.mr.backends.Consumer;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 
-
-
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -83,6 +82,12 @@ public class Kafka011Consumer implements Consumer {
 		state = Kafka011Consumer.State.OPENED;
 		kConsumer = cc;
 		fKafkaLiveLockAvoider = klla;
+		
+		String consumerTimeOut = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
+				"consumer.timeout");
+		if (null != consumerTimeOut) {
+			consumerPollTimeOut = Integer.parseInt(consumerTimeOut);
+		}
 		synchronized (kConsumer) {
 			kConsumer.subscribe(Arrays.asList(topic));
 		}
@@ -147,7 +152,7 @@ public class Kafka011Consumer implements Consumer {
 		ExecutorService service = Executors.newSingleThreadExecutor();
 		service.execute(future);
 		try {
-			future.get(5, TimeUnit.SECONDS); // wait 1
+			future.get(consumerPollTimeOut, TimeUnit.SECONDS); // wait 1
 			// second
 		} catch (TimeoutException ex) {
 			// timed out. Try to stop the code if possible.
@@ -370,6 +375,7 @@ public class Kafka011Consumer implements Consumer {
 	private long offset;
 	private Kafka011Consumer.State state;
 	private KafkaLiveLockAvoider2 fKafkaLiveLockAvoider;
+	private int consumerPollTimeOut=5;
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(Kafka011Consumer.class);
 	private final LinkedBlockingQueue<ConsumerRecord<String, String>> fPendingMsgs;
 	
