@@ -34,6 +34,7 @@ import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -85,7 +86,7 @@ public class Kafka011Consumer implements Consumer {
 		
 		String consumerTimeOut = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
 				"consumer.timeout");
-		if (null != consumerTimeOut) {
+		if (StringUtils.isNotEmpty(consumerTimeOut)) {
 			consumerPollTimeOut = Integer.parseInt(consumerTimeOut);
 		}
 		synchronized (kConsumer) {
