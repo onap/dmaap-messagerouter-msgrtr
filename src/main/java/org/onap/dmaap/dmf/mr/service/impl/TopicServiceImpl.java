@@ -26,6 +26,7 @@ package org.onap.dmaap.dmf.mr.service.impl;
 
 import java.io.IOException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -281,14 +282,28 @@ public class TopicServiceImpl implements TopicService {
 			final String desc = topicBean.getTopicDescription();
 			int partition = topicBean.getPartitionCount();
 			// int replica = topicBean.getReplicationCount();
+			String defaultPartitions = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
+					"default.partitions");
+			String defaultReplicas = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
+					"default.replicas");
 			if (partition == 0) {
+				if(StringUtils.isNotEmpty(defaultPartitions)){
+					partition=Integer.parseInt(defaultPartitions);	
+				}
+				else{
 				partition = 1;
+				}
 			}
 			final int partitions = partition;
 
 			int replica = topicBean.getReplicationCount();
 			if (replica == 0) {
+				if(StringUtils.isNotEmpty(defaultReplicas)){
+					replica=Integer.parseInt(defaultReplicas);	
+				}
+				else{
 				replica = 1;
+				}
 			}
 			final int replicas = replica;
 			boolean transactionEnabled = topicBean.isTransactionEnabled();

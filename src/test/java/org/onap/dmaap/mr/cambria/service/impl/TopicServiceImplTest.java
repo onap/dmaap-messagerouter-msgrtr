@@ -141,6 +141,10 @@ public class TopicServiceImplTest {
 
 		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "enforced.topic.name.AAF"))
 				.thenReturn("enfTopicName");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.partitions"))
+		.thenReturn("1");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.replicas"))
+		.thenReturn("1");
 
 		when(httpServReq.getHeader("AppName")).thenReturn("MyApp");
 		when(dmaapContext.getRequest()).thenReturn(httpServReq);
@@ -165,7 +169,11 @@ public class TopicServiceImplTest {
 
 		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "enforced.topic.name.AAF"))
 				.thenReturn("enfTopicName");
-
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.partitions"))
+		.thenReturn("1");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.replicas"))
+		.thenReturn("1");
+		
 		when(dmaapContext.getRequest()).thenReturn(httpServReq);
 		when(dmaapContext.getResponse()).thenReturn(httpServRes);
 
@@ -208,6 +216,10 @@ public class TopicServiceImplTest {
 
 		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "enforced.topic.name.AAF"))
 				.thenReturn("enfTopicName");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.partitions"))
+		.thenReturn("1");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.replicas"))
+		.thenReturn("1");
 
 		when(httpServReq.getHeader("Authorization")).thenReturn(null);
 		when(dmaapContext.getRequest()).thenReturn(httpServReq);
@@ -232,6 +244,10 @@ public class TopicServiceImplTest {
 
 		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "enforced.topic.name.AAF"))
 				.thenReturn("enfTopicName");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.partitions"))
+		.thenReturn("1");
+		when(PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, "default.replicas"))
+		.thenReturn("1");
 
 		when(httpServReq.getHeader("Authorization")).thenReturn("Authorization");
 		when(dmaapContext.getRequest()).thenReturn(httpServReq);
