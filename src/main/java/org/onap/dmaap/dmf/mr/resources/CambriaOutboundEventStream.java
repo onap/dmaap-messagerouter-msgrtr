@@ -46,15 +46,15 @@ import org.onap.dmaap.dmf.mr.utils.Utils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-/*import com.att.sa.highlandPark.config.HpConfigContext;
-import com.att.sa.highlandPark.config.HpReaderException;
-import com.att.sa.highlandPark.events.HpJsonEvent;
-import com.att.sa.highlandPark.events.HpJsonEventFactory;
-import com.att.sa.highlandPark.processor.HpAlarmFilter;
-import com.att.sa.highlandPark.processor.HpEvent;
-import com.att.sa.highlandPark.processor.HpProcessingEngine;
-import com.att.sa.highlandPark.processor.HpProcessingEngine.EventFactory;
-*/
+
+
+
+
+
+
+
+
+
 /**
  * class used to write the consumed messages
  * 
@@ -173,7 +173,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		// public Builder atOffset ( int pos )
 		
 	
-		// return this;
+		
 		// }
 		/**
 		 * method returs object of CambriaOutboundEventStream
@@ -202,26 +202,26 @@ public class CambriaOutboundEventStream implements StreamWriter {
 		fPretty = builder.fPretty;
 		fWithMeta = builder.fWithMeta;
 		fKafkaConsumerList = builder.fKafkaConsumerList;
-	/*	if (CambriaConstants.kNoFilter.equals(builder.fTopicFilter)) {
-			fHpAlarmFilter = null;
-			fHppe = null;
-		} else {
-			try {
-				final JSONObject filter = new JSONObject(new JSONTokener(builder.fTopicFilter));
-				HpConfigContext<HpEvent> cc = new HpConfigContext<HpEvent>();
-				fHpAlarmFilter = cc.create(HpAlarmFilter.class, filter);
-				final EventFactory<HpJsonEvent> ef = new HpJsonEventFactory();
-				fHppe = new HpProcessingEngine<HpJsonEvent>(ef);
-			} catch (HpReaderException e) {
-				// JSON was okay, but the filter engine says it's bogus
-				throw new CambriaApiException(HttpServletResponse.SC_BAD_REQUEST,
-						"Couldn't create filter: " + e.getMessage());
-			} catch (JSONException e) {
-				// user sent a bogus JSON object
-				throw new CambriaApiException(HttpServletResponse.SC_BAD_REQUEST,
-						"Couldn't parse JSON: " + e.getMessage());
-			}
-		}*/
+	
+			
+			
+		
+			
+				
+				
+				
+				
+				
+			
+				
+			
+						
+			
+				
+				
+					
+		
+	
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	public void write(final OutputStream os) throws IOException {
 		
 	
-		// final boolean transactionEnabled = istransEnable;
+		
 		// synchronized(this){
 		os.write('[');
 		fSent = forEachMessage(new operation() {
@@ -539,7 +539,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	private final boolean fWithMeta;
 	private int fSent;
 
-	//private final HpProcessingEngine<HpJsonEvent> fHppe;
+	
 	private DMaaPContext dmaapContext;
 	private String responseTransactionId;
 	private Topic topic;
