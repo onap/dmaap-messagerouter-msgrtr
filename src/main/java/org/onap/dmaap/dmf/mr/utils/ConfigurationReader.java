@@ -188,7 +188,7 @@ public class ConfigurationReader {
 				log.info("Broker Type is:" + CambriaConstants.kBrokerType_Memory);
 				fPublisher = new MemoryQueuePublisher(q, mmb);
 				//Ramkumar remove below
-			//	fMetaBroker = mmb;
+			
 				fConsumerFactory = new MemoryConsumerFactory(q);
 			} else {
 				throw new IllegalArgumentException(
@@ -316,18 +316,18 @@ public class ConfigurationReader {
 	 * 
 	 * @return
 	 */
-	/*public rrNvReadable getSettings() {
-		return settings;
-	}*/
+	
+		
+	
 
 	/**
 	 * method to set rrNvReadable object
 	 * 
 	 * @param settings
 	 */
-	/*public void setSettings(rrNvReadable settings) {
-		this.settings = settings;
-	}*/
+	
+	
+	
 
 	/**
 	 * method to get CuratorFramework object
@@ -451,7 +451,7 @@ public class ConfigurationReader {
 	 * @return
 	 */
 	public static String getMainZookeeperConnectionString() {
-		//return settings.getString(CambriaConstants.kSetting_ZkConfigDbServers,			CambriaConstants.kDefault_ZkConfigDbServers);
+		
 		
 		 String zkServername = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kSetting_ZkConfigDbServers);
 		 if (zkServername==null) zkServername=CambriaConstants.kDefault_ZkConfigDbServers;
