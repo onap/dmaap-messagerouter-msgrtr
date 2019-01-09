@@ -77,7 +77,7 @@ import com.att.nsa.util.rrConvertor;
 public class MMServiceImpl implements MMService {
 	private static final String BATCH_LENGTH = "event.batch.length";
 	private static final String TRANSFER_ENCODING = "Transfer-Encoding";
-	//private static final Logger LOG = Logger.getLogger(MMServiceImpl.class);
+	
 	private static final EELFLogger LOG = EELFManager.getInstance().getLogger(MMServiceImpl.class);
 	@Autowired
 	private DMaaPErrorMessages errorMessages;
@@ -171,7 +171,7 @@ public class MMServiceImpl implements MMService {
 		final boolean withMeta = rrConvertor.convertToBooleanBroad(metaval);
 
 		// is this user allowed to read this topic?
-		//final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(ctx);
+		
 		final Topic metatopic = ctx.getConfigReader().getfMetaBroker().getTopic(topic);
 
 		if (metatopic == null) {
@@ -183,7 +183,7 @@ public class MMServiceImpl implements MMService {
 			LOG.info(errRes.toString());
 			throw new CambriaApiException(errRes);
 		}
-		//String metricTopicname = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,	"metrics.send.cambria.topic");
+		
 		/*
 		 * if (null==metricTopicname)
 		 * metricTopicname="msgrtr.apinode.metrics.dmaap"; //else if(user!=null)
@@ -260,7 +260,7 @@ public class MMServiceImpl implements MMService {
 			final String requestTime) throws ConfigDbException, AccessDeniedException, TopicExistsException,
 					CambriaApiException, IOException, missingReqdSetting {
 
-		//final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(ctx);
+	
 		//final Topic metatopic = ctx.getConfigReader().getfMetaBroker().getTopic(topic);
 
 		final String remoteAddr = Utils.getRemoteAddress(ctx);
@@ -355,10 +355,10 @@ public class MMServiceImpl implements MMService {
 			maxEventBatch = Long.parseLong(batchlen);
 
 		// long maxEventBatch =
-		// ctx.getConfigReader().getSettings().getLong(BATCH_LENGTH, 1024 * 16);
+		
 		final LinkedList<Publisher.message> batch = new LinkedList<Publisher.message>();
 		final ArrayList<ProducerRecord<String, String>> pms = new ArrayList<ProducerRecord<String, String>>();
-		//final ArrayList<KeyedMessage<String, String>> kms = new ArrayList<KeyedMessage<String, String>>();
+		
 
 		try {
 			// for each message...
@@ -398,7 +398,7 @@ public class MMServiceImpl implements MMService {
 			final JSONObject response = new JSONObject();
 			response.put("count", count);
 			response.put("serverTimeMs", totalMs);
-			// DMaaPResponseBuilder.respondOk(ctx, response);
+			
 
 		} catch (Exception excp) {
 
@@ -451,7 +451,7 @@ public class MMServiceImpl implements MMService {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SS");
 
 		// LOG.warn("Batch Start Id: " +
-		// Utils.getFromattedBatchSequenceId(batchId));
+		
 		try {
 			// for each message...
 			batchId = DMaaPContext.getBatchID();
@@ -461,7 +461,7 @@ public class MMServiceImpl implements MMService {
 			while ((m = events.next()) != null) {
 
 				// LOG.warn("Batch Start Id: " +
-				// Utils.getFromattedBatchSequenceId(batchId));
+				
 
 				addTransactionDetailsToMessage(m, topic, ctx.getRequest(), requestTime, messageSequence, batchId,
 						transactionEnabled);
@@ -487,7 +487,7 @@ public class MMServiceImpl implements MMService {
 							+ batchId + "]");
 					try {
 						ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
-						// transactionLogs(batch);
+						
 						for (message msg : batch) {
 							LogDetails logDetails = msg.getLogDetails();
 							LOG.info("Publisher Log Details : " + logDetails.getPublisherLogDetails());
@@ -516,7 +516,7 @@ public class MMServiceImpl implements MMService {
 					metricsSet.publishTick(sizeNow);
 					publishBatchCount = sizeNow;
 					count += sizeNow;
-					// batchId++;
+					
 					String endTime = sdf.format(new Date());
 					LOG.info("Batch End Details:[serverIp=" + ctx.getRequest().getLocalAddr() + ",Batch End Id="
 							+ batchId + ",Batch Total=" + publishBatchCount + ",Batch Start Time=" + startTime
@@ -533,7 +533,7 @@ public class MMServiceImpl implements MMService {
 						+ batchId + "]");
 				try {
 					ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
-					// transactionLogs(batch);
+				
 					for (message msg : batch) {
 						LogDetails logDetails = msg.getLogDetails();
 						LOG.info("Publisher Log Details : " + logDetails.getPublisherLogDetails());
@@ -560,7 +560,7 @@ public class MMServiceImpl implements MMService {
 				pms.clear();
 				metricsSet.publishTick(sizeNow);
 				count += sizeNow;
-				// batchId++;
+			
 				String endTime = sdf.format(new Date());
 				publishBatchCount = sizeNow;
 				LOG.info("Batch End Details:[serverIp=" + ctx.getRequest().getLocalAddr() + ",Batch End Id=" + batchId
