@@ -307,7 +307,7 @@ public class EventsServiceImpl implements EventsService {
 		}
 		catch (Exception excp) {
 			// System.out.println(excp + "------------------ " + topic+"
-			// "+consumerGroup+" "+clientId);
+		
 
 			logger.info("Couldn't respond to client, closing cambria consumer " + " " + topic + " " + consumerGroup
 					+ " " + clientId + " " + HttpStatus.SC_SERVICE_UNAVAILABLE + " ****** " + excp);
@@ -331,7 +331,7 @@ public class EventsServiceImpl implements EventsService {
 				kSetting_EnableCache = Boolean.parseBoolean(strkSetting_EnableCache);
 			// if
 			// (!ctx.getConfigReader().getSettings().getBoolean(ConsumerFactory.kSetting_EnableCache,
-			// ConsumerFactory.kDefault_IsCacheEnabled) && (c != null)) {
+			
 			if (!kSetting_EnableCache && (c != null)) {
 				try {
 					c.close();
@@ -500,7 +500,7 @@ public class EventsServiceImpl implements EventsService {
 				// final KeyedMessage<String, String> data = new
 				// KeyedMessage<String, String>(topic, m.getKey(),
 			
-				// kms.add(data);
+			
 				final ProducerRecord<String, String> data = new ProducerRecord<String, String>(topic, m.getKey(),
 						m.getMessage());
 
@@ -510,7 +510,7 @@ public class EventsServiceImpl implements EventsService {
 				if (sizeNow > maxEventBatch) {
 					// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
 				
-					// kms.clear();
+				
 					ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
 					pms.clear();
 					batch.clear();
@@ -524,7 +524,7 @@ public class EventsServiceImpl implements EventsService {
 			if (sizeNow > 0) {
 				// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
 			
-				// kms.clear();
+				
 				ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
 				pms.clear();
 				batch.clear();
@@ -652,7 +652,7 @@ public class EventsServiceImpl implements EventsService {
 						// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
 						// kms);
 						ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
-						// transactionLogs(batch);
+						
 						for (message msg : batch) {
 							LogDetails logDetails = msg.getLogDetails();
 							LOG.info("Publisher Log Details : " + logDetails.getPublisherLogDetails());
