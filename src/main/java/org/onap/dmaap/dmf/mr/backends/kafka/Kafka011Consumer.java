@@ -77,7 +77,7 @@ public class Kafka011Consumer implements Consumer {
 		fId = id;
 		fCreateTimeMs = System.currentTimeMillis();
 		fLastTouch = fCreateTimeMs;
-		fPendingMsgs = new LinkedBlockingQueue<ConsumerRecord<String, String>>();
+		fPendingMsgs = new LinkedBlockingQueue<>();
 		fLogTag = fGroup + "(" + fId + ")/" + fTopic;
 		offset = 0;
 		state = Kafka011Consumer.State.OPENED;
@@ -113,7 +113,7 @@ public class Kafka011Consumer implements Consumer {
 	public synchronized Consumer.Message nextMessage() {
 
 		try {
-			if (fPendingMsgs.size() > 0) {
+			if (fPendingMsgs.isEmpty()) {
 				return makeMessage(fPendingMsgs.take());
 			}
 		} catch (InterruptedException x) {
