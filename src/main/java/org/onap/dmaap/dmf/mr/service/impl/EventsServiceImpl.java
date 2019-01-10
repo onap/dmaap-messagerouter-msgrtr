@@ -637,7 +637,7 @@ public class EventsServiceImpl implements EventsService {
 				// final KeyedMessage<String, String> data = new
 				// KeyedMessage<String, String>(topic, m.getKey(),
 			
-				// kms.add(data);
+				
 				final ProducerRecord<String, String> data = new ProducerRecord<String, String>(topic, m.getKey(),
 						m.getMessage());
 
@@ -650,7 +650,7 @@ public class EventsServiceImpl implements EventsService {
 							+ batchId + "]");
 					try {
 						// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
-						// kms);
+					
 						ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
 						// transactionLogs(batch);
 						for (message msg : batch) {
@@ -681,7 +681,7 @@ public class EventsServiceImpl implements EventsService {
 					metricsSet.publishTick(sizeNow);
 					publishBatchCount = sizeNow;
 					count += sizeNow;
-					// batchId++;
+					
 					String endTime = sdf.format(new Date());
 					LOG.info("Batch End Details:[serverIp=" + ctx.getRequest().getLocalAddr() + ",Batch End Id="
 							+ batchId + ",Batch Total=" + publishBatchCount + ",Batch Start Time=" + startTime
@@ -698,9 +698,9 @@ public class EventsServiceImpl implements EventsService {
 						+ batchId + "]");
 				try {
 					// ctx.getConfigReader().getfPublisher().sendBatchMessage(topic,
-					// kms);
+					
 					ctx.getConfigReader().getfPublisher().sendBatchMessageNew(topic, pms);
-					// transactionLogs(batch);
+					
 					for (message msg : batch) {
 						LogDetails logDetails = msg.getLogDetails();
 						LOG.info("Publisher Log Details : " + logDetails.getPublisherLogDetails());
@@ -727,7 +727,7 @@ public class EventsServiceImpl implements EventsService {
 				pms.clear();
 				metricsSet.publishTick(sizeNow);
 				count += sizeNow;
-				// batchId++;
+			
 				String endTime = sdf.format(new Date());
 				publishBatchCount = sizeNow;
 				LOG.info("Batch End Details:[serverIp=" + ctx.getRequest().getLocalAddr() + ",Batch End Id=" + batchId
@@ -855,12 +855,12 @@ public class EventsServiceImpl implements EventsService {
 		return logDetails;
 	}
 
-	/*
-	 * public String getMetricsTopic() { return metricsTopic; }
-	 * 
-	 * public void setMetricsTopic(String metricsTopic) { this.metricsTopic =
-	 * metricsTopic; }
-	 */
+	
+	 
+	
+	 
+	
+	 
 	
 
 
