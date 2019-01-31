@@ -320,9 +320,9 @@ public class KafkaConsumerCache {
 				curatorConsumerCache.close();
 				log.info("Curator client closed");
 			} catch (ZkInterruptedException e) {
-				log.warn("Curator client close interrupted: " + e.getMessage());
+				log.warn("Curator client close interrupted: ", e);
 			} catch (IOException e) {
-				log.warn("Error while closing curator PathChildrenCache for KafkaConsumerCache" + e.getMessage());
+				log.warn("Error while closing curator PathChildrenCache for KafkaConsumerCache ", e);
 			}
 
 			curatorConsumerCache = null;
@@ -497,10 +497,10 @@ public class KafkaConsumerCache {
 			log.info(" ^ deleted " + fBaseZkPath + "/" + key);
 		} catch (NoNodeException e) {
 			log.warn("A consumer was deleted from " + fApiId
-					+ "'s cache, but no Cambria API node had ownership of it in ZooKeeper");
+					+ "'s cache, but no Cambria API node had ownership of it in ZooKeeper ", e);
 		} catch (Exception e) {
-			log.debug("Unexpected exception while deleting consumer: " + e.getMessage());
-			log.info(" %%%%%%@# Unexpected exception while deleting consumer: " + e.getMessage());
+			log.debug("Unexpected exception while deleting consumer: ", e);
+			log.info(" %%%%%%@# Unexpected exception while deleting consumer: ", e);
 		}
 
 		try {
@@ -648,6 +648,7 @@ public class KafkaConsumerCache {
 			try {
 				curator.setData().forPath(consumerPath, fApiId.getBytes());
 			} catch (KeeperException.NoNodeException e) {
+			    log.info("KeeperException.NoNodeException occured", e);
 				curator.create().creatingParentsIfNeeded().forPath(consumerPath, fApiId.getBytes());
 			}
 			log.info(fApiId + " successfully claimed ownership of consumer " + consumerKey);

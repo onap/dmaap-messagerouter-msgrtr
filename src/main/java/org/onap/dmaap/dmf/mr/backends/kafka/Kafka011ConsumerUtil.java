@@ -72,7 +72,7 @@ public class Kafka011ConsumerUtil {
 					}
 
 				} catch (Exception e) {
-					log.error("Failed and go to Exception block for " + fGroup + " " + e.getMessage());
+					log.error("Failed and go to Exception block for " + fGroup +" ", e);
 				}
 			}
 		});
@@ -108,9 +108,9 @@ public class Kafka011ConsumerUtil {
 					}
 
 				} catch (java.util.ConcurrentModificationException e) {
-					log.error("Error occurs for " + e);
+					log.error("Error occurs for ", e);
 				} catch (Exception e) {
-					log.error("Failed and go to Exception block for " + group + " " + e.getMessage());
+					log.error("Failed and go to Exception block for " + group + " ", e);
 				}
 			}
 		});
