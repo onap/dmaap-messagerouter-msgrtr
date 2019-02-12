@@ -3,6 +3,8 @@
  *  org.onap.dmaap
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+ *
+ *  Modifications Copyright (C) 2019 IBM.
  *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +25,6 @@ package org.onap.dmaap.dmf.mr.backends.kafka;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -55,6 +56,23 @@ import com.att.eelf.configuration.EELFManager;
  *
  */
 public class Kafka011Consumer implements Consumer {
+
+	private final String fTopic;
+	private final String fGroup;
+	private final String fId;
+	private final String fLogTag;
+
+	private KafkaConsumer<String, String> kConsumer;
+	private long fCreateTimeMs;
+	private long fLastTouch;
+	private long offset;
+	private Kafka011Consumer.State state;
+	private KafkaLiveLockAvoider2 fKafkaLiveLockAvoider;
+	private int consumerPollTimeOut=5;
+	private static final EELFLogger log = EELFManager.getInstance().getLogger(Kafka011Consumer.class);
+	private final LinkedBlockingQueue<ConsumerRecord<String, String>> fPendingMsgs;
+
+
 	private enum State {
 		OPENED, CLOSED
 	}
@@ -71,7 +89,7 @@ public class Kafka011Consumer implements Consumer {
 	 */
 
 	public Kafka011Consumer(String topic, String group, String id, KafkaConsumer<String, String> cc,
-			KafkaLiveLockAvoider2 klla) throws Exception {
+			KafkaLiveLockAvoider2 klla) {
 		fTopic = topic;
 		fGroup = group;
 		fId = id;
@@ -271,9 +289,8 @@ public class Kafka011Consumer implements Consumer {
 			return true;
 		}
 
-		
-		boolean retVal = kafkaConnectorshuttask();
-		return retVal;
+
+		return kafkaConnectorshuttask();
 
 	}
 
@@ -364,22 +381,6 @@ public class Kafka011Consumer implements Consumer {
 		this.state = state;
 	}
 
-	
-	private final String fTopic;
-	private final String fGroup;
-	private final String fId;
-	private final String fLogTag;
-	
-	private KafkaConsumer<String, String> kConsumer;
-	private long fCreateTimeMs;
-	private long fLastTouch;
-	private long offset;
-	private Kafka011Consumer.State state;
-	private KafkaLiveLockAvoider2 fKafkaLiveLockAvoider;
-	private int consumerPollTimeOut=5;
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(Kafka011Consumer.class);
-	private final LinkedBlockingQueue<ConsumerRecord<String, String>> fPendingMsgs;
-	
 	@Override
 	public void commitOffsets() {
 		if (getState() == Kafka011Consumer.State.CLOSED) {
