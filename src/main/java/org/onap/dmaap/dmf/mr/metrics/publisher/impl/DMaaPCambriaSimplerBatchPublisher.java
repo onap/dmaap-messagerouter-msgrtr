@@ -198,6 +198,7 @@ public class DMaaPCambriaSimplerBatchPublisher extends CambriaBaseClient
 			}
 		} catch (InterruptedException e) {
 			getLog().warn("Possible message loss. " + e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		} catch (IOException e) {
 			getLog().warn("Possible message loss. " + e.getMessage(), e);
 		}

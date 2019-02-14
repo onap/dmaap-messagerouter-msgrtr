@@ -333,7 +333,7 @@ public class CambriaOutboundEventStream implements StreamWriter {
 					// FIXME: would be good to wait/signal
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					// ignore
+				    Thread.currentThread().interrupt();
 				}
 			}
 		});
