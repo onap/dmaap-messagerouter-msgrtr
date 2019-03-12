@@ -221,7 +221,7 @@ public class DMaaPKafkaConsumerFactory implements ConsumerFactory {
 						try {
 							ipLock.release();
 						} catch (Exception e) {
-							throw new UnavailableException("Error while releasing consumer factory lock" + e, e);
+							log.error("Error while releasing consumer factory lock", e);
 						}
 					}
 				}
