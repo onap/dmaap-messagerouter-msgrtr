@@ -22,6 +22,9 @@
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
+import org.json.JSONException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +32,7 @@ import org.junit.Test;
 import org.onap.dmaap.dmf.mr.beans.DMaaPContext;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.onap.dmaap.dmf.mr.resources.CambriaOutboundEventStream;
+import org.onap.dmaap.dmf.mr.resources.CambriaOutboundEventStream.operation;
 
 public class CambriaOutboundEventStreamTest {
 
@@ -63,7 +67,26 @@ public class CambriaOutboundEventStreamTest {
 
 	@Test
 	public void testForEachMessage() {
-		//fail("Not yet implemented");
+		try {
+			coes.forEachMessage(new operation(){
+
+				@Override
+				public void onWait() throws IOException {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onMessage(int count, String msg, String transId, long offSet)
+						throws IOException, JSONException {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		} 
 	}
 
 	@Test

@@ -39,7 +39,7 @@ import org.apache.kafka.common.KafkaFuture;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Qualifier;
-
+import org.springframework.util.StringUtils;
 import org.onap.dmaap.dmf.mr.CambriaApiException;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.onap.dmaap.dmf.mr.metabroker.Broker1;
@@ -53,6 +53,7 @@ import com.att.nsa.configs.ConfigDb;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.configs.ConfigPath;
 import com.att.nsa.drumlin.service.standards.HttpStatusCodes;
+import com.att.nsa.drumlin.till.data.stringUtils;
 import com.att.nsa.drumlin.till.nv.rrNvReadable;
 import com.att.nsa.security.NsaAcl;
 import com.att.nsa.security.NsaAclUtils;
@@ -75,7 +76,7 @@ public class DMaaPKafkaMetaBroker implements Broker1 {
 		final Properties props = new Properties ();
 		String fkafkaBrokers = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
 				"kafka.metadata.broker.list");
-		if (null == fkafkaBrokers) {
+		if (StringUtils.isEmpty(fkafkaBrokers)) {
 
 			fkafkaBrokers = "localhost:9092";
 		}

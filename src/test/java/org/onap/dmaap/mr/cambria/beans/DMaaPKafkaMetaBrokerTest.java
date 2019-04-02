@@ -17,7 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
- package org.onap.dmaap.mr.cambria.beans;
+package org.onap.dmaap.mr.cambria.beans;
 
 import static org.junit.Assert.assertTrue;
 
@@ -41,6 +41,7 @@ import org.onap.dmaap.dmf.mr.CambriaApiException;
 import org.apache.kafka.clients.admin.AdminClient;
 
 import org.onap.dmaap.dmf.mr.beans.DMaaPKafkaMetaBroker;
+import org.onap.dmaap.dmf.mr.beans.DMaaPKafkaMetaBroker.KafkaTopic;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.onap.dmaap.dmf.mr.metabroker.Topic;
 import org.onap.dmaap.dmf.mr.metabroker.Broker1.TopicExistsException;
@@ -48,9 +49,8 @@ import com.att.nsa.configs.ConfigDb;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.configs.ConfigPath;
 
-
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ AdminClient.class})
+@PrepareForTest({ AdminClient.class })
 public class DMaaPKafkaMetaBrokerTest {
 
 	@InjectMocks
@@ -74,11 +74,28 @@ public class DMaaPKafkaMetaBrokerTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		PowerMockito.mockStatic(AdminClient.class);
-		//PowerMockito.when(AdminClient.create (any(Properties.class) )).thenReturn(fKafkaAdminClient);
-		
-		//PowerMockito.mockStatic(AdminUtils.class);
+		// PowerMockito.when(AdminClient.create (any(Properties.class)
+		// )).thenReturn(fKafkaAdminClient);
+
+		// PowerMockito.mockStatic(AdminUtils.class);
 		PowerMockito.when(configDb.parse("/topics")).thenReturn(fBaseTopicData);
-		
+
+	}
+
+	@Test
+	public void testBrokercreate() {
+		DMaaPKafkaMetaBroker broker = new DMaaPKafkaMetaBroker();
+
+	}
+
+	@Test
+	public void testcreateTopicEntry() {
+		try {
+			KafkaTopic kafkaTopic = new KafkaTopic("topics", configDb, fBaseTopicData);
+			dMaaPKafkaMetaBroker.createTopicEntry("name", "desc", "owner", true);
+		} catch (Exception e) {
+			assertTrue(true);
+		}
 
 	}
 
@@ -108,7 +125,6 @@ public class DMaaPKafkaMetaBrokerTest {
 		}
 
 	}
-	
 
 	@Test
 	public void testcreateTopic_wrongPartition() {

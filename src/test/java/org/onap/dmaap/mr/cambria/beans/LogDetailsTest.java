@@ -65,6 +65,23 @@ public class LogDetailsTest {
 		assertEquals(details.getSubscriberGroupId(),"1");
 	}
 	
+	@Test
+	public void testPublisherdetails(){
+		LogDetails details = new LogDetails();
+		assertNotNull(details.getPublisherLogDetails());
+		assertNull(details.getTransactionIdTs());
+		assertFalse(details.isTransactionEnabled());
+		assertEquals(details.getMessageLengthInBytes(),0);
+		assertNotNull(details.getPublishTimestamp());
+		assertNull(details.getMessageTimestamp());
+		assertNull(details.getMessageSequence());
+		assertNull(details.getMessageBatchId());
+		assertNull(details.getPublisherIp());
+		assertNull(details.getTopicId());
+		
+		
+	}
+	
 	
 
 }
