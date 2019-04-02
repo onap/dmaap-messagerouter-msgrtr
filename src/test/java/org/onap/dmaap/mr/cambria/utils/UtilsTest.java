@@ -27,7 +27,6 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.auth.BasicUserPrincipal;
 import org.junit.After;
@@ -120,6 +119,18 @@ public class UtilsTest {
 		request.addHeader("X-Forwarded-For", "XForward");
 		assertEquals("XForward", Utils.getRemoteAddress(dMaapContext));
 		
+		
+	}
+	
+	@Test
+	public void testGetKey(){
+		assertNotNull(Utils.getKafkaproperty());
+		
+	}
+	
+	@Test
+	public void testCadiEnable(){
+		assertFalse(Utils.isCadiEnabled());
 		
 	}
 }

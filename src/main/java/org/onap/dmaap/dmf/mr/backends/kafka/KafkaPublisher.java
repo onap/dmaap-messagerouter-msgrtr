@@ -32,7 +32,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Qualifier;
-
+import org.springframework.util.StringUtils;
 import org.onap.dmaap.dmf.mr.backends.Publisher;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.onap.dmaap.dmf.mr.utils.Utils;
@@ -61,15 +61,10 @@ public class KafkaPublisher implements Publisher {
 	 * @throws rrNvReadable.missingReqdSetting
 	 */
 	public KafkaPublisher(@Qualifier("propertyReader") rrNvReadable settings) throws rrNvReadable.missingReqdSetting {
-		//fSettings = settings;
 
 		final Properties props = new Properties();
-		/*transferSetting(fSettings, props, "metadata.broker.list", "localhost:9092");
-		transferSetting(fSettings, props, "request.required.acks", "1");
-		transferSetting(fSettings, props, "message.send.max.retries", "5");
-		transferSetting(fSettings, props, "retry.backoff.ms", "150"); */
 		String kafkaConnUrl= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"kafka.metadata.broker.list");
-		if(null==kafkaConnUrl){
+		if(StringUtils.isEmpty(kafkaConnUrl)){
 			
 			kafkaConnUrl="localhost:9092";
 		}
@@ -209,7 +204,7 @@ try{
    */
 	private void transferSetting(Properties props, String key, String defVal) {
 		String kafka_prop= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"kafka." + key);
-		if (null==kafka_prop) kafka_prop=defVal;
+		if (StringUtils.isEmpty(kafka_prop)) kafka_prop=defVal;
 		//props.put(key, settings.getString("kafka." + key, defVal));
 		props.put(key, kafka_prop);
 	}

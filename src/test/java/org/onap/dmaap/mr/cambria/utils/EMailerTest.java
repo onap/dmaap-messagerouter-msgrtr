@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * 
+ * ONAP Policy Engine
  * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -17,40 +17,27 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+package org.onap.dmaap.mr.cambria.utils;
 
- package org.onap.dmaap.mr.cambria.beans;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
+import java.io.IOException;
 
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.onap.dmaap.dmf.mr.utils.Emailer;
 
-import org.onap.dmaap.dmf.mr.beans.TopicBean;
-
-public class TopicBeanTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
+public class EMailerTest {
+	
 	@Test
-	public void testGetTopicName() {
+	public void testEmailer(){
 		
-		TopicBean bean = new TopicBean();
-		
-		bean.getTopicName();
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
+		Emailer emailer= new Emailer();
+		try {
+			emailer.send("dummy@dummy.com", "subj", "body");
+		} catch (IOException e) {
+			assertTrue(true);
+		}
 		
 	}
-	
-	
 
 }

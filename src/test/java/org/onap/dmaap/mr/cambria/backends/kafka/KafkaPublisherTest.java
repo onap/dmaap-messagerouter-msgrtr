@@ -18,35 +18,43 @@
  * ============LICENSE_END=========================================================
  */
 
- package org.onap.dmaap.mr.cambria.backends.kafka;
+package org.onap.dmaap.mr.cambria.backends.kafka;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
+import org.apache.kafka.clients.producer.Producer;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.onap.dmaap.dmf.mr.backends.Publisher.message;
+import org.onap.dmaap.dmf.mr.backends.kafka.KafkaPublisher;
+import org.onap.dmaap.dmf.mr.beans.LogDetails;
+import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
+import org.onap.dmaap.dmf.mr.utils.Utils;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
-import org.onap.dmaap.dmf.mr.backends.Publisher.message;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
 
-import kafka.common.FailedToSendMessageException;
-import kafka.producer.KeyedMessage;
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ Utils.class })
 public class KafkaPublisherTest {
-	
-	
 
-	/*@Before
+	@Before
 	public void setUp() throws Exception {
-		ClassLoader classLoader = getClass().getClassLoader();		
-		AJSCPropertiesMap.refresh(new File(classLoader.getResource("MsgRtrApi.properties").getFile()));
+		MockitoAnnotations.initMocks(this);
+		PowerMockito.mockStatic(Utils.class);
+		PowerMockito.when(Utils.isCadiEnabled()).thenReturn(true);
+
 	}
 
 	@After
@@ -54,100 +62,22 @@ public class KafkaPublisherTest {
 	}
 
 	@Test
-	public void testSendMessages() {
-
-		String topic = "testTopic";
-
-		KafkaPublisher kafka = null;
-		try {
-			kafka = new KafkaPublisher(null);
-			
-		} catch (missingReqdSetting e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoClassDefFoundError e) {
-			try {
-				kafka.sendMessage(topic, null);
-			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
-				assertTrue(true);
-			} catch (FailedToSendMessageException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} catch (FailedToSendMessageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	public void testSendBatchMessage() {
-
-		String topic = "testTopic";
-
-		KafkaPublisher kafka = null;
-		ArrayList<KeyedMessage<String, String>> kms = null;
-		try {
-			kafka = new KafkaPublisher(null);
-			
-		} catch (missingReqdSetting e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoClassDefFoundError e) {
-			try {
-				kafka.sendBatchMessage(topic, kms);
-			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
-				assertTrue(true);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		} catch (FailedToSendMessageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-	@Test
-	public void sendMessages() {
-
-		String topic = "testTopic";
+	public void testPublisherInit() {
 		
-		List<message> msgs = null;
+		
 
-		KafkaPublisher kafka = null;
-		//ArrayList<KeyedMessage<String, String>> kms = null;
 		try {
-			kafka = new KafkaPublisher(null);
-			
-		} catch (missingReqdSetting e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoClassDefFoundError e) {
 			try {
-				kafka.sendMessages(topic, msgs);
-			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
+				KafkaPublisher kafkaPublisher = new KafkaPublisher(null);
+			} catch (missingReqdSetting e) {
 				assertTrue(true);
-			} catch (FailedToSendMessageException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-		} catch (FailedToSendMessageException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (LinkageError e) {
+			assertTrue(true);
 		}
 
-	}*/
+	}
+
+	
 
 }

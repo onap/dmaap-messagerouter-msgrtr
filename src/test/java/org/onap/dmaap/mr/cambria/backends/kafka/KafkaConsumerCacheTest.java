@@ -207,7 +207,7 @@ public class KafkaConsumerCacheTest {
 			}
 		}
 
-	}
+	} 
 
 	@Test
 	public void testSignalOwnership() {
@@ -216,22 +216,14 @@ public class KafkaConsumerCacheTest {
 
 		try {
 			kafka = new KafkaConsumerCache();
-			// kafka.signalOwnership("testTopic", "CG1", "23");
-		} catch (NoClassDefFoundError e) {
-			try {
-				kafka.signalOwnership("testTopic", "CG1", "23");
-			} catch (KafkaConsumerCacheException e1) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NullPointerException e1) {
-				// TODO Auto-generated catch block
-				// assertTrue(true);
-				e1.printStackTrace();
-			}
-
+		 try {
+			kafka.signalOwnership("testTopic", "CG1", "23");
+		} catch (KafkaConsumerCacheException e) {
+			assertTrue(true);
 		}
+		} catch (NoClassDefFoundError e) {}
 
-		// assertTrue(true);
+		// 
 	}
 
 	@Test
@@ -252,5 +244,6 @@ public class KafkaConsumerCacheTest {
 		}
 
 	}
+	
 
 }

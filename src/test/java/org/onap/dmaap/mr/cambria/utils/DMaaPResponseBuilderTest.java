@@ -84,17 +84,38 @@ public class DMaaPResponseBuilderTest {
 	}
 	
 	@Test
+	public void testrespondOkNoContentError(){
+		dMaapContext.setResponse(null);
+		DMaaPResponseBuilder.respondOkNoContent(dMaapContext);
+		assertNull(dMaapContext.getResponse());
+	}
+	
+	@Test
 	public void testrespondOkWithHtml(){
 		DMaaPResponseBuilder.respondOkWithHtml(dMaapContext, "<head></head>");
 		
 		assertEquals("text/html", response.getContentType());
+		DMaaPResponseBuilder.respondOkWithHtml(dMaapContext, "<head></head>");
 		assertEquals(200, response.getStatus());
+	}
+	
+	@Test
+	public void testrespondOkWithHtmlError(){
+		dMaapContext.setResponse(null);
+		DMaaPResponseBuilder.respondOkWithHtml(dMaapContext, "<head></head>");
+		assertNull(dMaapContext.getResponse());
 	}
 	
 	@Test
 	public void testrespondWithError(){
 		DMaaPResponseBuilder.respondWithError(dMaapContext, 500, "InternalServerError");
 		assertEquals(500, response.getStatus());
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testInvalidrespondWithError(){
+		dMaapContext.setResponse(null);
+		DMaaPResponseBuilder.respondWithError(dMaapContext, 500, "InternalServerError");
 	}
 	
 	@Test
@@ -104,6 +125,16 @@ public class DMaaPResponseBuilderTest {
 		o.put("message", "InternalServerError");
 		DMaaPResponseBuilder.respondWithError(dMaapContext, 500, o);
 		assertEquals(500, response.getStatus());
+	}
+	
+	@Test
+	public void testInvalidrespondWithJsonError(){
+		JSONObject o = new JSONObject();
+		o.put("status", 500);
+		o.put("message", "InternalServerError");
+		dMaapContext.setResponse(null);
+		DMaaPResponseBuilder.respondWithError(dMaapContext, 500, o);
+		assertNull(dMaapContext.getResponse());
 	}
 	
 	@Test
@@ -136,6 +167,12 @@ public class DMaaPResponseBuilderTest {
 		
 		assertEquals("application/octet-stream", response.getContentType());
 		assertEquals(200, response.getStatus());
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testgetStreamForBinaryResponseError() throws IOException{
+		dMaapContext.setResponse(null);
+		DMaaPResponseBuilder.getStreamForBinaryResponse(dMaapContext);
 	}
 
 }
