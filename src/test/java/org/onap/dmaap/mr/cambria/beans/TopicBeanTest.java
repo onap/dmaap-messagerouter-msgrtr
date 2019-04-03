@@ -51,6 +51,26 @@ public class TopicBeanTest {
 		
 	}
 	
+	@Test
+	public void testTopicBean() {
+		
+		TopicBean bean = new TopicBean("topicName", "topicDescription", 1,1,true);
+		assertNotNull(bean);
+		
+	}
+	
+	@Test
+	public void testTopicBeanStter() {
+		
+		TopicBean bean = new TopicBean();
+		bean.setPartitionCount(1);
+		bean.setReplicationCount(1);
+		bean.setTopicDescription("topicDescription");
+		bean.setTopicName("topicName");
+		bean.setTransactionEnabled(true);
+		assertNotNull(bean);
+	}
+	
 	
 
 }

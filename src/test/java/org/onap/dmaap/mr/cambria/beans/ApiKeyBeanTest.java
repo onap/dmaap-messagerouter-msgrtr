@@ -53,6 +53,16 @@ public class ApiKeyBeanTest {
 		
 	}
 	
+	@Test
+	public void testApiKeyBean(){
+		ApiKeyBean bean = new ApiKeyBean();
+		bean.setDescription("description");
+		bean.setEmail("email");
+		assertEquals("description", bean.getDescription());
+		assertEquals("email", bean.getEmail());
+		
+	}
+	
 	
 
 }

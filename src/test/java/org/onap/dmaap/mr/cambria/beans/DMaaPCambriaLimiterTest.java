@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
- package org.onap.dmaap.mr.cambria.beans;
+package org.onap.dmaap.mr.cambria.beans;
 
 import static org.junit.Assert.*;
 
@@ -41,43 +41,57 @@ public class DMaaPCambriaLimiterTest {
 
 	@Test
 	public void testGetSleepMsForRate() {
-		
-	
-		double value = 3;
-		DMaaPCambriaLimiter.getSleepMsForRate(value);
-		
-		String trueValue = "True";
-		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+
+		assertEquals(1000, DMaaPCambriaLimiter.getSleepMsForRate(100));
+		assertEquals(0, DMaaPCambriaLimiter.getSleepMsForRate(0));
+
 	}
-	
+
 	@Test
 	public void testOnCall() {
-		
-		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(1,2, 3);
+
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(1, 2, 3);
 		try {
-			limiter.onCall("testTopic", "ConsumerGroup1", "client2","remoteHost");
+			limiter.onCall("testTopic", "ConsumerGroup1", "client2", "remoteHost");
 		} catch (CambriaApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+
 	}
-	
+
+	@Test
+	public void testOnCallError2() {
+
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(0, 2, 3, 1, 1);
+		try {
+			limiter.onCall("testTopic", "ConsumerGroup1", "client2", "remoteHost");
+		} catch (CambriaApiException e) {
+			assertTrue(false);
+		}
+
+	}
+
+	@Test(expected = CambriaApiException.class)
+	public void testOnCallError() throws CambriaApiException {
+
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(0.9, 2, 3, 1, 1);
+		limiter.onCall("testTopic", "ConsumerGroup1", "client2", "remoteHost");
+
+	}
+
 	@Test
 	public void testOnSend() {
-		
-		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(3,3, 3);
+
+		DMaaPCambriaLimiter limiter = new DMaaPCambriaLimiter(3, 3, 3);
 		limiter.onSend("testTopic", "consumerGroup1", "client1", 100);
-		
+
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
-		
+
 	}
-	
-	
 
 }

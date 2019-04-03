@@ -52,7 +52,6 @@ import com.att.nsa.metrics.impl.CdmRateTicker;
 @Component
 public class DMaaPCambriaLimiter {
 	private final HashMap<String, RateInfo> fRateInfo;
-	private final HashMap<String, RateInfoCheck> fRateInfoCheck;
 	private final double fMaxEmptyPollsPerMinute;
 	private final double fMaxPollsPerMinute;
 	private final int fWindowLengthMins;
@@ -70,7 +69,6 @@ public class DMaaPCambriaLimiter {
 	@Autowired
 	public DMaaPCambriaLimiter(@Qualifier("propertyReader") rrNvReadable settings) {
 			fRateInfo = new HashMap<>();
-		fRateInfoCheck = new HashMap<>();
 		fMaxEmptyPollsPerMinute = settings.getDouble(CambriaConstants.kSetting_MaxEmptyPollsPerMinute,
 				CambriaConstants.kDefault_MaxEmptyPollsPerMinute);
 		fMaxPollsPerMinute = settings.getDouble(CambriaConstants.kSetting_MaxPollsPerMinute,
@@ -105,7 +103,6 @@ public class DMaaPCambriaLimiter {
 	 */
 	public DMaaPCambriaLimiter(double maxEmptyPollsPerMinute,double maxPollsPerMinute, int windowLengthMins, long sleepMs ,long sleepMS1) {
 		fRateInfo = new HashMap<>();
-		fRateInfoCheck = new HashMap<>();
 		fMaxEmptyPollsPerMinute = Math.max(0, maxEmptyPollsPerMinute);
 		fMaxPollsPerMinute = Math.max(0, maxPollsPerMinute);
 		fWindowLengthMins = windowLengthMins;
@@ -226,42 +223,6 @@ public class DMaaPCambriaLimiter {
 	
 	
 	
-	private static class RateInfoCheck {
-		
-		private final String fLabel;
-		private final CdmRateTicker fCallRateSinceLastMsgSend;
-		/**
-		 * constructor initialzes
-		 * 
-		 * @param label
-		 * @param windowLengthMinutes
-		 */
-		public RateInfoCheck(String label, int windowLengthMinutes) {
-			fLabel = label;
-			fCallRateSinceLastMsgSend = new CdmRateTicker("Call rate since last msg send", 1, TimeUnit.MINUTES,
-					windowLengthMinutes, TimeUnit.MINUTES);
-		}
-
-		public String getLabel() {
-			return fLabel;
-		}
-
-		/**
-		 * CdmRateTicker is reset
-		 */
-		public void reset() {
-			fCallRateSinceLastMsgSend.reset();
-		}
-
-		/**
-		 * 
-		 * @return
-		 */
-		public double onCall() {
-			fCallRateSinceLastMsgSend.tick();
-			return fCallRateSinceLastMsgSend.getRate();
-		}
-	}
 	
 	
 	

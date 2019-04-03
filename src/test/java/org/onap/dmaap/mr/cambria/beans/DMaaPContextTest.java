@@ -27,6 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.onap.dmaap.dmf.mr.beans.DMaaPContext;
+import org.springframework.mock.http.client.MockClientHttpRequest;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 
 public class DMaaPContextTest {
 
@@ -45,6 +48,21 @@ public class DMaaPContextTest {
 		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));
+		
+	}
+	
+	@Test
+	public void testDMaaPContext(){
+		
+		DMaaPContext context=new DMaaPContext();
+		context.setConsumerRequestTime("consumerRequestTime");
+		assertEquals("consumerRequestTime", context.getConsumerRequestTime());
+		MockHttpServletRequest request= new MockHttpServletRequest();
+		MockHttpSession session=new MockHttpSession();
+		request.setSession(session);
+		context.setRequest(request);
+		assertNotNull(context.getSession());
+		
 		
 	}
 	
