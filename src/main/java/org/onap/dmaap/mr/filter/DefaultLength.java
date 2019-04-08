@@ -24,14 +24,14 @@ package org.onap.dmaap.mr.filter;
 
 public class DefaultLength {
 	
-	String defaultLength;
+	String defLength;
 
 	public String getDefaultLength() {
-		return defaultLength;
+		return defLength;
 	}
 
 	public void setDefaultLength(String defaultLength) {
-		this.defaultLength = defaultLength;
+		this.defLength = defaultLength;
 	}
 
 }

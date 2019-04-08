@@ -74,8 +74,6 @@ public class ContentLengthFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
 			ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
 		log.info("inside servlet do filter content length checking before pub/sub");
 		HttpServletRequest request = (HttpServletRequest) req;
 		JSONObject jsonObj = null;
@@ -105,12 +103,14 @@ public class ContentLengthFilter implements Filter {
 				chain.doFilter(req, res);
 			}
 		} catch (CambriaApiException | NumberFormatException e) {
-			log.error("message size is greater then default");
-			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_EXPECTATION_FAILED,
-					DMaaPResponseCode.MSG_SIZE_EXCEEDS_MSG_LIMIT.getResponseCode(), errorMessages.getMsgSizeExceeds()
-							+ jsonObj.toString());
-			log.info(errRes.toString());
-			
+			log.error("message size is greater then default", e);
+            if (jsonObj != null) {
+                ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_EXPECTATION_FAILED,
+                        DMaaPResponseCode.MSG_SIZE_EXCEEDS_MSG_LIMIT.getResponseCode(),
+                        errorMessages.getMsgSizeExceeds()
+                                + jsonObj.toString());
+                log.info(errRes.toString());
+            }
 		}
 
 	}
@@ -119,14 +119,13 @@ public class ContentLengthFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 		this.filterConfig = fConfig;
 		log.info("Filter Content Length Initialize");
 		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(fConfig
 				.getServletContext());
 		DefaultLength defLength = (DefaultLength) ctx.getBean("defLength");
-		DMaaPErrorMessages errorMessages = (DMaaPErrorMessages) ctx.getBean("DMaaPErrorMessages");
-		this.errorMessages = errorMessages;
+		DMaaPErrorMessages errMessages = (DMaaPErrorMessages) ctx.getBean("DMaaPErrorMessages");
+		this.errorMessages = errMessages;
 		this.defaultLength = defLength;
 
 	}
