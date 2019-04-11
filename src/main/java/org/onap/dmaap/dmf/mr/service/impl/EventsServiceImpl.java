@@ -204,6 +204,14 @@ public class EventsServiceImpl implements EventsService {
 				"metrics.send.cambria.topic");
 		if (null == metricTopicname)
 			metricTopicname = "msgrtr.apinode.metrics.dmaap";
+		
+		boolean topicNameEnforced = false;
+		String topicNameStd = null;
+		topicNameStd = com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,
+				"enforced.topic.name.AAF");
+		if (null != topicNameStd && topic.startsWith(topicNameStd)) {
+			topicNameEnforced = true;
+		}
 
 		if (null == ctx.getRequest().getHeader("Authorization") && !topic.equalsIgnoreCase(metricTopicname)) {
 			if (null != metatopic.getOwner() && !("".equals(metatopic.getOwner()))) {
@@ -212,7 +220,7 @@ public class EventsServiceImpl implements EventsService {
 			}
 		}
 		// if headers are not provided then user will be null
-		if (user == null && null != ctx.getRequest().getHeader("Authorization")) {
+		if (topicNameEnforced&&user == null && null != ctx.getRequest().getHeader("Authorization")) {
 			// the topic name will be sent by the client
 			
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
