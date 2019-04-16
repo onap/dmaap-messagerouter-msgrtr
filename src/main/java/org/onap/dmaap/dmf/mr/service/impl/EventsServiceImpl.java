@@ -220,7 +220,7 @@ public class EventsServiceImpl implements EventsService {
 			}
 		}
 		// if headers are not provided then user will be null
-		if (topicNameEnforced&&user == null && null != ctx.getRequest().getHeader("Authorization")) {
+		if (topicNameEnforced ||(user == null && null != ctx.getRequest().getHeader("Authorization"))) {
 			// the topic name will be sent by the client
 			
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
