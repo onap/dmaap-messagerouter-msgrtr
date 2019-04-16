@@ -113,13 +113,13 @@ public class Kafka011Consumer implements Consumer {
 	public synchronized Consumer.Message nextMessage() {
 
 		try {
-			if (fPendingMsgs.isEmpty()) {
+			if (!fPendingMsgs.isEmpty()) {
 				return makeMessage(fPendingMsgs.take());
 			}
 		} catch (InterruptedException x) {
 			log.warn("After size>0, pending msg take() threw InterruptedException. Ignoring. (" + x.getMessage() + ")",
 					x);
-			//Thread.currentThread().interrupt();
+			Thread.currentThread().interrupt();
 		}
 
 		Callable<Boolean> run = new Callable<Boolean>() {

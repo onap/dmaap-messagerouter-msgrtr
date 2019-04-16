@@ -299,7 +299,7 @@ public class KafkaConsumerCache {
 				curator.blockUntilConnected();
 			} catch (InterruptedException e) {
 				log.error("error while setting curator framework :",e);
-				//Thread.currentThread().interrupt();
+				Thread.currentThread().interrupt();
 			}
 		}
 
@@ -512,7 +512,7 @@ public class KafkaConsumerCache {
 			Thread.sleep(consumerHandoverWaitMs);
 		} catch (InterruptedException e) {
 			log.error("InterruptedException in dropTimedOutConsumer",e);
-			//Thread.currentThread().interrupt();
+			Thread.currentThread().interrupt();
 		}
 		log.info("Dropped " + key + " consumer due to timeout");
 	}
