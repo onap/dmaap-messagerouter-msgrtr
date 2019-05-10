@@ -171,7 +171,7 @@ public class ApiKeysServiceImpl implements ApiKeysService {
 			{
 				String body = "\n" + "Your email address was provided as the creator of new API key \""
 				+ apiKey + "\".\n" + "\n" + "If you did not make this request, please let us know."
-				+ " See http://sa2020.it.att.com:8888 for contact information, " + "but don't worry -"
+				 + "but don't worry -"
 				+ " the API key is useless without the information below, which has been provided "
 				+ "only to you.\n" + "\n\n" + "For API key \"" + apiKey + "\", use API key secret:\n\n\t"
 				+ sharedSecret + "\n\n" + "Note that it's normal to share the API key"

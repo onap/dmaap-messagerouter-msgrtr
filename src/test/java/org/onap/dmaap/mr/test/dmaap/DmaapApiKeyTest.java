@@ -65,13 +65,6 @@ public class DmaapApiKeyTest {
 		return dataObj;
 	}
 
-	// 1. create key
-	public void testCreateKey() {
-		LOGGER.info("test case create key");
-		ApiKeyBean apiKeyBean = new ApiKeyBean("nm254w@att.com", "Creating Api Key.");
-		returnKey(apiKeyBean);
-		LOGGER.info("Successfully returned after creating key");
-	}
 
 	public void assertStatus(Response response) {
 		assertTrue(response.getStatus() == HttpStatus.SC_OK);
@@ -92,71 +85,7 @@ public class DmaapApiKeyTest {
 
 	}
 
-	// 3. get specific key
-	public void testSpecificKey() {
-		LOGGER.info("test case get specific key");
-		String apiKey = "";
-		ApiKeyBean apiKeyBean = new ApiKeyBean("ai039@att.com", "Creating Api Key.");
 
-		apiKey = (String) returnKey(apiKeyBean).get("key");
-		target = client.target(url);
-		target = target.path("/apiKeys/");
-		target = target.path(apiKey);
-		Response response = target.request().get();
-		assertStatus(response);
-		LOGGER.info("successfully returned after fetching specific key");
-	}
 
-	// 4. update key
-
-	public void testUpdateKey() {
-		LOGGER.info("test case update key");
-		String apiKey = "";
-		String secretKey = "";
-		final String serverCalculatedSignature;
-		final String X_CambriaAuth;
-		final String X_CambriaDate;
-		JSONObject jsonObj;
-
-		ApiKeyBean apiKeyBean = new ApiKeyBean("ai039@att.com", "Creating Api Key for update");
-		ApiKeyBean apiKeyBean1 = new ApiKeyBean("ai03911@att.com", "updating Api Key.");
-		jsonObj = returnKey(apiKeyBean);
-		apiKey = (String) jsonObj.get("key");
-		secretKey = (String) jsonObj.get("secret");
-
-		serverCalculatedSignature = sha1HmacSigner.sign(date, secretKey);
-		X_CambriaAuth = apiKey + ":" + serverCalculatedSignature;
-		X_CambriaDate = date;
-		target = client.target(url);
-		target = target.path("/apiKeys/" + apiKey);
-		Response response1 = target.request().header("X-CambriaAuth", X_CambriaAuth)
-				.header("X-CambriaDate", X_CambriaDate).put(Entity.json(apiKeyBean1));
-		assertStatus(response1);
-		LOGGER.info("successfully returned after updating key");
-	}
-
-	// 5. delete key
-	public void testDeleteKey() {
-		LOGGER.info("test case delete key");
-		String apiKey = "";
-		String secretKey = "";
-		final String serverCalculatedSignature;
-		final String X_CambriaAuth;
-		final String X_CambriaDate;
-		JSONObject jsonObj;
-		ApiKeyBean apiKeyBean = new ApiKeyBean("ai039@att.com", "Creating Api Key.");
-		jsonObj = returnKey(apiKeyBean);
-		apiKey = (String) jsonObj.get("key");
-		secretKey = (String) jsonObj.get("secret");
-		serverCalculatedSignature = sha1HmacSigner.sign(date, secretKey);
-		X_CambriaAuth = apiKey + ":" + serverCalculatedSignature;
-		X_CambriaDate = date;
-		target = client.target(url);
-		target = target.path("/apiKeys/" + apiKey);
-		Response response2 = target.request().header("X-CambriaAuth", X_CambriaAuth)
-				.header("X-CambriaDate", X_CambriaDate).delete();
-		assertStatus(response2);
-		LOGGER.info("successfully returned after deleting key");
-	}
 */
 }

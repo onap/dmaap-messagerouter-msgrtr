@@ -62,7 +62,7 @@ public class DME2AdminTest extends TestCase {
 		String longitude = props.getProperty("Longitude");
 		String version = props.getProperty("Version");
 		String serviceName = props.getProperty("ServiceName");
-		serviceName = "dmaap-v1.dev.dmaap.dt.saat.acsi.att.com/admin";
+		serviceName = "mr/admin";
 		String env = props.getProperty("Environment");
 		String partner = props.getProperty("Partner");
 		String protocol = props.getProperty("Protocol");

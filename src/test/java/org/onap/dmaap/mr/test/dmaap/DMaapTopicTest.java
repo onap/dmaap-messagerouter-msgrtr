@@ -51,26 +51,6 @@ public class DMaapTopicTest {
 	DmaapApiKeyTest keyInstance = new DmaapApiKeyTest();
 
 
-	public void createTopic(String name) {
-		if (!topicExist(name)) {
-			TopicBean topicbean = new TopicBean();
-			topicbean.setDescription("creating topic");
-			topicbean.setPartitionCount(1);
-			topicbean.setReplicationCount(1);
-			topicbean.setTopicName(name);
-			topicbean.setTransactionEnabled(true);
-			target = client.target(url);
-			target = target.path("/topics/create");
-			JSONObject jsonObj = keyInstance.returnKey(new ApiKeyBean("nm254w@att.com", "topic creation"));
-			topicapikey = (String) jsonObj.get("key");
-			topicsecretKey = (String) jsonObj.get("secret");
-			serverCalculatedSignature = sha1HmacSigner.sign(date, topicsecretKey);
-			Response response = target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-					.header("X-CambriaDate", date).post(Entity.json(topicbean));
-			keyInstance.assertStatus(response);
-		}
-
-	}
 
 	public boolean topicExist(String topicName) {
 		target = target.path("/topics/" + topicName);
@@ -165,47 +145,6 @@ public class DMaapTopicTest {
 		LOGGER.info("Successfully returned after getting all the publishers" + topicName);
 	}
 
-	public void testPermitPublisherForTopic() {
-		LOGGER.info("test case permit user for topic " + topicName);
-		JSONObject jsonObj = keyInstance.returnKey(new ApiKeyBean("ai039a@att.com", "adding user to "));
-		String userapikey = (String) jsonObj.get("key");
-		createTopic(topicName);
-		// adding user to a topic//
-		target = client.target(url);
-		target = target.path("/topics/");
-		target = target.path(topicName);
-		target = target.path("/producers/");
-		target = target.path(userapikey);
-		Response response = target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-				.header("X-CambriaDate", date).put(Entity.json(""));
-		keyInstance.assertStatus(response);
-		LOGGER.info("successfully returned after permiting the user for topic " + topicName);
-	}
-
-	public void testDenyPublisherForTopic() {
-		LOGGER.info("test case denying user for topic " + topicName);
-		JSONObject jsonObj = keyInstance.returnKey(new ApiKeyBean("ai039a@att.com", "adding user to "));
-		String userapikey = (String) jsonObj.get("key");
-		createTopic(topicName);
-		// adding user to a topic//
-		target = client.target(url);
-		target = target.path("/topics/");
-		target = target.path(topicName);
-		target = target.path("/producers/");
-		target = target.path(userapikey);
-		target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-				.header("X-CambriaDate", date).put(Entity.json(""));
-		// deleting user who is just added//
-		target = client.target(url);
-		target = target.path("/topics/");
-		target = target.path(topicName);
-		target = target.path("/producers/");
-		target = target.path(userapikey);
-		Response response2 = target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-				.header("X-CambriaDate", date).delete();
-		keyInstance.assertStatus(response2);
-		LOGGER.info("successfully returned after denying the user for topic " + topicName);
-	}
 
 	public void testConsumerForTopic() {
 		LOGGER.info("test case get all consumers for topic: " + topicName);
@@ -221,47 +160,6 @@ public class DMaapTopicTest {
 		LOGGER.info("Successfully returned after getting all the consumers" + topicName);
 	}
 
-	public void testPermitConsumerForTopic() {
-		LOGGER.info("test case get all consumer for topic: " + topicName);
-		// creating user for adding to topic//
-		JSONObject jsonObj = keyInstance.returnKey(new ApiKeyBean("ai039a@att.com", "adding user to "));
-		String userapikey = (String) jsonObj.get("key");
-		createTopic(topicName);
-		// adding user to a topic//
-		target = client.target(url);
-		target = target.path("/topics/");
-		target = target.path(topicName);
-		target = target.path("/consumers/");
-		target = target.path(userapikey);
-		Response response = target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-				.header("X-CambriaDate", date).put(Entity.json(""));
-		keyInstance.assertStatus(response);
-		LOGGER.info("Successfully returned after getting all the consumers" + topicName);
-	}
 
-	public void testDenyConsumerForTopic() {
-		LOGGER.info("test case denying consumer for topic " + topicName);
-		// creating user for adding and deleting from topic//
-		JSONObject jsonObj = keyInstance.returnKey(new ApiKeyBean("ai039a@att.com", "adding user to "));
-		String userapikey = (String) jsonObj.get("key");
-		createTopic(topicName);
-		// adding user to a topic//
-		target = client.target(url);
-		target = target.path("/topics/");
-		target = target.path(topicName);
-		target = target.path("/consumers/");
-		target = target.path(userapikey);
-		target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-				.header("X-CambriaDate", date).put(Entity.json(""));
-		// deleting user who is just added//
-		target = client.target(url);
-		target = target.path("/topics/");
-		target = target.path(topicName);
-		target = target.path("/consumers/");
-		target = target.path(userapikey);
-		Response response2 = target.request().header("X-CambriaAuth", topicapikey + ":" + serverCalculatedSignature)
-				.header("X-CambriaDate", date).delete();
-		keyInstance.assertStatus(response2);
-		LOGGER.info("successfully returned after denying the consumer for topic " + topicName);
-	}*/
+*/
 }

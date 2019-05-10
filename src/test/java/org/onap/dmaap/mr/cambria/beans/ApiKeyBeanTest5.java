@@ -44,7 +44,7 @@ public class ApiKeyBeanTest5 {
 	@Test
 	public void testGetSharedSecret() {
 		
-		ApiKeyBean bean = new ApiKeyBean("hs647a@att.com", "testing bean");
+		ApiKeyBean bean = new ApiKeyBean("user@onap.com", "testing bean");
 		
 		bean.getSharedSecret();
 		

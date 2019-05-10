@@ -63,7 +63,7 @@ public class DME2ApiKeyTest extends TestCase {
 	public void testCreateKey() {
 		LOGGER.info("Create Key test case initiated");
 
-		ApiKeyBean apiKeyBean = new ApiKeyBean("user1@us.att.com", "Creating Api Key.m");
+		ApiKeyBean apiKeyBean = new ApiKeyBean("user1@onap.com", "Creating Api Key.m");
 
 		System.out.println(url);
 
@@ -125,105 +125,6 @@ public class DME2ApiKeyTest extends TestCase {
 		}
 	}
 
-	public void testGetOneKey() {/*
-		LOGGER.info("Test case get one key initiated");
-		ApiKeyBean apiKeyBean = new ApiKeyBean("user1@att.com", "Creating Api Key.m");
-		JSONObject jsonObj = new JSONObject(returnKey(apiKeyBean, url, props));
-		String apiKey = (String) jsonObj.get("key");
-		try {
-			DME2Client sender = new DME2Client(new URI(url), 5000L);
-			sender.setAllowAllHttpReturnCodes(true);
-			sender.setMethod(props.getProperty("MethodTypeGet"));
-			sender.setSubContext(props.getProperty("SubContextPathGetOneKey") + apiKey);
-			sender.setPayload("");
-			sender.addHeader("content-type", props.getProperty("contenttype"));
-			sender.setCredentials(props.getProperty("user"), props.getProperty("password"));
 
-			LOGGER.info("Fetching details of api key: " + apiKey);
-			String reply = sender.sendAndWait(5000L);
-			System.out.println(reply);
-			assertTrue(LoadPropertyFile.isValidJsonString(reply));
-			LOGGER.info("response =" + reply);
-
-		} catch (DME2Exception e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	*/}
-
-	// ............. test case update key is not applicable in
-	// DME2.................//
-	public void testUpdateKey() {/*
-		ApiKeyBean apiKeyBean = new ApiKeyBean("user1@att.com", "Creating Api Key.m");
-
-		JSONObject jsonObj = new JSONObject(returnKey(apiKeyBean, url, props));
-		String apiKey = (String) jsonObj.get("key");
-		try {
-			DME2Client sender = new DME2Client(new URI(url), 5000L);
-			sender.setAllowAllHttpReturnCodes(true);
-			String p = props.getProperty("MethodTypePut");
-			sender.setMethod(p);
-			String s = props.getProperty("SubContextPathUpdateKeys") + apiKey;
-			sender.setSubContext(s);
-
-			String jsonStringApiBean = new ObjectMapper()
-					.writeValueAsString(new ApiKeyBean("user1@att.com", "updating key"));
-			sender.setPayload(jsonStringApiBean);
-			System.out.println(jsonStringApiBean);
-			String c = props.getProperty("contenttype");
-			sender.addHeader("content-type", c);
-			sender.setCredentials(props.getProperty("keyUser"), props.getProperty("keyPass"));
-
-			System.out.println("creating ApiKey");
-			String reply = sender.sendAndWait(5000L);
-			assertNotNull(reply);
-			System.out.println("response =" + reply);
-
-		} catch (DME2Exception e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	*/}
-
-	// ............. test case delete key is not applicable in
-	// DME2.................//
-
-	public void testDeleteKey() {/*
-		ApiKeyBean apiKeyBean = new ApiKeyBean("user1@att.com", "Creating Api Key.m");
-
-		JSONObject jsonObj = new JSONObject(returnKey(apiKeyBean, url, props));
-		String apiKey = (String) jsonObj.get("key");
-		try {
-			DME2Client sender = new DME2Client(new URI(url), 5000L);
-			sender.setAllowAllHttpReturnCodes(true);
-			String p = props.getProperty("MethodTypeDelete");
-			sender.setMethod(p);
-			String s = props.getProperty("SubContextPathDeleteteKeys") + apiKey;
-			sender.setSubContext(s);
-
-			sender.setPayload(""); // System.out.println(jsonStringApiBean);
-			String c = props.getProperty("contenttype");
-			sender.addHeader("content-type", c);
-			sender.setCredentials(props.getProperty("keyUser"), props.getProperty("keyPass"));
-
-			System.out.println("creating ApiKey");
-			String reply = sender.sendAndWait(5000L);
-			assertNotNull(reply);
-			System.out.println("response =" + reply);
-
-		} catch (DME2Exception e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	*/}
 
 }

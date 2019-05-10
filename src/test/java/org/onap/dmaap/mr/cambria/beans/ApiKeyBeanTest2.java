@@ -44,9 +44,9 @@ public class ApiKeyBeanTest2 {
 	@Test
 	public void testSetEmail() {
 		
-		ApiKeyBean bean = new ApiKeyBean("hs647a@att.com", "testing bean");
+		ApiKeyBean bean = new ApiKeyBean("user@onap.com", "testing bean");
 		
-		bean.setEmail("rs857c@att.com");
+		bean.setEmail("user@onap.com");
 		
 		String trueValue = "True";
 		assertTrue(trueValue.equalsIgnoreCase("True"));

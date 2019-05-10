@@ -35,7 +35,6 @@ import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 /**
  * Contains the logic for executing calls to the Mirror Maker agent tool.
  * 
- * @author <a href="mailto:kawsar.jahan@att.com">Kawsar Jahan</a>
  *
  * @since May 25, 2016
  */

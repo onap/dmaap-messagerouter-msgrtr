@@ -44,7 +44,7 @@ public class ApiKeyBeanTest3 {
 	@Test
 	public void testGetDescription() {
 		
-		ApiKeyBean bean = new ApiKeyBean("hs647a@att.com", "testing bean");
+		ApiKeyBean bean = new ApiKeyBean("user@onap.com", "testing bean");
 		
 		bean.getDescription();
 		

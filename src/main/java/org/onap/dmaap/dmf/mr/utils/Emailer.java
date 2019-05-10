@@ -156,7 +156,7 @@ public class Emailer
 				makeSetting ( prop, "mail.smtp.port", kSetting_SmtpServerPort, 587 );
 				prop.put ( "mail.smtp.socketFactory.fallback", "false" );
 				prop.put ( "mail.smtp.quitwait", "false" );
-				makeSetting ( prop, "mail.smtp.host", kSetting_SmtpServer, "smtp.it.att.com" );
+				makeSetting ( prop, "mail.smtp.host", kSetting_SmtpServer, "smtp.it.onap.com" );
 				makeSetting ( prop, "mail.smtp.auth", kSetting_SmtpServerUseAuth, true );
 				makeSetting ( prop, "mail.smtp.starttls.enable", kSetting_SmtpServerSsl, true );
 
@@ -176,7 +176,7 @@ public class Emailer
 				final Message msg = new MimeMessage ( session );
 
 				final InternetAddress from = new InternetAddress (
-					getSetting ( kSetting_MailFromEmail, "team@sa2020.it.att.com" ),
+					getSetting ( kSetting_MailFromEmail, "team@dmaap.mr.onap.com" ),
 					getSetting ( kSetting_MailFromName, "The GFP/SA2020 Team" ) );
 				msg.setFrom ( from );
 				msg.setReplyTo ( new InternetAddress[] { from } );
