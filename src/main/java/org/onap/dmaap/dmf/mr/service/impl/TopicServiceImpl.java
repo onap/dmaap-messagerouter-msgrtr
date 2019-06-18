@@ -1,17 +1,16 @@
-/**
- * 
- */
-/*******************************************************************************
+/*
  *  ============LICENSE_START=======================================================
  *  org.onap.dmaap
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
  *  ================================================================================
+ *  Copyright (C) 2019 Nokia Intellectual Property. All rights reserved.
+ * =================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *        http://www.apache.org/licenses/LICENSE-2.0
-*  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,14 +18,14 @@
  *  limitations under the License.
  *  ============LICENSE_END=========================================================
  *  
- *  ECOMP is a trademark and service mark of AT&T Intellectual Property.
- *  
- *******************************************************************************/
+ */
 package org.onap.dmaap.dmf.mr.service.impl;
 
+import com.att.ajsc.beans.PropertiesMapBean;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,6 +76,8 @@ public class TopicServiceImpl implements TopicService {
 	// @Value("${msgRtr.topicfactory.aaf}")
 	
 
+	private DMaaPAAFAuthenticator aafAuth = new DMaaPAAFAuthenticatorImpl();
+
 	public DMaaPErrorMessages getErrorMessages() {
 		return errorMessages;
 	}
@@ -85,6 +86,30 @@ public class TopicServiceImpl implements TopicService {
 		this.errorMessages = errorMessages;
 	}
 
+
+  String getPropertyFromAJSCbean(String propertyKey) {
+		return PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop, propertyKey);
+	}
+
+	String getPropertyFromAJSCmap(String propertyKey) {
+		return AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, propertyKey);
+	}
+
+	NsaApiKey getDmaapAuthenticatedUser(DMaaPContext dmaapContext) {
+		return DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+	}
+
+	void respondOk(DMaaPContext context, String msg) {
+		DMaaPResponseBuilder.respondOkWithHtml(context, msg);
+	}
+
+	void respondOk(DMaaPContext context, JSONObject json) throws IOException {
+		DMaaPResponseBuilder.respondOk(context, json);
+	}
+
+	boolean isCadiEnabled() {
+		return Utils.isCadiEnabled();
+	}
 	/**
 	 * @param dmaapContext
 	 * @throws JSONException
@@ -106,7 +131,7 @@ public class TopicServiceImpl implements TopicService {
 		json.put("topics", topicsList);
 
 		LOGGER.info("Returning list of all the topics.");
-		DMaaPResponseBuilder.respondOk(dmaapContext, json);
+		respondOk(dmaapContext, json);
 
 	}
 
@@ -136,7 +161,7 @@ public class TopicServiceImpl implements TopicService {
 		json.put("topics", topicsList);
 
 		LOGGER.info("Returning list of all the topics.");
-		DMaaPResponseBuilder.respondOk(dmaapContext, json);
+		respondOk(dmaapContext, json);
 
 	}
 
@@ -171,7 +196,7 @@ public class TopicServiceImpl implements TopicService {
 			o.put("writerAcl", aclToJson(t.getWriterAcl()));
 
 		LOGGER.info("Returning details of topic " + topicName);
-		DMaaPResponseBuilder.respondOk(dmaapContext, o);
+		respondOk(dmaapContext, o);
 
 	}
 
@@ -188,15 +213,13 @@ public class TopicServiceImpl implements TopicService {
 	 * 
 	 */
 	@Override
-	public void createTopic(DMaaPContext dmaapContext, TopicBean topicBean)
-			throws CambriaApiException, DMaaPAccessDeniedException, IOException, TopicExistsException {
+	public void createTopic(DMaaPContext dmaapContext, TopicBean topicBean) throws CambriaApiException, IOException {
 		LOGGER.info("Creating topic " + topicBean.getTopicName());
 
-		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+		final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
 		String key = null;
 		String appName = dmaapContext.getRequest().getHeader("AppName");
-		String enfTopicName = com.att.ajsc.beans.PropertiesMapBean.getProperty(CambriaConstants.msgRtr_prop,
-				"enforced.topic.name.AAF");
+		String enfTopicName = getPropertyFromAJSCbean("enforced.topic.name.AAF");
 
 		if (user != null) {
 			key = user.getKey();
@@ -210,14 +233,14 @@ public class TopicServiceImpl implements TopicService {
 						"Failed to create topic: Access Denied.User does not have permission to perform create topic");
 
 				LOGGER.info(errRes.toString());
-				// throw new DMaaPAccessDeniedException(errRes);
+				throw new DMaaPAccessDeniedException(errRes);
 
 			}
 		}
 		// else if (user==null &&
 		// (null==dmaapContext.getRequest().getHeader("Authorization") && null
 		// == dmaapContext.getRequest().getHeader("cookie")) ) {
-		else if (Utils.isCadiEnabled()&&user == null && null == dmaapContext.getRequest().getHeader("Authorization")
+		else if (isCadiEnabled() && user == null && null == dmaapContext.getRequest().getHeader("Authorization")
 				&& (null == appName && null == dmaapContext.getRequest().getHeader("cookie"))) {
 			LOGGER.error("Failed to create topic" + topicBean.getTopicName() + ", Authentication failed.");
 
@@ -243,8 +266,7 @@ public class TopicServiceImpl implements TopicService {
 			if (topicBean.getTopicName().indexOf(".") > 1)
 				nameSpace = topicBean.getTopicName().substring(0, topicBean.getTopicName().lastIndexOf("."));
 
-			String mrFactoryVal = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
-					"msgRtr.topicfactory.aaf");
+			String mrFactoryVal = getPropertyFromAJSCmap("msgRtr.topicfactory.aaf");
 
 			// AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,kSettings_KafkaZookeeper);
 
@@ -271,7 +293,7 @@ public class TopicServiceImpl implements TopicService {
 				 * Added as part of AAF user it should return username
 				 */
 
-				key = dmaapContext.getRequest().getUserPrincipal().getName().toString();
+				key = dmaapContext.getRequest().getUserPrincipal().getName();
 				LOGGER.info("key ==================== " + key);
 
 			}
@@ -280,58 +302,43 @@ public class TopicServiceImpl implements TopicService {
 		try {
 			final String topicName = topicBean.getTopicName();
 			final String desc = topicBean.getTopicDescription();
-			int partition = topicBean.getPartitionCount();
-			// int replica = topicBean.getReplicationCount();
-			String defaultPartitions = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
-					"default.partitions");
-			String defaultReplicas = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
-					"default.replicas");
-			if (partition == 0) {
-				if(StringUtils.isNotEmpty(defaultPartitions)){
-					partition=Integer.parseInt(defaultPartitions);	
-				}
-				else{
-				partition = 1;
-				}
-			}
-			final int partitions = partition;
-
-			int replica = topicBean.getReplicationCount();
-			if (replica == 0) {
-				if(StringUtils.isNotEmpty(defaultReplicas)){
-					replica=Integer.parseInt(defaultReplicas);	
-				}
-				else{
-				replica = 1;
-				}
-			}
-			final int replicas = replica;
+			final int partitions = getValueOrDefault(topicBean.getPartitionCount(), "default.partitions");
+			final int replicas = getValueOrDefault(topicBean.getReplicationCount(), "default.replicas");
 			boolean transactionEnabled = topicBean.isTransactionEnabled();
 
 			final Broker1 metabroker = getMetaBroker(dmaapContext);
 			final Topic t = metabroker.createTopic(topicName, desc, key, partitions, replicas, transactionEnabled);
 
 			LOGGER.info("Topic created successfully. Sending response");
-			DMaaPResponseBuilder.respondOk(dmaapContext, topicToJson(t));
-		} catch (JSONException excp) {
+			respondOk(dmaapContext, topicToJson(t));
+		} catch (JSONException ex) {
 
-			LOGGER.error("Failed to create topic. Couldn't parse JSON data.", excp);
+			LOGGER.error("Failed to create topic. Couldn't parse JSON data.", ex);
 			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_BAD_REQUEST,
 					DMaaPResponseCode.INCORRECT_JSON.getResponseCode(), errorMessages.getIncorrectJson());
 			LOGGER.info(errRes.toString());
 			throw new CambriaApiException(errRes);
 
-		} catch (ConfigDbException excp1) {
+		} catch (ConfigDbException ex) {
 
-			LOGGER.error("Failed to create topic.  Config DB Exception", excp1);
+			LOGGER.error("Failed to create topic.  Config DB Exception", ex);
 			ErrorResponse errRes = new ErrorResponse(HttpStatus.SC_BAD_REQUEST,
 					DMaaPResponseCode.INCORRECT_JSON.getResponseCode(), errorMessages.getIncorrectJson());
 			LOGGER.info(errRes.toString());
 			throw new CambriaApiException(errRes);
-		} catch (org.onap.dmaap.dmf.mr.metabroker.Broker1.TopicExistsException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error( e.getMessage());
+		} catch (Broker1.TopicExistsException ex) {
+			LOGGER.error( "Failed to create topic.  Topic already exists.",ex);
 		}
+	}
+
+	int getValueOrDefault(int value, String defaultProperty) {
+		int returnValue = value;
+		if (returnValue <= 0) {
+			String defaultValue = getPropertyFromAJSCmap(defaultProperty);
+			returnValue = StringUtils.isNotEmpty(defaultValue) ? NumberUtils.toInt(defaultValue) : 1;
+			returnValue = (returnValue <= 0) ? 1 : returnValue;
+		}
+		return returnValue;
 	}
 
 	/**
@@ -358,7 +365,7 @@ public class TopicServiceImpl implements TopicService {
 			throw new DMaaPAccessDeniedException(errRes);
 		}*/
 
-		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+		final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
 
 		if (user == null && null != dmaapContext.getRequest().getHeader("Authorization")) {
 			LOGGER.info("Authenticating the user, as ACL authentication is not provided");
@@ -366,8 +373,7 @@ public class TopicServiceImpl implements TopicService {
 			
 			String permission = "";
 			String nameSpace = topicName.substring(0, topicName.lastIndexOf("."));
-			String mrFactoryVal = AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,
-					"msgRtr.topicfactory.aaf");
+			String mrFactoryVal = getPropertyFromAJSCmap("msgRtr.topicfactory.aaf");
 			
 			permission = mrFactoryVal + nameSpace + "|destroy";
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
@@ -394,7 +400,7 @@ public class TopicServiceImpl implements TopicService {
 		// metabroker.deleteTopic(topicName);
 
 		LOGGER.info("Topic [" + topicName + "] deleted successfully. Sending response.");
-		DMaaPResponseBuilder.respondOkWithHtml(dmaapContext, "Topic [" + topicName + "] deleted successfully");
+		respondOk(dmaapContext, "Topic [" + topicName + "] deleted successfully");
 	}
 
 	/**
@@ -402,7 +408,7 @@ public class TopicServiceImpl implements TopicService {
 	 * @param dmaapContext
 	 * @return
 	 */
-	private DMaaPKafkaMetaBroker getMetaBroker(DMaaPContext dmaapContext) {
+	DMaaPKafkaMetaBroker getMetaBroker(DMaaPContext dmaapContext) {
 		return (DMaaPKafkaMetaBroker) dmaapContext.getConfigReader().getfMetaBroker();
 	}
 
@@ -429,7 +435,7 @@ public class TopicServiceImpl implements TopicService {
 		final NsaAcl acl = topic.getWriterAcl();
 
 		LOGGER.info("Returning list of all the publishers for topic " + topicName + ". Sending response.");
-		DMaaPResponseBuilder.respondOk(dmaapContext, aclToJson(acl));
+		respondOk(dmaapContext, aclToJson(acl));
 
 	}
 
@@ -474,7 +480,7 @@ public class TopicServiceImpl implements TopicService {
 		final NsaAcl acl = topic.getReaderAcl();
 
 		LOGGER.info("Returning list of all the consumers for topic " + topicName + ". Sending response.");
-		DMaaPResponseBuilder.respondOk(dmaapContext, aclToJson(acl));
+		respondOk(dmaapContext, aclToJson(acl));
 
 	}
 
@@ -483,7 +489,7 @@ public class TopicServiceImpl implements TopicService {
 	 * @param t
 	 * @return
 	 */
-	private static JSONObject topicToJson(Topic t) {
+	static JSONObject topicToJson(Topic t) {
 		final JSONObject o = new JSONObject();
 
 		o.put("name", t.getName());
@@ -507,7 +513,7 @@ public class TopicServiceImpl implements TopicService {
 			throws AccessDeniedException, ConfigDbException, IOException, TopicExistsException, CambriaApiException {
 
 		LOGGER.info("Granting write access to producer [" + producerId + "] for topic " + topicName);
-		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+		final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
 
 		
 		//
@@ -545,7 +551,7 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Write access has been granted to producer [" + producerId + "] for topic [" + topicName
 				+ "]. Sending response.");
-		DMaaPResponseBuilder.respondOkWithHtml(dmaapContext, "Write access has been granted to publisher.");
+		respondOk(dmaapContext, "Write access has been granted to publisher.");
 
 	}
 
@@ -566,7 +572,7 @@ public class TopicServiceImpl implements TopicService {
 			DMaaPAccessDeniedException {
 
 		LOGGER.info("Revoking write access to producer [" + producerId + "] for topic " + topicName);
-		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+		final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
 		
 		//
 		//// String permission =
@@ -601,7 +607,7 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Write access has been revoked to producer [" + producerId + "] for topic [" + topicName
 				+ "]. Sending response.");
-		DMaaPResponseBuilder.respondOkWithHtml(dmaapContext, "Write access has been revoked for publisher.");
+		respondOk(dmaapContext, "Write access has been revoked for publisher.");
 
 	}
 
@@ -617,7 +623,7 @@ public class TopicServiceImpl implements TopicService {
 			DMaaPAccessDeniedException {
 
 		LOGGER.info("Granting read access to consumer [" + consumerId + "] for topic " + topicName);
-		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+		final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
 		
 		//
 		//// String permission =
@@ -651,7 +657,7 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Read access has been granted to consumer [" + consumerId + "] for topic [" + topicName
 				+ "]. Sending response.");
-		DMaaPResponseBuilder.respondOkWithHtml(dmaapContext,
+		respondOk(dmaapContext,
 				"Read access has been granted for consumer [" + consumerId + "] for topic [" + topicName + "].");
 	}
 
@@ -667,7 +673,7 @@ public class TopicServiceImpl implements TopicService {
 			DMaaPAccessDeniedException {
 
 		LOGGER.info("Revoking read access to consumer [" + consumerId + "] for topic " + topicName);
-		final NsaApiKey user = DMaaPAuthenticatorImpl.getAuthenticatedUser(dmaapContext);
+		final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
 		
 		//// String permission =
 		
@@ -701,7 +707,7 @@ public class TopicServiceImpl implements TopicService {
 
 		LOGGER.info("Read access has been revoked to consumer [" + consumerId + "] for topic [" + topicName
 				+ "]. Sending response.");
-		DMaaPResponseBuilder.respondOkWithHtml(dmaapContext,
+		respondOk(dmaapContext,
 				"Read access has been revoked for consumer [" + consumerId + "] for topic [" + topicName + "].");
 
 	}
