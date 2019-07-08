@@ -147,14 +147,14 @@ public class TopicServiceImplTest {
         String topicName = "UNAUTHENTICATED.PRH.REGISTRATION";
         givenTopicBean(topicName);
 
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), eq(user.getKey()), anyInt(), anyInt(), anyBoolean()))
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(), anyBoolean()))
             .thenReturn(createdTopic);
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
 
         //then
-        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), anyString(), eq(user.getKey()), anyInt(), anyInt(),
+        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(),
             anyBoolean());
         verify(topicService).respondOk(eq(dmaapContext), any(JSONObject.class));
         verify(httpServReq, never()).isUserInRole(TOPIC_CREATE_PEM);

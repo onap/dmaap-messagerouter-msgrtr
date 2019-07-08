@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
+import joptsimple.internal.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.http.HttpStatus;
@@ -243,11 +244,12 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	private String authorizeClient(DMaaPContext dmaapContext, String topicName, String operation) throws DMaaPAccessDeniedException {
+		String clientId = Strings.EMPTY;
 		if(isCadiEnabled() && isTopicWithEnforcedAuthorization(topicName)) {
 			LOGGER.info("Performing AAF authorization for topic {} creation.", topicName);
 			String permission = buildPermission(topicName, operation);
 			DMaaPAAFAuthenticator aaf = new DMaaPAAFAuthenticatorImpl();
-			String clientId = getAAFclientId(dmaapContext.getRequest());
+			clientId = getAAFclientId(dmaapContext.getRequest());
 
 			if (!aaf.aafAuthentication(dmaapContext.getRequest(), permission)) {
 				LOGGER.error("Failed to {} topic {}. Authorization failed for client {} and permission {}",
@@ -256,11 +258,8 @@ public class TopicServiceImpl implements TopicService {
 					DMaaPResponseCode.ACCESS_NOT_PERMITTED.getResponseCode(),
 					"Failed to "+ operation +" topic: Access Denied. User does not have permission to create topic with perm " + permission));
 			}
-			return clientId;
-		} else {
-			final NsaApiKey user = getDmaapAuthenticatedUser(dmaapContext);
-			return (user != null) ? user.getKey() : null;
 		}
+		return clientId;
 	}
 
 	private String getAAFclientId(HttpServletRequest request) {
