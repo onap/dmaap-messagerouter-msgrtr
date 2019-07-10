@@ -26,9 +26,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.apache.log4j.Logger;
+import org.onap.dmaap.dmf.mr.security.DMaaPAAFAuthenticatorImplTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DMaaPAAFAuthenticatorImplTest.class,DMaaPAuthenticatorImplTest.class, 
+@SuiteClasses({ DMaaPAAFAuthenticatorImplTest.class,DMaaPAuthenticatorImplTest.class,
 })
 public class JUnitTestSuite {
 	private static final Logger LOGGER = Logger.getLogger(JUnitTestSuite.class);

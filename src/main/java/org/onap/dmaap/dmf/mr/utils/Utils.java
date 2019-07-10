@@ -79,7 +79,7 @@ public class Utils {
 			/**
 			 * AAF implementation enhancement
 			 */
-			 String user= request.getUserPrincipal().getName().toString();
+			String user= request.getUserPrincipal().getName();
 			return user.substring(0, user.lastIndexOf("@"));
 		}
 		return null;
