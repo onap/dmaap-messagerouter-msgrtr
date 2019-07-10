@@ -23,6 +23,7 @@ package org.onap.dmaap.dmf.mr.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +47,9 @@ public class Utils {
 
 	private static final String DATE_FORMAT = "dd-MM-yyyy::hh:mm:ss:SSS";
 	public static final String CAMBRIA_AUTH_HEADER = "X-CambriaAuth";
+	private static final String AUTH_HEADER = "Authorization";
 	private static final String BATCH_ID_FORMAT = "000000";
+	private static final String X509_ATTR = "javax.servlet.request.X509Certificate";
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(Utils.class);
 
 	private Utils() {
@@ -75,15 +78,21 @@ public class Utils {
 		if (null != auth) {
 			final String[] splittedAuthKey = auth.split(":");
 			return splittedAuthKey[0];
-		}else if (null!=request.getHeader("Authorization")){
+		}else if (null != request.getHeader(AUTH_HEADER) || null != request.getAttribute(X509_ATTR)){
 			/**
 			 * AAF implementation enhancement
 			 */
-			 String user= request.getUserPrincipal().getName().toString();
-			return user.substring(0, user.lastIndexOf("@"));
+			Principal principal = request.getUserPrincipal();
+			if(principal != null){
+				String name = principal.getName();
+				return name.substring(0, name.lastIndexOf('@'));
+			}
+			log.warn("No principal has been provided on HTTP request");
 		}
 		return null;
 	}
+
+
 	/**
 	 * to format the batch sequence id
 	 * @param batchId

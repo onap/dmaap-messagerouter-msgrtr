@@ -548,7 +548,35 @@ public class CambriaOutboundEventStream implements StreamWriter {
 	private ArrayList<Consumer> fKafkaConsumerList;
 	private boolean istransType = true;
 	// private static final Logger log =
-	
+
 
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(CambriaOutboundEventStream.class);
+
+	public int getfLimit() {
+		return fLimit;
+	}
+
+	public int getfTimeoutMs() {
+		return fTimeoutMs;
+	}
+
+	public boolean isfPretty() {
+		return fPretty;
+	}
+
+	public boolean isfWithMeta() {
+		return fWithMeta;
+	}
+
+	public boolean isAAFTopic() {
+		return isAAFTopic;
+	}
+
+	public boolean isIstransEnable() {
+		return istransEnable;
+	}
+
+	public boolean isIstransType() {
+		return istransType;
+	}
 }

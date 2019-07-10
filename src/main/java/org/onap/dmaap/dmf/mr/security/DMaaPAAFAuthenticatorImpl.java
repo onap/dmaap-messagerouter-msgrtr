@@ -21,6 +21,7 @@
  *******************************************************************************/
 package org.onap.dmaap.dmf.mr.security;
 
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.onap.dmaap.dmf.mr.CambriaApiException;
@@ -34,47 +35,37 @@ import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
  */
 public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 
+	private static final String NAMESPACE_PROPERTY = "defaultNSforUEB";
+  private static final String DEFAULT_NAMESPACE = "org.onap.dmaap.mr";
+  private static final String NAMESPACE_PREFIX = "org.onap";
+
 	/**
 	 * @param req
 	 * @param role
 	 */
 	@Override
 	public boolean aafAuthentication(HttpServletRequest req, String role) {
-		boolean auth = false;
-		if(req.isUserInRole(role))
-		{
-			
-			auth = true;
-		}
-		
-		return auth;
+		return req.isUserInRole(role);
 	}
 
 	@Override
 	public String aafPermissionString(String topicName, String action) throws CambriaApiException {
-		
-		
-		String permission = "";
-		String nameSpace ="";
-		if(topicName.contains(".") && topicName.contains("org.onap")) {
-			
-			nameSpace = topicName.substring(0,topicName.lastIndexOf("."));
-		}
-		else {
-			nameSpace = null;
-			 nameSpace= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"defaultNSforUEB");
-			
-			if(null==nameSpace)nameSpace="org.onap.dmaap.mr";
-			
-			
-			
-		}
-		
-		permission = nameSpace+".topic|:topic."+topicName+"|"+action;
-		return permission;
-		
+
+		String nameSpace = topicName.startsWith(NAMESPACE_PREFIX) ? parseNamespace(topicName) :
+			readNamespaceFromProperties();
+
+		nameSpace = !nameSpace.isEmpty()? nameSpace : DEFAULT_NAMESPACE;
+
+		return new StringBuilder(nameSpace).append(".topic|:topic.").append(topicName)
+			.append("|").append(action).toString();
 	}
-	
-	
+
+	String readNamespaceFromProperties() {
+		return AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,NAMESPACE_PROPERTY);
+	}
+
+	private String parseNamespace(String topicName) {
+		return topicName.substring(0,topicName.lastIndexOf('.'));
+	}
 
 }
