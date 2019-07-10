@@ -22,11 +22,7 @@
 package org.onap.dmaap.dmf.mr.security;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.onap.dmaap.dmf.mr.CambriaApiException;
-
-
-
 
 /**
  * 

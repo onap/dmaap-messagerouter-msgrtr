@@ -25,12 +25,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.apache.log4j.Logger;
+import org.onap.dmaap.dmf.mr.service.impl.EventsServiceImplTest;
 import org.onap.dmaap.dmf.mr.service.impl.TopicServiceImplTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ UIServiceImplTest.class, AdminServiceImplemTest.class, ApiKeysServiceImplTest.class, 
 	ShowConsumerCacheTest.class,TopicServiceImplTest.class, TransactionServiceImplTest.class, MMServiceImplTest.class,
-	BaseTransactionDbImplTest.class,  MetricsServiceImplTest.class,EventsServiceImplTest.class})
+	BaseTransactionDbImplTest.class,  MetricsServiceImplTest.class, EventsServiceImplTest.class})
 public class JUnitTestSuite {
 	private static final Logger LOGGER = Logger.getLogger(JUnitTestSuite.class);
 
