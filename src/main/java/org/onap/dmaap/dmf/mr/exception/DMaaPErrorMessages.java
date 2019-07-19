@@ -58,10 +58,10 @@ public class DMaaPErrorMessages {
 	private String topicsfailure="Failed to retrieve list of all topics.";
 	
 	//@Value("${not.permitted.access.1}")
-	private String notPermitted1="Access Denied.User does not have permission to perform";
+	private String notPermitted1="Access Denied.User does not have permission to perform ";
 	
 	//@Value("${not.permitted.access.2}")
-	private String notPermitted2="operation on Topic:";
+	private String notPermitted2=" operation on Topic:";
 	
 	//@Value("${get.topic.details.failure}")
 	private String topicDetailsFail="Failed to retrieve details of topic:";
