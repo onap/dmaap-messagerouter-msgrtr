@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.onap.dmaap.dmf.mr.CambriaApiException;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 
-
 /**
  * 
  * @author sneha.d.desai
@@ -36,8 +35,11 @@ import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 
 	private static final String NAMESPACE_PROPERTY = "defaultNSforUEB";
-  private static final String DEFAULT_NAMESPACE = "org.onap.dmaap.mr";
-  private static final String NAMESPACE_PREFIX = "org.onap";
+	private static final String DEFAULT_NAMESPACE = "org.onap.dmaap.mr";
+	private static final String NAMESPACE_PREFIX = "org.onap";
+	private static final String NAMESPACE_PREFIX_VAR = "namespacePrefix";
+	private static final String DEFAULT_NAMESPACE_VAR = "defaultNamespace";
+	private static final String INSTANCE_PART_VAR = "pubSubInstPart";
 
 	/**
 	 * @param req
@@ -51,21 +53,25 @@ public class DMaaPAAFAuthenticatorImpl implements DMaaPAAFAuthenticator {
 	@Override
 	public String aafPermissionString(String topicName, String action) throws CambriaApiException {
 
-		String nameSpace = topicName.startsWith(NAMESPACE_PREFIX) ? parseNamespace(topicName) :
-			readNamespaceFromProperties();
+		String nameSpace = topicName.startsWith(
+				System.getenv(NAMESPACE_PREFIX_VAR) != null ? System.getenv(NAMESPACE_PREFIX_VAR) : NAMESPACE_PREFIX)
+						? parseNamespace(topicName) : readNamespaceFromProperties();
 
-		nameSpace = !nameSpace.isEmpty()? nameSpace : DEFAULT_NAMESPACE;
+		nameSpace = !nameSpace.isEmpty() ? nameSpace
+				: (System.getenv(DEFAULT_NAMESPACE_VAR) != null ? System.getenv(DEFAULT_NAMESPACE_VAR)
+						: DEFAULT_NAMESPACE);
 
-		return new StringBuilder(nameSpace).append(".topic|:topic.").append(topicName)
-			.append("|").append(action).toString();
+		return new StringBuilder(nameSpace).append(
+				(System.getenv(INSTANCE_PART_VAR) != null ? System.getenv(INSTANCE_PART_VAR) : ".topic") + "|:topic.")
+				.append(topicName).append("|").append(action).toString();
 	}
 
 	String readNamespaceFromProperties() {
-		return AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,NAMESPACE_PROPERTY);
+		return AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop, NAMESPACE_PROPERTY);
 	}
 
 	private String parseNamespace(String topicName) {
-		return topicName.substring(0,topicName.lastIndexOf('.'));
+		return topicName.substring(0, topicName.lastIndexOf('.'));
 	}
 
 }
