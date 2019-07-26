@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.http.HttpStatus;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -264,7 +265,7 @@ public class EventsServiceImpl implements EventsService {
 
 	private int getMessageTimeout(HttpServletRequest request) {
 		String timeoutMsAsString = getPropertyFromAJSCmap(TIMEOUT_PROPERTY);
-		int defaultTimeoutMs = timeoutMsAsString!=null ? NumberUtils.toInt(timeoutMsAsString, CambriaConstants.kNoTimeout) :
+		int defaultTimeoutMs = StringUtils.isNotEmpty(timeoutMsAsString) ? NumberUtils.toInt(timeoutMsAsString, CambriaConstants.kNoTimeout) :
 			CambriaConstants.kNoTimeout;
 
 		String timeoutProperty = request.getParameter(TIMEOUT_PROPERTY);
@@ -281,17 +282,17 @@ public class EventsServiceImpl implements EventsService {
 
 	private boolean isTopicNameEnforcedAaf(String topicName) {
 		String topicNameStd = getPropertyFromAJSCmap("enforced.topic.name.AAF");
-		return !topicNameStd.isEmpty() && topicName.startsWith(topicNameStd);
+		return StringUtils.isNotEmpty(topicNameStd) && topicName.startsWith(topicNameStd);
 	}
 
 	private boolean isCacheEnabled() {
 		String cachePropsSetting = getPropertyFromAJSCmap(ConsumerFactory.kSetting_EnableCache);
-		return !cachePropsSetting.isEmpty() ? Boolean.parseBoolean(cachePropsSetting) : ConsumerFactory.kDefault_IsCacheEnabled;
+		return StringUtils.isNotEmpty(cachePropsSetting) ? Boolean.parseBoolean(cachePropsSetting) : ConsumerFactory.kDefault_IsCacheEnabled;
 	}
 
 	private void verifyHostId() {
 		String lhostId = getPropertyFromAJSCmap("clusterhostid");
-		if (lhostId.isEmpty()) {
+		if (StringUtils.isEmpty(lhostId)) {
 			try {
 				InetAddress.getLocalHost().getCanonicalHostName();
 			} catch (UnknownHostException e) {
@@ -303,7 +304,7 @@ public class EventsServiceImpl implements EventsService {
 
 	private String getMetricTopicName() {
 		String metricTopicFromProps = getPropertyFromAJSCmap("metrics.send.cambria.topic");
-		return !metricTopicFromProps.isEmpty() ? metricTopicFromProps : "msgrtr.apinode.metrics.dmaap";
+		return StringUtils.isNotEmpty(metricTopicFromProps) ? metricTopicFromProps : "msgrtr.apinode.metrics.dmaap";
 	}
 
 	/**
@@ -360,7 +361,8 @@ public class EventsServiceImpl implements EventsService {
 	}
 
 	private boolean isTransactionIdRequired() {
-		return getPropertyFromAJSCmap("transidUEBtopicreqd").equalsIgnoreCase("true");
+		String transIdReqProperty = getPropertyFromAJSCmap("transidUEBtopicreqd");
+		return StringUtils.isNotEmpty(transIdReqProperty) && transIdReqProperty.equalsIgnoreCase("true");
 	}
 
 	/**
