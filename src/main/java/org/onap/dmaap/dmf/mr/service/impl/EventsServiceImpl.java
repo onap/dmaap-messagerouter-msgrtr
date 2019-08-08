@@ -325,9 +325,7 @@ public class EventsServiceImpl implements EventsService {
 		validateIpBlacklist(errRespProvider, ctx);
 
 		final Topic metaTopic = ctx.getConfigReader().getfMetaBroker().getTopic(topic);
-		if (metaTopic == null) {
-			throw new CambriaApiException(errRespProvider.getTopicNotFoundError());
-		}
+		
 
 		final boolean isAAFTopic = authorizeClientWhenNeeded(ctx, metaTopic, topic, errRespProvider, PUBLISH_ACTION);
 
