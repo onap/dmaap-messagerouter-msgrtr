@@ -402,16 +402,7 @@ public class EventsServiceImplTest {
     }
 
 
-    @Test
-    public void pushEvents_shouldFail_whenRequestedTopicDoesNotExist() throws Exception {
-        when(configurationReader.getfMetaBroker()).thenReturn(dmaapKafkaMetaBroker);
-        when(dmaapKafkaMetaBroker.getTopic("testTopic")).thenReturn(null);
-
-        thrown.expect(CambriaApiException.class);
-        thrown.expectMessage(containsString(String.valueOf(HttpStatus.SC_NOT_FOUND)));
-
-        eventsService.pushEvents(dMaapContext, "testTopic", iStream, "5", "13:00:00");
-    }
+  
 
     @Test
     public void pushEvents_shouldFailDmaapAuthorization_whenTopicOwnerIsSet_andUserHasNoWritePermissionToTopic()
