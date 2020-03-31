@@ -53,7 +53,6 @@ import com.att.nsa.configs.ConfigDb;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.configs.ConfigPath;
 import com.att.nsa.drumlin.service.standards.HttpStatusCodes;
-import com.att.nsa.drumlin.till.data.stringUtils;
 import com.att.nsa.drumlin.till.nv.rrNvReadable;
 import com.att.nsa.security.NsaAcl;
 import com.att.nsa.security.NsaAclUtils;

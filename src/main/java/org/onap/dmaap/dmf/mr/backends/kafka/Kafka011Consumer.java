@@ -23,7 +23,6 @@ package org.onap.dmaap.dmf.mr.backends.kafka;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
