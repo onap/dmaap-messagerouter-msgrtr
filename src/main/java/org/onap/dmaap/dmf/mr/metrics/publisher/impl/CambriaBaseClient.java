@@ -69,8 +69,10 @@ public class CambriaBaseClient extends HttpClient implements org.onap.dmaap.dmf.
 
 	public Set<String> jsonArrayToSet ( JSONArray a ) throws JSONException
 	{
-		if ( a == null ) return null;
-
+		if ( a == null ){
+			return null;
+		}
+		
 		final TreeSet<String> set = new TreeSet<>();
 		for ( int i=0; i<a.length (); i++ )
 		{
