@@ -38,7 +38,6 @@ import org.springframework.util.StringUtils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.drumlin.till.nv.rrNvReadable;
-import kafka.common.FailedToSendMessageException;
 
 
 

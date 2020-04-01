@@ -72,7 +72,6 @@ import com.att.nsa.security.NsaApiKey;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 
 import jline.internal.Log;
-import kafka.consumer.Consumer;
 
 
 
