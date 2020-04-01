@@ -137,8 +137,9 @@ public class ApiKeysServiceImpl implements ApiKeysService {
 			String contactEmail = nsaApiKey.getEmail();
 			final boolean emailProvided = contactEmail != null && contactEmail.length() > 0 && contactEmail.indexOf("@") > 1 ;
 			 String kSetting_AllowAnonymousKeys= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"apiKeys.allowAnonymous");
-			 if(null==kSetting_AllowAnonymousKeys) kSetting_AllowAnonymousKeys ="false";
-			 
+			 if(null==kSetting_AllowAnonymousKeys) {
+				 kSetting_AllowAnonymousKeys ="false";
+			 }
 	    
 			 if ( kSetting_AllowAnonymousKeys.equalsIgnoreCase("true")    &&  !emailProvided   )
 	      {
