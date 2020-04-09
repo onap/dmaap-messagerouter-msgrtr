@@ -66,8 +66,10 @@ public class CambriaTextStreamReader implements reader
 		try
 		{
 			final String line = fReader.readLine ();
-			if ( line == null ) return null;
-
+			if ( line == null ) {
+				return null;
+			}
+			
 			return new message ()
 			{
 				private LogDetails logDetails;

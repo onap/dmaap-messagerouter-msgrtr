@@ -38,7 +38,6 @@ import org.onap.dmaap.dmf.mr.backends.memory.MemoryMetaBroker;
 import org.onap.dmaap.dmf.mr.backends.memory.MemoryQueue;
 import org.onap.dmaap.dmf.mr.backends.memory.MemoryQueuePublisher;
 import org.onap.dmaap.dmf.mr.beans.DMaaPCambriaLimiter;
-import org.onap.dmaap.dmf.mr.beans.DMaaPKafkaMetaBroker;
 import org.onap.dmaap.dmf.mr.beans.DMaaPZkConfigDb;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.onap.dmaap.dmf.mr.metabroker.Broker;
@@ -147,8 +146,10 @@ public class ConfigurationReader {
 		
 		long allowedtimeSkewMs=600000L;
 		String strallowedTimeSkewM= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"authentication.allowedTimeSkewMs");
-		if(null!=strallowedTimeSkewM)allowedtimeSkewMs= Long.parseLong(strallowedTimeSkewM);
-				
+		if(null!=strallowedTimeSkewM)
+		{
+			allowedtimeSkewMs= Long.parseLong(strallowedTimeSkewM);
+		}	
 	
 		//String strrequireSecureChannel= com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,"aauthentication.requireSecureChannel");
 		//if(strrequireSecureChannel!=null)requireSecureChannel=Boolean.parseBoolean(strrequireSecureChannel);
@@ -181,7 +182,9 @@ public class ConfigurationReader {
 			// setup a backend
 			
 			 String type = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kBrokerType);
-			if (type==null) type = CambriaConstants.kBrokerType_Kafka;
+			if (type==null){
+				type = CambriaConstants.kBrokerType_Kafka;
+			}
 			if (CambriaConstants.kBrokerType_Kafka.equalsIgnoreCase(type)) {
 				log.info("Broker Type is:" + CambriaConstants.kBrokerType_Kafka);
 			} else if (CambriaConstants.kBrokerType_Memory.equalsIgnoreCase(type)) {
@@ -454,7 +457,9 @@ public class ConfigurationReader {
 		
 		
 		 String zkServername = com.att.ajsc.filemonitor.AJSCPropertiesMap.getProperty(CambriaConstants.msgRtr_prop,CambriaConstants.kSetting_ZkConfigDbServers);
-		 if (zkServername==null) zkServername=CambriaConstants.kDefault_ZkConfigDbServers;
+		 if (zkServername==null){
+			 zkServername=CambriaConstants.kDefault_ZkConfigDbServers;
+		 }
 		 return zkServername;
 	}
 

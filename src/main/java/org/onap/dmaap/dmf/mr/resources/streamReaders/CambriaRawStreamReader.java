@@ -63,8 +63,10 @@ public class CambriaRawStreamReader implements reader
 	 */
 	public message next () throws CambriaApiException
 	{
-		if ( fClosed ) return null;
-
+		if ( fClosed ){
+			return null;
+		}
+		
 		try
 		{
 			final byte[] rawBytes = StreamTools.readBytes ( fStream );

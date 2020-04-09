@@ -33,8 +33,6 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.onap.dmaap.dmf.mr.backends.kafka.KafkaPublisher;
 import org.onap.dmaap.dmf.mr.beans.DMaaPContext;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -133,7 +131,10 @@ public class Utils {
 	 */
 	public static long getSleepMsForRate ( double ratePerMinute )
 	{
-		if ( ratePerMinute <= 0.0 ) return 0;
+		if ( ratePerMinute <= 0.0 ) 
+		{
+			return 0;
+		}
 		return Math.max ( 1000, Math.round ( 60 * 1000 / ratePerMinute ) );
 	}
 

@@ -98,7 +98,10 @@ public class CambriaPublisherUtility
 		final ArrayList<HttpHost> convertedHosts = new ArrayList<>();
 		for ( String host : hosts )
 		{
-			if ( host.length () == 0 ) continue;
+			if ( host.length () == 0 ){
+				continue;
+			}
+			
 			convertedHosts.add ( hostForString ( host ) );
 		}
 		return convertedHosts;
@@ -115,13 +118,18 @@ public class CambriaPublisherUtility
 	 */
 	public static HttpHost hostForString ( String host )
 	{
-		if ( host.length() < 1 ) throw new IllegalArgumentException ( "An empty host entry is invalid." );
+		if ( host.length() < 1 ){
+			throw new IllegalArgumentException ( "An empty host entry is invalid." );
+		}
 		
 		String hostPart = host;
 		int port = kStdCambriaServicePort;
 
 		final int colon = host.indexOf ( ':' );
-		if ( colon == 0 ) throw new IllegalArgumentException ( "Host entry '" + host + "' is invalid." );
+		if ( colon == 0 ){
+			throw new IllegalArgumentException ( "Host entry '" + host + "' is invalid." );
+		}
+		
 		if ( colon > 0 )
 		{
 			hostPart = host.substring ( 0, colon ).trim();
