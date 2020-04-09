@@ -21,7 +21,6 @@ package org.onap.dmaap.dmf.mr.service.impl;
 import com.google.common.base.Preconditions;
 import java.util.Date;
 import org.apache.http.HttpStatus;
-import org.onap.dmaap.dmf.mr.beans.DMaaPContext;
 import org.onap.dmaap.dmf.mr.exception.DMaaPErrorMessages;
 import org.onap.dmaap.dmf.mr.exception.DMaaPResponseCode;
 import org.onap.dmaap.dmf.mr.exception.ErrorResponse;
