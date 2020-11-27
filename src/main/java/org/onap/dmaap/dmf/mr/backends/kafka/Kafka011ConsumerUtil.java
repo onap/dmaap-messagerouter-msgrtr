@@ -40,7 +40,6 @@ public class Kafka011ConsumerUtil {
 	private static final EELFLogger log = EELFManager.getInstance().getLogger(Kafka011ConsumerUtil.class);
 
 	/**
-	 * @param fconsumercache
 	 * @param fTopic
 	 * @param fGroup
 	 * @param fId
@@ -61,7 +60,7 @@ public class Kafka011ConsumerUtil {
 							Kafka011Consumer kc1 = kcsList.get(counter);
 
 							try {
-								ConsumerRecords<String, String> recs = kc1.getConsumer().poll(0);
+								ConsumerRecords<String, String> recs = kc1.forcePollOnConsumer();
 								log.info("soft poll on " + kc1);
 							} catch (java.util.ConcurrentModificationException e) {
 								log.error("Error occurs for " + e);
@@ -84,7 +83,6 @@ public class Kafka011ConsumerUtil {
 	}
 
 	/**
-	 * @param fconsumercache
 	 * @param group
 	 * @return
 	 */
@@ -102,7 +100,7 @@ public class Kafka011ConsumerUtil {
 
 							Kafka011Consumer kc1 = kcsList.get(counter);
 							log.info("soft poll on remote nodes " + kc1);
-							ConsumerRecords<String, String> recs = kc1.getConsumer().poll(0);
+							ConsumerRecords<String, String> recs = kc1.forcePollOnConsumer();
 						}
 
 					}
