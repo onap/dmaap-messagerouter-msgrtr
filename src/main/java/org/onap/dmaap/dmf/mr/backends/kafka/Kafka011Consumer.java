@@ -3,6 +3,7 @@
  *  org.onap.dmaap
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+ *  Copyright © 2020 Bell Canada Intellectual Property. All rights reserved.
  *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -284,8 +285,10 @@ public class Kafka011Consumer implements Consumer {
 			public Boolean call() throws Exception {
 
 				try {
-					
-					kConsumer.close();
+
+					synchronized (kConsumer) {
+						kConsumer.close();
+					}
 
 				} catch (Exception e) {
 					log.info("@Kafka Stream shutdown erorr occurred " + getName() + " " + e);
@@ -385,9 +388,9 @@ public class Kafka011Consumer implements Consumer {
 			log.warn("commitOffsets() called on closed KafkaConsumer " + getName());
 			return;
 		}
-		kConsumer.commitSync();
-		
-
+		synchronized (kConsumer) {
+			kConsumer.commitSync();
+		}
 	}
 
 	@Override
