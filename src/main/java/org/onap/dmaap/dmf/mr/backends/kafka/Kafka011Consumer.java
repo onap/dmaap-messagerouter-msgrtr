@@ -3,6 +3,7 @@
  *  org.onap.dmaap
  *  ================================================================================
  *  Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+ *  Copyright © 2020 Bell Canada Intellectual Property. All rights reserved.
  *  ================================================================================
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -171,7 +172,7 @@ public class Kafka011Consumer implements Consumer {
 				log.error("Exception in unlockConsumerGroup(" + apiNodeId + "," + fTopic + "::" + fGroup, e);
 			}
 
-			forcePollOnConsumer();
+			Kafka011ConsumerUtil.forcePollOnConsumer(fTopic, fGroup, fId);
 			future.cancel(true);
 		} catch (Exception ex) {
             log.error("Exception in in Kafka consumer ", ex);
@@ -284,8 +285,10 @@ public class Kafka011Consumer implements Consumer {
 			public Boolean call() throws Exception {
 
 				try {
-					
-					kConsumer.close();
+
+					synchronized (kConsumer) {
+						kConsumer.close();
+					}
 
 				} catch (Exception e) {
 					log.info("@Kafka Stream shutdown erorr occurred " + getName() + " " + e);
@@ -322,9 +325,8 @@ public class Kafka011Consumer implements Consumer {
 		return true;
 	}
 
-	public void forcePollOnConsumer() {
-		Kafka011ConsumerUtil.forcePollOnConsumer(fTopic, fGroup, fId);
-
+	synchronized public ConsumerRecords<String, String> forcePollOnConsumer() {
+		return kConsumer.poll(0);
 	}
 
 	/**
@@ -385,9 +387,9 @@ public class Kafka011Consumer implements Consumer {
 			log.warn("commitOffsets() called on closed KafkaConsumer " + getName());
 			return;
 		}
-		kConsumer.commitSync();
-		
-
+		synchronized (kConsumer) {
+			kConsumer.commitSync();
+		}
 	}
 
 	@Override
