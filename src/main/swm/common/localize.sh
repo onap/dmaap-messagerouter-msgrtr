@@ -88,10 +88,10 @@ sed -e 's/${CAMBRIA_SERVICE_PORT}/'${CAMBRIA_SERVICE_PORT}'/g' \
 	    exit 7
 	}
 
-FINAL_LOG4J_FILE=${ROOT_DIR}/etc/log4j.xml
-TEMPLATE_LOG4J_FILE=${ROOT_DIR}/etc/log4j_template.xml
-BACKUP1_LOG4J_FILE=${ROOT_DIR}/etc/log4j.xml.bk.1
-BACKUP2_LOG4J_FILE=${ROOT_DIR}/etc/log4j.xml.bk.2
+FINAL_LOG4J_FILE=${ROOT_DIR}/etc/log4j2.xml
+TEMPLATE_LOG4J_FILE=${ROOT_DIR}/etc/log4j2_template.xml
+BACKUP1_LOG4J_FILE=${ROOT_DIR}/etc/log4j2.xml.bk.1
+BACKUP2_LOG4J_FILE=${ROOT_DIR}/etc/log4j2.xml.bk.2
 
 if [ -z "${CAMBRIA_LOG_DIR}" ]; then
 	CAMBRIA_LOG_DIR=${ROOT_DIR}/logs
