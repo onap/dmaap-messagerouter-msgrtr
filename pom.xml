@@ -1,632 +1,596 @@
-<!-- ============LICENSE_START======================================================= 
-	org.onap.dmaap ================================================================================ 
-	Copyright © 2017 AT&T Intellectual Property. All rights reserved. ================================================================================ 
-	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
-	use this file except in compliance with the License. You may obtain a copy 
-	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
-	by applicable law or agreed to in writing, software distributed under the 
-	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
-	OF ANY KIND, either express or implied. See the License for the specific 
-	language governing permissions and limitations under the License. ============LICENSE_END========================================================= 
-	ECOMP is a trademark and service mark of AT&T Intellectual Property. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.onap.dmaap.messagerouter.msgrtr</groupId>
-	<artifactId>msgrtr</artifactId>
-	<version>1.1.22-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>dmaap-messagerouter-msgrtr</name>
-	<description>Message Router - Restful interface built for kafka</description>
+<!--
+  ============LICENSE_START==============================================
+	org.onap.dmaap
+	=======================================================================
+	Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+	=======================================================================
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
 
-	<parent>
-		<groupId>org.onap.oparent</groupId>
-		<artifactId>oparent</artifactId>
-		<version>2.1.0</version>
-	</parent>
+	          http://www.apache.org/licenses/LICENSE-2.0
 
-	<properties>
-	    <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
-		<spring.version>3.2.18.RELEASE</spring.version>
-		<cxf.version>3.0.4</cxf.version>
-		<jstl.version>1.2</jstl.version>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+	============LICENSE_END================================================
+	ECOMP is a trademark and service mark of AT&T Intellectual Property.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-		<sonar.language>java</sonar.language>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.onap.dmaap.messagerouter.msgrtr</groupId>
+    <artifactId>msgrtr</artifactId>
+    <version>1.1.22-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>dmaap-messagerouter-msgrtr</name>
+    <description>Message Router - Restful interface built for kafka</description>
+
+    <parent>
+        <groupId>org.onap.oparent</groupId>
+        <artifactId>oparent</artifactId>
+        <version>2.1.0</version>
+    </parent>
+
+    <properties>
+        <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
+        <spring.version>3.2.18.RELEASE</spring.version>
+        <cxf.version>3.0.4</cxf.version>
+        <jstl.version>1.2</jstl.version>
+        <log4j.version>2.13.3</log4j.version>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
+        <sonar.language>java</sonar.language>
         <sonar.skip>false</sonar.skip>
-        <sonar.surefire.reportsPath>${project.build.directory}/surefire-reports</sonar.surefire.reportsPath>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.surefire.reportsPath>${project.build.directory}/surefire-reports
+        </sonar.surefire.reportsPath>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.projectVersion>${project.version}</sonar.projectVersion>
-		<sonar.exclusions>**/gen/**,**/generated-sources/**,**/yang-gen**,**/pax/**</sonar.exclusions>
-		<sitePath>/content/sites/site/org/onap/dmaap/messagerouter/msgrtr/${project.artifactId}/${project.version}</sitePath>
-		<nexusproxy>https://nexus.onap.org</nexusproxy>
-	</properties>
+        <sonar.exclusions>**/gen/**,**/generated-sources/**,**/yang-gen**,**/pax/**
+        </sonar.exclusions>
+        <sitePath>
+            /content/sites/site/org/onap/dmaap/messagerouter/msgrtr/${project.artifactId}/${project.version}
+        </sitePath>
+        <nexusproxy>https://nexus.onap.org</nexusproxy>
+    </properties>
 
-	<!-- Distribution management -->
-	<!-- Currently all artifacts will be uploaded to att-public-group reposiotry 
-		on Maven Central -->
-	<distributionManagement>
-		<site>
-			<id>ecomp-site</id>
-			<url>dav:${nexusproxy}${sitePath}</url>
-		</site>
-	</distributionManagement>
+    <!-- Distribution management -->
+    <!-- Currently all artifacts will be uploaded to att-public-group reposiotry on Maven Central -->
+    <distributionManagement>
+        <site>
+            <id>ecomp-site</id>
+            <url>dav:${nexusproxy}${sitePath}</url>
+        </site>
+    </distributionManagement>
+    <!-- End Distribution management -->
 
-	<!-- End Distribution management -->
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+        </license>
+    </licenses>
 
-	<licenses>
-		<license>
-			<name>Apache License Version 2.0</name>
-		</license>
-	</licenses>
+    <developers>
+        <developer>
+            <name>Rajashree</name>
+            <email></email>
+            <organization>ATT</organization>
+            <organizationUrl>www.att.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Ramkumar</name>
+            <email></email>
+            <organization>ATT</organization>
+            <organizationUrl>www.att.com</organizationUrl>
+        </developer>
+    </developers>
 
-	<developers>
-		<developer>
-			<name>Rajashree</name>
-			<email></email>
-			<organization>ATT</organization>
-			<organizationUrl>www.att.com</organizationUrl>
-		</developer>
-		<developer>
-			<name>Ramkumar</name>
-			<email></email>
-			<organization>ATT</organization>
-			<organizationUrl>www.att.com</organizationUrl>
-		</developer>
-	</developers>
+    <dependencies>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.grails</groupId>
+            <artifactId>grails-web</artifactId>
+            <version>2.5.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.grails</groupId>
+                    <artifactId>grails-web-jsp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.grails</groupId>
+            <artifactId>grails-bootstrap</artifactId>
+            <version>4.0.6</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>ant</artifactId>
+                    <groupId>org.apache.ant</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jna</artifactId>
+                    <groupId>net.java.dev.jna</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ant-trax</artifactId>
+                    <groupId>org.apache.ant</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>gant_groovy1.8</artifactId>
+                    <groupId>org.codehaus.gant</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ant-launcher</artifactId>
+                    <groupId>org.apache.ant</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jline</artifactId>
+                    <groupId>jline</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ivy</artifactId>
+                    <groupId>org.apache.ivy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jansi</artifactId>
+                    <groupId>org.fusesource.jansi</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>ant-junit</artifactId>
+                    <groupId>org.apache.ant</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.8</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jline</artifactId>
+                    <groupId>jline</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.att.aft</groupId>
+            <artifactId>dme2</artifactId>
+            <version>3.1.200-oss</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.jms</groupId>
+                    <artifactId>jms</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-	<dependencies>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.0</version>
-		</dependency>
-		<!-- <dependency> <groupId>commons-beanutils</groupId> <artifactId>commons-beanutils</artifactId> 
-			<version>1.9.2</version> <exclusions> We have JCL-over-SLF4J instead. <exclusion> 
-			<groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId> 
-			</exclusion> </exclusions> </dependency> -->
-		<dependency>
-			<groupId>org.grails</groupId>
-			<artifactId>grails-web</artifactId>
-			<version>2.5.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.grails</groupId>
-					<artifactId>grails-web-jsp</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		 <dependency>
-      <groupId>org.grails</groupId>
-      <artifactId>grails-bootstrap</artifactId>
-      <version>2.5.4</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>ant</artifactId>
-          <groupId>org.apache.ant</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jna</artifactId>
-          <groupId>net.java.dev.jna</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>ant-trax</artifactId>
-          <groupId>org.apache.ant</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gant_groovy1.8</artifactId>
-          <groupId>org.codehaus.gant</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>ant-launcher</artifactId>
-          <groupId>org.apache.ant</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jline</artifactId>
-          <groupId>jline</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>ivy</artifactId>
-          <groupId>org.apache.ivy</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jansi</artifactId>
-          <groupId>org.fusesource.jansi</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-logging</artifactId>
-          <groupId>commons-logging</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>ant-junit</artifactId>
-          <groupId>org.apache.ant</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>2.4.8</version>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jline</artifactId>
-					<groupId>jline</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.4</version>
-		</dependency>
+        <!-- slf4j logger -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.6</version>
+        </dependency>
+        <!-- Log4j2 logger -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.att.aft</groupId>
-			<artifactId>dme2</artifactId>
-			<version>3.1.200-oss</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.jms</groupId>
-					<artifactId>jms</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.att.ajsc</groupId>
+            <artifactId>ajsc-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
 
-		<!-- slf4j logger -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.6</version>
-		</dependency>
+        <!-- Begin - Spring Dependencies for DI -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>4.3.18.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.3.18.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
+        <!-- ZooKeeper Library -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.14</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.att.ajsc</groupId>
-			<artifactId>ajsc-core</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+        <!-- JSON libraries -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20131018</version>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.0.1</version>
-		</dependency>
+        <!-- Apache Kafka -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>0.11.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.6.1-jre</version>
+        </dependency>
 
-		<!-- <dependency> <groupId>org.apache.cxf</groupId> <artifactId>cxf-rt-rs-client</artifactId> 
-			<version>${cxf.version}</version> </dependency> <dependency> <groupId>org.apache.cxf</groupId> 
-			<artifactId>cxf-rt-frontend-jaxws</artifactId> <version>${cxf.version}</version> 
-			</dependency> <dependency> <groupId>org.apache.cxf</groupId> <artifactId>cxf-rt-transports-http</artifactId> 
-			<version>${cxf.version}</version> </dependency> Jetty is needed if you're 
-			are not using the CXFServlet <dependency> <groupId>org.apache.cxf</groupId> 
-			<artifactId>cxf-rt-transports-http-jetty</artifactId> <version>${cxf.version}</version> 
-			</dependency> -->
-		<!-- Begin - Spring Dependencies for DI -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version>4.3.18.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>5.2.3.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>4.3.18.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- End - Spring Dependencies for DI -->
-		<!-- Begin - Dependency on Dmaap Spring layer -->
-		<!-- <dependency> <groupId>com.att.dmaap</groupId> <artifactId>dmaap-spring</artifactId> 
-			<version>0.0.1-SNAPSHOT</version> </dependency> -->
-		<!-- End - Dependency on Dmaap Spring layer -->
-		<!-- Begin - Dependency on log4j for logging purpose -->
-		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
-			<version>1.2.17</version> </dependency> -->
-		<!-- Log4j's enhanced pattern layout is shipped separately <dependency> 
-			<groupId>log4j</groupId> <artifactId>apache-log4j-extras</artifactId> <version>1.2.17</version> 
-			</dependency> -->
-		<!-- End - Dependency on log4j for logging purpose -->
-		<!-- ZooKeeper Library -->
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>3.4.14</version>
-		</dependency>
+        <dependency>
+            <groupId>com.att.eelf</groupId>
+            <artifactId>eelf-core</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
 
-		<!-- JSON libraries -->
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20131018</version>
-		</dependency>
+        <!-- our NSA server library -->
+        <dependency>
+            <groupId>com.att.nsa</groupId>
+            <artifactId>nsaServerLibrary</artifactId>
+            <version>1.0.10</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-catalina</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.tomcat.embed</groupId>
+                    <artifactId>tomcat-embed-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-util</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.mail</groupId>
+                    <artifactId>mail</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.att.nsa</groupId>
+            <artifactId>saToolkit</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.0</version>
+            <exclusions>
+                <!-- javax activation is part of the JDK now -->
+                <exclusion>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<!-- Apache Kafka -->
-<dependency>
-	<groupId>org.apache.kafka</groupId>
-	<artifactId>kafka_2.11</artifactId>
-	<version>0.11.0.3</version>
-      </dependency>
-	<dependency>
-		<groupId>commons-codec</groupId>
-		<artifactId>commons-codec</artifactId>
-		<version>1.13</version>
-	</dependency>
-	<dependency>
-		<groupId>com.google.guava</groupId>
-		<artifactId>guava</artifactId>
-		<version>23.6.1-jre</version>
-	</dependency>
+        <!-- our base client library, for its command line tools -->
+        <dependency>
+            <groupId>com.att.nsa</groupId>
+            <artifactId>saClientLibrary</artifactId>
+            <version>0.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient-cache</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient-cache</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.1</version>
+        </dependency>
 
-		<dependency>
-			<groupId>com.att.eelf</groupId>
-			<artifactId>eelf-core</artifactId>
-			<version>0.0.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<!-- our NSA server library -->
-		<dependency>
-			<groupId>com.att.nsa</groupId>
-			<artifactId>nsaServerLibrary</artifactId>
-			<version>1.0.10</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.tomcat</groupId>
-					<artifactId>tomcat-catalina</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.tomcat.embed</groupId>
-					<artifactId>tomcat-embed-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.tomcat</groupId>
-					<artifactId>tomcat-util</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.att.nsa</groupId>
-			<artifactId>saToolkit</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-		<groupId>com.sun.mail</groupId>
-		<artifactId>javax.mail</artifactId>
-		<version>1.6.0</version>
-		<exclusions>
-			<!-- javax activation is part of the JDK now -->
-			<exclusion>
-				<groupId>javax.activation</groupId>
-				<artifactId>activation</artifactId>
-			</exclusion>
-		</exclusions>
-		</dependency>
+        <!-- explicit jline add b/c it conflicts with the zk client -->
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>2.12.1</version>
+        </dependency>
 
-		<!-- our Highland Park library -->
-		<!-- <dependency> <groupId>com.att.nsa</groupId> <artifactId>highlandParkCore</artifactId> 
-			<version>0.4.9</version> </dependency> -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>4.0.1</version>
+        </dependency>
 
-		<!-- our base client library, for its command line tools -->
-		<dependency>
-			<groupId>com.att.nsa</groupId>
-			<artifactId>saClientLibrary</artifactId>
-			<version>0.0.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient-cache</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient-cache</artifactId>
-			<version>4.5.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-test</artifactId>
+            <version>4.0.1</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.0</version>
+        </dependency>
 
-		<!-- explicit jline add b/c it conflicts with the zk client -->
-		<dependency>
-			<groupId>jline</groupId>
-			<artifactId>jline</artifactId>
-			<version>2.12.1</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.8.11</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-recipes</artifactId>
-			<version>4.0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.3</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-test</artifactId>
-			<version>4.0.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.0</version>
-		</dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4-rule</artifactId>
+            <version>1.6.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>2.8.11</version>
-			<scope>test</scope>
-		</dependency>
+    </dependencies>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.8.11.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.6.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.6.4</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4-rule</artifactId>
-			<version>1.6.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
-	<build>
-		<finalName>DMaaP</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-			<!-- <resource> <directory>src/main/config</directory> <filtering>true</filtering> 
-				<includes> <include>**/log4j*.xml</include> </includes> </resource> <resource> 
-				<directory>src/main/resources</directory> <filtering>false</filtering> <excludes> 
-				<exclude>**/cambriaApiVersion.properties</exclude> </excludes> </resource> -->
-		</resources>
-		<plugins>
-			<!-- <plugin> <artifactId>maven-assembly-plugin</artifactId> <version>2.4.1</version> 
-				<configuration> <descriptors> <descriptor>src/assembly/dep.xml</descriptor> 
-				</descriptors> </configuration> <executions> <execution> <id>make-assembly</id> 
-				this is used for inheritance merges -->
-			<!-- <phase>package</phase> bind to the packaging phase <goals> <goal>single</goal> 
-				</goals> </execution> </executions> </plugin> -->
-			<!-- -->
-                         <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.onap.oparent</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>2.0.0</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <id>onap-license</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>process-sources</phase>
-            <configuration>
-              <configLocation>onap-checkstyle/check-license.xml</configLocation>
-              <includeResources>false</includeResources>
-              <includeTestSourceDirectory>true</includeTestSourceDirectory>
-              <includeTestResources>false</includeTestResources>
-              <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-              <excludes>
-              </excludes>
-              <consoleOutput>true</consoleOutput>
-              <failsOnViolation>false</failsOnViolation>
-            </configuration>
-          </execution>
-          <execution>
-            <id>onap-java-style</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>none</phase>
-            <configuration>
-              <!-- Use Google Java Style Guide:
-                   https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml
-                   with minor changes -->
-              <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
-              <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
-              <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-              <includeResources>true</includeResources>
-              <includeTestSourceDirectory>true</includeTestSourceDirectory>
-              <includeTestResources>true</includeTestResources>
-              <excludes>
-              </excludes>
-              <consoleOutput>true</consoleOutput>
-              <failsOnViolation>false</failsOnViolation>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.6</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.wagon</groupId>
-						<artifactId>wagon-webdav-jackrabbit</artifactId>
-						<version>2.10</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
-				<configuration>
-					<additionalparam>-Xdoclint:none</additionalparam>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.0</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.4</version>
-				<configuration>
-					<excludes>
-						<!-- exclude until junits updated <exclude>**/DME2*.java</exclude> -->
-					</excludes>
-					<!-- <skipTests>true</skipTests> -->
-				</configuration>
-			</plugin>
-			 <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>prepare-agent</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>report</id>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                            <configuration>
-                                <dataFile>${project.build.directory}/code-coverage/jacoco.exec</dataFile>
-                                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-		</plugins>
-	</build>
-
-	<!-- <profiles> <profile> <id>jenkins</id> <activation> <property> <name>env.BUILD_NUMBER</name> 
-		</property> </activation> <build> <plugins> <plugin> <groupId>org.codehaus.mojo</groupId> 
-		<artifactId>cobertura-maven-plugin</artifactId> </plugin> <plugin> <groupId>com.att.aft.swm</groupId> 
-		<artifactId>swm-plugin</artifactId> <version>1.4.4.12</version> <configuration> 
-		<distFilesRootDirPath>/opt/app/dmaap/msgrtr/jenkinsbuild</distFilesRootDirPath> 
-		<version>${project.version}-${env.BUILD_NUMBER}</version> <scriptExcludes> 
-		<scriptExclude>**/swmpkgclean.sh</scriptExclude> </scriptExcludes> </configuration> 
-		<executions> <execution> <id>pkgstage</id> <goals> <goal>pkgstage</goal> 
-		</goals> </execution> <execution> <id>pkgcreate</id> <goals> <goal>pkgcreate</goal> 
-		</goals> </execution> <execution> <id>pkginstall</id> <goals> <goal>install</goal> 
-		</goals> <configuration> <componentName>com.att.nsa:msgrtr</componentName> 
-		<version>${project.version}-${env.BUILD_NUMBER}</version> <waitTimeMins>4</waitTimeMins> 
-		<properties> <property> <name>overrideDependencyConflicts</name> <value>true</value> 
-		</property> <property> <name>AFTSWM_NOTIFY_ADDRESSES</name> <value>mailto:rs857c@att.com</value> 
-		</property> </properties> </configuration> </execution> </executions> </plugin> 
-		<plugin> <artifactId>maven-antrun-plugin</artifactId> <executions> <execution> 
-		<phase>package</phase> <configuration> <tasks> <copy file="./src/main/scripts/swmpkgclean.sh" 
-		toDir="./target" /> </tasks> </configuration> <goals> <goal>run</goal> </goals> 
-		</execution> </executions> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-		<artifactId>maven-deploy-plugin</artifactId> <version>2.5</version> <configuration> 
-		<skip>true</skip> </configuration> </plugin> </plugins> </build> </profile> 
-		</profiles> -->
+    <build>
+        <finalName>DMaaP</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.onap.oparent</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>2.0.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>onap-license</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <configLocation>onap-checkstyle/check-license.xml</configLocation>
+                            <includeResources>false</includeResources>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <includeTestResources>false</includeTestResources>
+                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            <excludes>
+                            </excludes>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnViolation>false</failsOnViolation>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>onap-java-style</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>none</phase>
+                        <configuration>
+                            <!-- Use Google Java Style Guide:
+                                 https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml
+                                 with minor changes -->
+                            <configLocation>onap-checkstyle/onap-java-style.xml</configLocation>
+                            <!-- <sourceDirectory> is needed so that checkstyle ignores the generated sources directory -->
+                            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            <includeResources>true</includeResources>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <includeTestResources>true</includeTestResources>
+                            <excludes>
+                            </excludes>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnViolation>false</failsOnViolation>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.6</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-webdav-jackrabbit</artifactId>
+                        <version>2.10</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <excludes>
+                        <!-- exclude until junits updated <exclude>**/DME2*.java</exclude> -->
+                    </excludes>
+                    <!-- <skipTests>true</skipTests> -->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/code-coverage/jacoco.exec
+                            </dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
