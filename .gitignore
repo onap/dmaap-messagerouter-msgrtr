@@ -1,2 +1,7 @@
 /target/
 /bin/
+logs
+debug-logs
+.idea
+.project
+msgrtr.iml

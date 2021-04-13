@@ -23,12 +23,12 @@
 package org.onap.dmaap.dmf.mr.service.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.contains;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
@@ -36,11 +36,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.configs.ConfigDbException;
 import com.att.nsa.security.NsaAcl;
 import com.att.nsa.security.ReadWriteSecuredResource.AccessDeniedException;
 import com.att.nsa.security.db.simple.NsaSimpleApiKey;
 import java.io.IOException;
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.servlet.ServletOutputStream;
@@ -56,7 +58,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.MockitoRule;
+import org.mockito.quality.Strictness;
 import org.onap.dmaap.dmf.mr.CambriaApiException;
 import org.onap.dmaap.dmf.mr.beans.DMaaPContext;
 import org.onap.dmaap.dmf.mr.beans.DMaaPKafkaMetaBroker;
@@ -68,10 +73,13 @@ import org.onap.dmaap.dmf.mr.metabroker.Broker1;
 import org.onap.dmaap.dmf.mr.metabroker.Topic;
 import org.onap.dmaap.dmf.mr.security.DMaaPAuthenticator;
 import org.onap.dmaap.dmf.mr.utils.ConfigurationReader;
-import sun.security.acl.PrincipalImpl;
+import java.security.Principal;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class TopicServiceImplTest {
 
 
@@ -130,9 +138,9 @@ public class TopicServiceImplTest {
         doNothing().when(topicService).respondOk(any(DMaaPContext.class),anyString());
         doNothing().when(topicService).respondOk(any(DMaaPContext.class),any(JSONObject.class));
         when(topicService.getPropertyFromAJSCbean("enforced.topic.name.AAF"))
-            .thenReturn("org.onap.dmaap.mr");
+                .thenReturn("org.onap.dmaap.mr");
         when(topicService.getPropertyFromAJSCmap("msgRtr.topicfactory.aaf"))
-            .thenReturn("org.onap.dmaap.mr.topicFactory|:org.onap.dmaap.mr.topic:");
+                .thenReturn("org.onap.dmaap.mr.topicFactory|:org.onap.dmaap.mr.topic:");
     }
 
     private void givenTopicBean(String topicName) {
@@ -145,17 +153,18 @@ public class TopicServiceImplTest {
     public void createTopic_shouldSkipAAFAuthorization_whenCadiIsEnabled_andTopicNameNotEnforced() throws Exception {
         //given
         String topicName = "UNAUTHENTICATED.PRH.REGISTRATION";
-        givenTopicBean(topicName);
 
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(), anyBoolean()))
-            .thenReturn(createdTopic);
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(), anyBoolean()))
+                .thenReturn(createdTopic);
+
+        givenTopicBean(topicName);
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
 
         //then
-        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(),
-            anyBoolean());
+        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(),
+                anyBoolean());
         verify(topicService).respondOk(eq(dmaapContext), any(JSONObject.class));
         verify(httpServReq, never()).isUserInRole(TOPIC_CREATE_PEM);
     }
@@ -166,15 +175,15 @@ public class TopicServiceImplTest {
         String topicName = "org.onap.dmaap.mr.topic-2";
         givenTopicBean(topicName);
 
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(), anyBoolean()))
-            .thenReturn(createdTopic);
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(), anyBoolean()))
+                .thenReturn(createdTopic);
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
 
         //then
-        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(),
-            anyBoolean());
+        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(),
+                anyBoolean());
         verify(topicService).respondOk(eq(dmaapContext), any(JSONObject.class));
         verify(httpServReq, never()).isUserInRole(TOPIC_CREATE_PEM);
     }
@@ -186,15 +195,15 @@ public class TopicServiceImplTest {
         givenTopicBean(topicName);
 
         doReturn(null).when(topicService).getDmaapAuthenticatedUser(dmaapContext);
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(), anyBoolean()))
-            .thenReturn(createdTopic);
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(), anyBoolean()))
+                .thenReturn(createdTopic);
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
 
         //then
-        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(),
-            anyBoolean());
+        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(),
+                anyBoolean());
         verify(topicService).respondOk(eq(dmaapContext), any(JSONObject.class));
     }
 
@@ -204,18 +213,24 @@ public class TopicServiceImplTest {
         String topicName = "org.onap.dmaap.mr.topic-4";
         givenTopicBean(topicName);
 
+        Principal user = new UserPrincipal(){
+            @Override
+            public String getName(){
+                return "user";
+            }
+        };
         when(topicService.isCadiEnabled()).thenReturn(true);
         when(httpServReq.isUserInRole(TOPIC_CREATE_PEM)).thenReturn(true);
-        when(httpServReq.getUserPrincipal()).thenReturn(new PrincipalImpl("user"));
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), eq("user"), anyInt(), anyInt(), anyBoolean()))
-            .thenReturn(createdTopic);
+        when(httpServReq.getUserPrincipal()).thenReturn(user);
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), any(), eq("user"), anyInt(), anyInt(), anyBoolean()))
+                .thenReturn(createdTopic);
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
 
         //then
         verify(httpServReq).isUserInRole(TOPIC_CREATE_PEM);
-        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), anyString(), eq("user"), anyInt(), anyInt(), anyBoolean());
+        verify(dmaapKafkaMetaBroker).createTopic(eq(topicName), any(), eq("user"), anyInt(), anyInt(), anyBoolean());
         verify(topicService).respondOk(eq(dmaapContext), any(JSONObject.class));
         verify(topicService, never()).getDmaapAuthenticatedUser(dmaapContext);
     }
@@ -228,12 +243,18 @@ public class TopicServiceImplTest {
         String topicName = "org.onap.dmaap.mr.topic-5";
         givenTopicBean(topicName);
 
+        Principal user = new Principal(){
+            @Override
+            public String getName(){
+                return "user";
+            }
+        };
         when(topicService.isCadiEnabled()).thenReturn(true);
         when(httpServReq.isUserInRole(TOPIC_CREATE_PEM)).thenReturn(false);
-        when(httpServReq.getUserPrincipal()).thenReturn(new PrincipalImpl("user"));
+        when(httpServReq.getUserPrincipal()).thenReturn(user);
 
         when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), eq("user"), anyInt(), anyInt(), anyBoolean()))
-            .thenReturn(createdTopic);
+                .thenReturn(createdTopic);
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
@@ -253,8 +274,8 @@ public class TopicServiceImplTest {
         String topicName = "org.onap.dmaap.mr.topic-6";
         givenTopicBean(topicName);
 
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(), anyBoolean()))
-            .thenThrow(new ConfigDbException("fail"));
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), any(), any(), anyInt(), anyInt(), anyBoolean()))
+                .thenThrow(new ConfigDbException("fail"));
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
@@ -269,8 +290,8 @@ public class TopicServiceImplTest {
         String topicName = "org.onap.dmaap.mr.topic-7";
         givenTopicBean(topicName);
 
-        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), anyString(), anyString(), anyInt(), anyInt(), anyBoolean()))
-            .thenThrow(new Broker1.TopicExistsException("enfTopicNamePlusExtra"));
+        when(dmaapKafkaMetaBroker.createTopic(eq(topicName), any(), anyString(), anyInt(), anyInt(), anyBoolean()))
+                .thenThrow(new Broker1.TopicExistsException("enfTopicNamePlusExtra"));
 
         //when
         topicService.createTopic(dmaapContext, topicBean);
@@ -351,7 +372,7 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testGetTopics_null_topic() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException {
+            TopicExistsException, JSONException, ConfigDbException {
 
         Assert.assertNotNull(topicService);
         //PowerMockito.mockStatic(DMaaPResponseBuilder.class);
@@ -368,7 +389,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testGetTopics_NonNull_topic() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException {
+            TopicExistsException, JSONException, ConfigDbException {
 
         Assert.assertNotNull(topicService);
         //PowerMockito.mockStatic(DMaaPResponseBuilder.class);
@@ -395,7 +416,7 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testGetPublishersByTopicName_nullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-        IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -414,7 +435,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testGetPublishersByTopicName_nonNullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-        IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -432,7 +453,7 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testGetConsumersByTopicName_nullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-        IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -451,7 +472,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testGetConsumersByTopicName_nonNullTopic() throws DMaaPAccessDeniedException, CambriaApiException,
-        IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            IOException, TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -471,7 +492,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testGetPublishersByTopicName() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -496,7 +517,7 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testGetPublishersByTopicNameError() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -601,7 +622,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testPermitConsumerForTopic() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -626,8 +647,8 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testPermitConsumerForTopic_nulltopic()
-        throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            throws DMaaPAccessDeniedException, CambriaApiException, IOException,
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -652,7 +673,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testdenyConsumerForTopic() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -677,8 +698,8 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testdenyConsumerForTopic_nulltopic()
-        throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            throws DMaaPAccessDeniedException, CambriaApiException, IOException,
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -704,7 +725,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testPermitPublisherForTopic() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -729,8 +750,8 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testPermitPublisherForTopic_nulltopic()
-        throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            throws DMaaPAccessDeniedException, CambriaApiException, IOException,
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -755,7 +776,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testDenyPublisherForTopic() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -782,8 +803,8 @@ public class TopicServiceImplTest {
 
     @Test(expected = TopicExistsException.class)
     public void testDenyPublisherForTopic_nulltopic()
-        throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            throws DMaaPAccessDeniedException, CambriaApiException, IOException,
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -809,7 +830,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testGetAllTopics() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -834,7 +855,7 @@ public class TopicServiceImplTest {
 
     @Test
     public void testGetTopics() throws DMaaPAccessDeniedException, CambriaApiException, IOException,
-        TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
+            TopicExistsException, JSONException, ConfigDbException, AccessDeniedException {
 
         Assert.assertNotNull(topicService);
 
@@ -859,3 +880,4 @@ public class TopicServiceImplTest {
 
 
 }
+

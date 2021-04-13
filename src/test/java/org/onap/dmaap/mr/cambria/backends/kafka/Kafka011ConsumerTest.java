@@ -35,11 +35,13 @@ import org.onap.dmaap.dmf.mr.backends.kafka.Kafka011Consumer;
 import org.onap.dmaap.dmf.mr.backends.kafka.KafkaLiveLockAvoider2;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*"})
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ AJSCPropertiesMap.class })
 public class Kafka011ConsumerTest {

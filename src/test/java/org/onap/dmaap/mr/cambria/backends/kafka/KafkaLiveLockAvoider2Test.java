@@ -40,9 +40,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.dmaap.dmf.mr.backends.kafka.KafkaLiveLockAvoider2;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*"})
 @RunWith(PowerMockRunner.class)
 public class KafkaLiveLockAvoider2Test {
 	

@@ -39,12 +39,14 @@ import org.onap.dmaap.dmf.mr.beans.LogDetails;
 import org.onap.dmaap.dmf.mr.constants.CambriaConstants;
 import org.onap.dmaap.dmf.mr.utils.Utils;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.att.ajsc.filemonitor.AJSCPropertiesMap;
 import com.att.nsa.drumlin.till.nv.rrNvReadable.missingReqdSetting;
 
+@PowerMockIgnore({"com.sun.org.apache.xerces.*", "javax.xml.*", "org.xml.*", "javax.management.*"})
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ Utils.class })
 public class KafkaPublisherTest {

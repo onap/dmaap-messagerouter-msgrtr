@@ -24,11 +24,11 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -62,7 +62,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.dmaap.dmf.mr.CambriaApiException;
 import org.onap.dmaap.dmf.mr.backends.Consumer;
 import org.onap.dmaap.dmf.mr.backends.ConsumerFactory;
@@ -81,7 +81,7 @@ import org.onap.dmaap.dmf.mr.utils.ConfigurationReader;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class EventsServiceImplTest {
 
     private InputStream iStream = null;
@@ -117,6 +117,7 @@ public class EventsServiceImplTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private MockHttpServletRequest request;
+
 
     @Before
     public void setUp() throws Exception {
@@ -187,7 +188,7 @@ public class EventsServiceImplTest {
         when(configurationReader.getfConsumerFactory()).thenReturn(factory);
         when(dmaaPAuthenticator.authenticate(dMaapContext)).thenReturn(nsaSimpleApiKey);
         doThrow(new UnavailableException("Could not acquire consumer lock")).when(factory)
-            .getConsumerFor(eq(topicName), eq(consumerGroup), eq(clientId), anyInt(), anyString());
+                .getConsumerFor(eq(topicName), eq(consumerGroup), eq(clientId), anyInt(), anyString());
 
         thrown.expect(CambriaApiException.class);
         thrown.expectMessage(containsString(String.valueOf(HttpStatus.SC_SERVICE_UNAVAILABLE)));
@@ -252,8 +253,8 @@ public class EventsServiceImplTest {
         String consumerGroup = "CG5";
         String clientId = "7";
         givenConfiguredWithMocks(metricsTopicName);
-        when(factory.getConsumerFor(eq(metricsTopicName), eq(consumerGroup), eq(clientId), anyInt(), anyString()))
-            .thenReturn(consumer);
+        when(factory.getConsumerFor(eq(metricsTopicName), eq(consumerGroup), eq(clientId), anyInt(), any()))
+                .thenReturn(consumer);
         doNothing().when(eventsService).respondOkWithStream(eq(dMaapContext), any(CambriaOutboundEventStream.class));
 
         //when
@@ -267,7 +268,7 @@ public class EventsServiceImplTest {
 
     @Test
     public void getEvents_shouldNotAuthorizeClient_whenTopicNoteEnforcedWithAaf_andTopicHasNoOwnerSet()
-        throws Exception {
+            throws Exception {
         //given
         String topicName = "someSimpleTopicName";
         String consumerGroup = "CG5";
@@ -276,8 +277,8 @@ public class EventsServiceImplTest {
         when(permittedRequest.getHeaders(anyString())).thenReturn(Collections.<String>emptyEnumeration());
         dMaapContext.setRequest(permittedRequest);
         givenConfiguredWithMocks(topicName);
-        when(factory.getConsumerFor(eq(topicName), eq(consumerGroup), eq(clientId), anyInt(), anyString()))
-            .thenReturn(consumer);
+        when(factory.getConsumerFor(eq(topicName), eq(consumerGroup), eq(clientId), anyInt(), any()))
+                .thenReturn(consumer);
         doNothing().when(eventsService).respondOkWithStream(eq(dMaapContext), any(CambriaOutboundEventStream.class));
         when(createdTopic.getOwner()).thenReturn(Strings.EMPTY);
 
@@ -292,7 +293,7 @@ public class EventsServiceImplTest {
 
     @Test
     public void getEvents_shouldFailDmaapAuthorization_whenTopicOwnerIsSet_andUserHasNoReadPermissionToTopic()
-        throws Exception {
+            throws Exception {
         //given
         String topicName = "someSimpleTopicName";
         String consumerGroup = "CG5";
@@ -302,7 +303,7 @@ public class EventsServiceImplTest {
         dMaapContext.setRequest(permittedRequest);
         givenConfiguredWithMocks(topicName);
         when(factory.getConsumerFor(eq(topicName), eq(consumerGroup), eq(clientId), anyInt(), anyString()))
-            .thenReturn(consumer);
+                .thenReturn(consumer);
         doNothing().when(eventsService).respondOkWithStream(eq(dMaapContext), any(CambriaOutboundEventStream.class));
         when(createdTopic.getOwner()).thenReturn("SimpleTopicOwner");
         when(dmaaPAuthenticator.authenticate(dMaapContext)).thenReturn(nsaSimpleApiKey);
@@ -335,7 +336,7 @@ public class EventsServiceImplTest {
         givenConfiguredWithMocks(topicName);
         givenConfiguredWithProperties(messageLimit, timeout, meta, pretty, cacheEnabled);
         when(factory.getConsumerFor(eq(topicName), eq(consumerGroup), eq(clientId), anyInt(), anyString()))
-            .thenReturn(consumer);
+                .thenReturn(consumer);
         givenUserAuthorizedWithAAF(request, topicName, "sub");
 
         //when
@@ -355,7 +356,7 @@ public class EventsServiceImplTest {
     }
 
     private void givenConfiguredWithProperties(String messageLimit, String timeout, String meta, String pretty,
-        String cacheEnabled) {
+                                               String cacheEnabled) {
         when(eventsService.getPropertyFromAJSCmap("meta")).thenReturn(meta);
         when(eventsService.getPropertyFromAJSCmap("pretty")).thenReturn(pretty);
         when(eventsService.getPropertyFromAJSCmap(ConsumerFactory.kSetting_EnableCache)).thenReturn(cacheEnabled);
@@ -373,7 +374,7 @@ public class EventsServiceImplTest {
     }
 
     private void verifyInvocationOrderForSuccessCase(String topicName, String consumerGroup, String clientId,
-        ArgumentCaptor<CambriaOutboundEventStream> osWriter) throws Exception {
+                                                     ArgumentCaptor<CambriaOutboundEventStream> osWriter) throws Exception {
 
         InOrder inOrder = Mockito.inOrder(configurationReader, factory, metrics, limiter, consumer, eventsService);
         inOrder.verify(configurationReader).getfMetrics();
@@ -402,11 +403,11 @@ public class EventsServiceImplTest {
     }
 
 
-  
+
 
     @Test
     public void pushEvents_shouldFailDmaapAuthorization_whenTopicOwnerIsSet_andUserHasNoWritePermissionToTopic()
-        throws Exception {
+            throws Exception {
         //given
         String topicName = "someSimpleTopicName";
 
@@ -431,7 +432,7 @@ public class EventsServiceImplTest {
 
     @Test
     public void pushEvents_shouldFailOnAafAuthorization_whenCadiIsEnabled_topicNameEnforced_andUserHasNoPermission()
-        throws Exception {
+            throws Exception {
         //given
         String topicPrefix = "org.onap.aaf.enforced";
         String topicName = topicPrefix + ".topicName";
@@ -479,7 +480,7 @@ public class EventsServiceImplTest {
         String topicName = "topicWithoutTransaction";
         givenConfiguredWithMocks(topicName);
         doThrow(new IOException()).when(publisher)
-            .sendBatchMessageNew(eq(topicName), Mockito.<ArrayList<ProducerRecord<String, String>>>any());
+                .sendBatchMessageNew(eq(topicName), Mockito.<ArrayList<ProducerRecord<String, String>>>any());
 
         thrown.expect(CambriaApiException.class);
         thrown.expectMessage(containsString(String.valueOf(HttpStatus.SC_NOT_FOUND)));
@@ -527,7 +528,7 @@ public class EventsServiceImplTest {
         doNothing().when(eventsService).respondOk(eq(dMaapContext), any(JSONObject.class));
         request.addUserRole("org.onap.dmaap.mr.topic|:topic." + topicName + "|pub");
         doThrow(new IOException()).when(publisher)
-            .sendBatchMessageNew(eq(topicName), Mockito.<ArrayList<ProducerRecord<String, String>>>any());
+                .sendBatchMessageNew(eq(topicName), Mockito.<ArrayList<ProducerRecord<String, String>>>any());
 
         thrown.expect(CambriaApiException.class);
         thrown.expectMessage(containsString(String.valueOf(HttpStatus.SC_NOT_FOUND)));
@@ -556,7 +557,7 @@ public class EventsServiceImplTest {
         //then
         ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
         verify(publisher)
-            .sendBatchMessageNew(eq(metricsTopicName), Mockito.<ArrayList<ProducerRecord<String, String>>>any());
+                .sendBatchMessageNew(eq(metricsTopicName), Mockito.<ArrayList<ProducerRecord<String, String>>>any());
         verify(eventsService).respondOk(eq(dMaapContext), captor.capture());
         verify(permittedRequest, never()).isUserInRole(anyString());
         verify(createdTopic, never()).checkUserWrite(any(NsaSimpleApiKey.class));
