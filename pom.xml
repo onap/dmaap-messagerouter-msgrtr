@@ -543,7 +543,7 @@
                             <includeTestResources>true</includeTestResources>
                             <excludes>
                             </excludes>
-                            <consoleOutput>true</consoleOutput>
+                            <consoleOutput>false</consoleOutput>
                             <failOnViolation>false</failOnViolation>
                         </configuration>
                     </execution>
@@ -552,14 +552,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.6</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-webdav-jackrabbit</artifactId>
-                        <version>2.10</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -572,11 +564,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>3.2.0</version>
                 <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                    <source>8</source>
-                    <detectJavaApiLink>false</detectJavaApiLink>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <execution>
@@ -603,13 +593,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
                 <configuration>
                     <excludes>
                         <!-- exclude until junits updated <exclude>**/DME2*.java</exclude> -->
                     </excludes>
                     <argLine>
-                        --illegal-access=permit
+                        ${surefireArgLine} --illegal-access=permit
                     </argLine>
                 </configuration>
             </plugin>
@@ -625,26 +614,10 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${project.build.directory}/code-coverage/jacoco.exec
-                            </dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <excludes>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
