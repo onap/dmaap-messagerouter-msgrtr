@@ -574,23 +574,24 @@ public class KafkaConsumerCache {
 	private void handleReconnection() {
 
 		log.info("Reading current cache data from ZK and synchronizing local cache");
-		final List<ChildData> cacheData = curatorConsumerCache.getCurrentData();
-		// Remove all the consumers in this API nodes cache that now belong to
-		// other API nodes.
-		for (ChildData cachedConsumer : cacheData) {
-			final String consumerId = ZKPaths.getNodeFromPath(cachedConsumer.getPath());
-			final String owningApiId = (cachedConsumer.getData() != null) ? new String(cachedConsumer.getData())
-					: "undefined";
-			if (!fApiId.equals(owningApiId)) {
-				fConsumers.remove(consumerId); // Commented to avoid removing
-				// the value cache hashmap but the lock still exists.
-				// This is not considered in kafka consumer Factory
-				log.info("@@@ Validating current cache data from ZK and synchronizing local cache" + owningApiId
-						+ " removing " + consumerId);
-			}
-		}
 
-		setStatus(Status.CONNECTED);
+		try {
+			final List<ChildData> cacheData = curatorConsumerCache.getCurrentData();
+			// Remove all the consumers in this API nodes cache that now belong to
+			// other API nodes.
+			for (ChildData cachedConsumer : cacheData) {
+				final String consumerId = ZKPaths.getNodeFromPath(cachedConsumer.getPath());
+				final String owningApiId = (cachedConsumer.getData() != null) ? new String(cachedConsumer.getData()) : "undefined";
+				if (!fApiId.equals(owningApiId)) {
+					fConsumers.remove(consumerId); // Commented to avoid removing
+					// the value cache hashmap but the lock still exists.
+					// This is not considered in kafka consumer Factory
+					log.info("@@@ Validating current cache data from ZK and synchronizing local cache" + owningApiId + " removing " + consumerId);
+				}
+			}
+		} finally {
+			setStatus(Status.CONNECTED);
+		}
 	}
 
 	private void handleConnectionSuspended() {
